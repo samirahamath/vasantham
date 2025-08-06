@@ -41,6 +41,7 @@ if(isset($_POST['signin']))
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
+    <h1>sameer</h1>
     <!-- Document Wrapper -->
     <div id="wrapper" class="wrapper clearfix">
         <?php include_once('includes/header.php'); ?>
