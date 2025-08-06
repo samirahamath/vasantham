@@ -48,6 +48,7 @@ if(isset($_POST['signup']))
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
+    <!-- suli -->
     <!-- Document Wrapper -->
     <div id="wrapper" class="wrapper clearfix">
         <?php include_once('includes/header.php'); ?>
