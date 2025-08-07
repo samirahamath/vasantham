@@ -11,8 +11,7 @@ if(isset($_POST['submit'])) {
     $fullname = $_POST['fullname'];
     $mobilenumber = $_POST['mobilenumber'];
     $email = $_POST['email'];
-    $plain_password = $_POST['password'];
-    $password = md5($plain_password);
+    $password = $_POST['password'];
     $last4 = substr($mobilenumber, -4);
     $agentid = 'VR' . $last4;
     $query = mysqli_query($con, "INSERT INTO tbluser (FullName, MobileNumber, Email, Password, UserType, AgentID) VALUES ('$fullname', '$mobilenumber', '$email', '$password', '1', '$agentid')");

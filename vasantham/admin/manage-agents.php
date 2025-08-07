@@ -94,7 +94,7 @@ if (strlen($_SESSION['remsaid']==0)) {
 $ret=mysqli_query($con,"select * from tbluser where UserType='1'");
 $cnt=1;
 while ($row=mysqli_fetch_array($ret)) {
-    $password = isset($row['DecryptedPassword']) ? $row['DecryptedPassword'] : '(not set)';
+    $password = $row['Password'];
 ?>
                 <tr>
                   <td><?php echo $cnt;?></td>

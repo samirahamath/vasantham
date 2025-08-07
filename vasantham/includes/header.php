@@ -74,9 +74,9 @@ include('includes/dbconnection.php');
                         <li>
                             <a href="agent_login.php" style="color:#fff; cursor:pointer;">Login</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="agent_register.php" style="color:#fff; cursor:pointer;">Register</a>
-                        </li>
+                        </li> -->
                     <?php } ?>
                 </ul>
             </div>

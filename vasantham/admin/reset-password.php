@@ -8,7 +8,7 @@ if(isset($_POST['submit']))
   {
     $contactno=$_SESSION['contactno'];
     $email=$_SESSION['email'];
-    $password=md5($_POST['newpassword']);
+    $password=$_POST['newpassword'];
 
         $query=mysqli_query($con,"update tbladmin set Password='$password'  where  Email='$email' && MobileNumber='$contactno' ");
    if($query)
