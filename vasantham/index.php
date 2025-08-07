@@ -40,7 +40,7 @@ include('includes/dbconnection.php');
 .hero-banner {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
