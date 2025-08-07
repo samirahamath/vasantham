@@ -15,7 +15,7 @@ if(isset($_POST['submit'])) {
     $password = md5($plain_password);
     $last4 = substr($mobilenumber, -4);
     $agentid = 'VR' . $last4;
-    $query = mysqli_query($con, "INSERT INTO tbluser (FullName, MobileNumber, Email, Password, UserType, AgentID, DecryptedPassword) VALUES ('$fullname', '$mobilenumber', '$email', '$password', '1', '$agentid', '$plain_password')");
+    $query = mysqli_query($con, "INSERT INTO tbluser (FullName, MobileNumber, Email, Password, UserType, AgentID) VALUES ('$fullname', '$mobilenumber', '$email', '$password', '1', '$agentid')");
     if($query) {
         $msg = "Agent registered successfully. Agent ID: $agentid";
     } else {

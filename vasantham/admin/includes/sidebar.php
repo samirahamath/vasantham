@@ -74,15 +74,15 @@
                             </li>
                             
                                     <ul class="nav flex-column">
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link" href="manage-owners.php"><i class="fas fa-fw fa-file"></i>Owner</a>
-                                        </li>
+                                        </li> -->
                                         <li class="nav-item">
                                             <a class="nav-link" href="manage-agents.php"><i class="fas fa-fw fa-file"></i>Agents</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link" href="manage-users.php"><i class="fas fa-fw fa-file"></i>Users</a>
-                                        </li>
+                                        </li> -->
                                          <li class="nav-item">
                                             <a class="nav-link" href="listed-properties.php"><i class="fas fa-fw fa-file"></i>List of Properties</a>
                                         </li>
