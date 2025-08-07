@@ -75,7 +75,7 @@ $query=mysqli_query($con,"insert into tblfeedback(UserId,PropertyId,UserRemark) 
           <hr />
         <!-- Page Title #1
 ============================================ -->
-        <section id="page-title" style="margin-top:-3%" class="page-title bg-overlay bg-overlay-dark2">
+        <!-- <section id="page-title" style="margin-top:-3%" class="page-title bg-overlay bg-overlay-dark2">
             <div class="bg-section">
                 <img src="assets/images/page-titles/3.jpg" alt="Background" />
             </div>
@@ -102,7 +102,7 @@ $query=mysqli_query($con,"insert into tblfeedback(UserId,PropertyId,UserRemark) 
                 <!-- .row end -->
             </div>
             <!-- .container end -->
-        </section>
+        <!-- </section>  -->
         <!-- #page-title end -->
 
         <!-- property single gallery
@@ -606,7 +606,7 @@ while ($row1=mysqli_fetch_array($ret1)) {
                          <?php } ?>
                             </div>
                             <div class="widget--content">
-                                <a href="#">
+                                <a href="user-properties.php?uid=<?php echo $row1['ID'];?>">
                                     <div class="agent--img">
                                         <img src="propertyimages/images.png" alt="agent" class="img-responsive" height="100" width="100">
                                     </div>
@@ -919,9 +919,11 @@ while($row=mysqli_fetch_array($query))
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(38,8,68,0.10);
     margin-bottom: 12px;
-    max-height: 340px;
+    max-height: 400px;
     object-fit: cover;
     width: 100%;
+    height: auto;
+    display: block;
 }
 
 .owl-thumbs {
@@ -1084,7 +1086,7 @@ while($row=mysqli_fetch_array($query))
         padding: 18px 8px 10px 8px;
     }
     .property-single-carousel-content img {
-        max-height: 180px;
+        max-height: 280px;
     }
     .owl-thumb-item img {
         width: 48px !important;
@@ -1094,7 +1096,7 @@ while($row=mysqli_fetch_array($query))
 
 @media (max-width: 767px) {
     .property-single-carousel-content img {
-        max-height: 120px;
+        max-height: 220px;
     }
     .property--title, .heading--title {
         font-size: 1.2rem;
