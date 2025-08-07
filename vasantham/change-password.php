@@ -8,8 +8,8 @@ if (strlen($_SESSION['remsuid']==0)) {
 if(isset($_POST['submit']))
 {
 $uid=$_SESSION['remsuid'];
-$cpassword=md5($_POST['currentpassword']);
-$newpassword=md5($_POST['newpassword']);
+$cpassword=$_POST['currentpassword'];
+$newpassword=$_POST['newpassword'];
 $query=mysqli_query($con,"select ID from tbluser where ID='$uid' and   Password='$cpassword'");
 $row=mysqli_fetch_array($query);
 if($row>0){

@@ -7,7 +7,7 @@ include('includes/dbconnection.php');
 if(isset($_POST['signin']))
 {
     $email=$_POST['email'];
-    $password=md5($_POST['password']);
+    $password=$_POST['password'];
     $query=mysqli_query($con,"select ID,UserType,Email from tbluser where Email='$email' && Password='$password' ");
     $ret=mysqli_fetch_array($query);
     if($ret>0){
