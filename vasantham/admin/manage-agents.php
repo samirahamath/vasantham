@@ -72,36 +72,38 @@ if (strlen($_SESSION['remsaid']==0)) {
                         <div class="card">
                             <h5 class="card-header">Manage Agents</h5>
                             <div class="card-body">
+                                <div class="d-flex justify-content-end mb-3">
+                                    <a href="add-agent.php" class="btn btn-primary">Add Agent</a>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered first">
                                         <thead>
                                         <tr>
                                             <tr>
                   <th data-breakpoints="xs">S.NO</th>
-            <th>Full Name</th>
-   <th>Mobile Number</th>
-            <th>Registration Date</th>
-            <th data-breakpoints="xs">Action</th>
+                  <th>Agent ID</th>
+                  <th>Agent Name</th>
+                  <th>Mobile</th>
+                  <th>Password</th>
                 </tr>
                                         </tr>
                                         </thead>
                                         <tbody>
                                           <?php
-$ret=mysqli_query($con,"select * from  tbluser where UserType='1'");
+// WARNING: Showing passwords in plain text is NOT recommended for production!
+$ret=mysqli_query($con,"select * from tbluser where UserType='1'");
 $cnt=1;
 while ($row=mysqli_fetch_array($ret)) {
-
+    $password = isset($row['DecryptedPassword']) ? $row['DecryptedPassword'] : '(not set)';
 ?>
-              
                 <tr>
                   <td><?php echo $cnt;?></td>
-              
-                  <td><?php  echo $row['FullName'];?></td>
-                 <td><?php  echo $row['MobileNumber'];?></td>
-                  <td><?php  echo $row['PostingDate'];?></td>
-                  <td><a href="view-users-details.php?viewid=<?php echo $row['ID'];?>" class="btn btn-info">View</a></td>
+                  <td><?php echo isset($row['AgentID']) ? $row['AgentID'] : ''; ?></td>
+                  <td><?php echo $row['FullName'];?></td>
+                  <td><?php echo $row['MobileNumber'];?></td>
+                  <td><?php echo $password; ?></td>
                 </tr>
-                <?php 
+<?php 
 $cnt=$cnt+1;
 }?>
                                         </tbody>

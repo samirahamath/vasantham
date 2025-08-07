@@ -53,7 +53,7 @@ include('includes/dbconnection.php');
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="user-profile.php" style="color:#222;">
-                                        <i class="fa fa-user" style="margin-right:6px;"></i> User Profile
+                                        <i class="fa fa-user" style="margin-right:6px;"></i> Agent Profile
                                     </a>
                                 </li>
                                 <li>
