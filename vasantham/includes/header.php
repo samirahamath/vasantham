@@ -56,11 +56,11 @@ include('includes/dbconnection.php');
                                         <i class="fa fa-user" style="margin-right:6px;"></i> Agent Profile
                                     </a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="change-password.php" style="color:#222;">
                                         <i class="fa fa-lock" style="margin-right:6px;"></i> Change Password
                                     </a>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="logout.php" style="color:#222;">
                                         <i class="fa fa-sign-out" style="margin-right:6px;"></i> Logout

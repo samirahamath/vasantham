@@ -104,7 +104,7 @@ while ($row=mysqli_fetch_array($ret)) {
                                 <h4 class="form--title">Personal Details</h4>
                                 <div class="form-group">
                                     <label for="full-name">Full Name</label>
-                                    <input type="text" class="form-control" name="fullname" id="fullname" required="true" value="<?php  echo $row['FullName'];?>">
+                                    <input type="text" class="form-control" name="fullname" id="fullname" required="true" Readonly value="<?php  echo $row['FullName'];?>">
                                 </div>
                               
                                 <div class="form-group">
@@ -114,13 +114,13 @@ while ($row=mysqli_fetch_array($ret)) {
                                 <!-- .form-group end -->
                                 <div class="form-group">
                                     <label for="phone-number">Mobile Number</label>
-                                    <input type="text" class="form-control" name="mobilenumber" id="mobilenumber" required="true" value="<?php  echo $row['MobileNumber'];?>">
+                                    <input type="text" class="form-control" readonly name="mobilenumber" id="mobilenumber" required="true" value="<?php  echo $row['MobileNumber'];?>">
                                 </div>
                                 <!-- .form-group end -->
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="about-me">About Me</label>
                                     <textarea class="form-control" name="aboutme" id="aboutme" rows="2" required="true"><?php  echo $row['Aboutme'];?></textarea>
-                                </div>
+                                </div> -->
                                 <!-- .form-group end -->
                             </div>
                             <?php }?>

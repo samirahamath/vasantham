@@ -5,7 +5,7 @@
                           
                                 <li><a href="user-profile.php" class="active">Edit Profile</a></li>
                                 <li><a href="enquiry-status.php" class="active">Enquiry Status</a></li>
-                                <li><a href="change-password.php">Change Password</a></li>
+                                <!-- <li><a href="change-password.php">Change Password</a></li> -->
                                 <li><a href="logout.php">Logout</a></li>
                             <?php } else{?>
    <li><a href="user-profile.php" class="active">Edit Profile</a></li>
