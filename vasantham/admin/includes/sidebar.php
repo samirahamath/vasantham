@@ -139,6 +139,9 @@
 <li class="nav-item">
                                             <a class="nav-link" href="bwdates-reports-ds.php"><i class="fa fa-fw fa-search"></i>Reports</a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="url-management.php"><i class="fa fa-fw fa-search"></i>URL Management</a>
+                                        </li>
                                 </div>
                             </li>
 
