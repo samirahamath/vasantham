@@ -49,7 +49,7 @@ if (strlen($_SESSION['remsuid']==0)) {
 
 <body>
     <!-- Document Wrapper
-	============================================= -->
+    ============================================= -->
     <div id="wrapper" class="wrapper clearfix">
          <?php include_once('includes/header.php');?>
           <hr />
@@ -103,6 +103,10 @@ while ($row=mysqli_fetch_array($ret)) {
 ?>
                                 <h4 class="form--title">Personal Details</h4>
                                 <div class="form-group">
+                                    <label for="agent-id">User ID</label>
+                                    <input type="text" class="form-control" name="agentid" id="agentid" readonly value="<?php echo isset($row['AgentID']) ? $row['AgentID'] : ''; ?>">
+                                </div>
+                                <div class="form-group">
                                     <label for="full-name">Full Name</label>
                                     <input type="text" class="form-control" name="fullname" id="fullname" required="true" Readonly value="<?php  echo $row['FullName'];?>">
                                 </div>
@@ -125,7 +129,7 @@ while ($row=mysqli_fetch_array($ret)) {
                             </div>
                             <?php }?>
                             
-                            <input type="submit" value="Save Edits" name="submit" class="btn btn--primary">
+                            <!-- <input type="submit" value="Save Edits" name="submit" class="btn btn--primary"> -->
                         </form>
                     </div>
                     <!-- .col-md-8 end -->

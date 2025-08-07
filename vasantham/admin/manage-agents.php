@@ -4,11 +4,18 @@ error_reporting(0);
 include('includes/dbconnection.php');
 if (strlen($_SESSION['remsaid']==0)) {
   header('location:logout.php');
-  } else{
-
-
-
-  ?>
+} else {
+  // Handle delete action
+  if (isset($_GET['del']) && $_GET['del'] == 'delete' && isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    $delquery = mysqli_query($con, "DELETE FROM tbluser WHERE ID='$id' AND UserType='1'");
+    if ($delquery) {
+      echo '<script>alert("Agent deleted successfully.");window.location.href="manage-agents.php";</script>';
+    } else {
+      echo '<script>alert("Failed to delete agent.");</script>';
+    }
+  }
+?>
 <!doctype html>
 <html lang="en">
  
@@ -85,6 +92,7 @@ if (strlen($_SESSION['remsaid']==0)) {
                   <th>Agent Name</th>
                   <th>Mobile</th>
                   <th>Password</th>
+                  <th>Action</th>
                 </tr>
                                         </tr>
                                         </thead>
@@ -102,6 +110,10 @@ while ($row=mysqli_fetch_array($ret)) {
                   <td><?php echo $row['FullName'];?></td>
                   <td><?php echo $row['MobileNumber'];?></td>
                   <td><?php echo $password; ?></td>
+                  <td>
+                    <a href="edit-agent.php?id=<?php echo $row['ID']; ?>" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="manage-agents.php?del=delete&id=<?php echo $row['ID']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this agent?');">Delete</a>
+                  </td>
                 </tr>
 <?php 
 $cnt=$cnt+1;
