@@ -86,20 +86,29 @@
                                          <li class="nav-item">
                                             <a class="nav-link" href="listed-properties.php"><i class="fas fa-fw fa-file"></i>List of Properties</a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="all-enquiries.php"><i class="fas fa-fw fa-file"></i>All Enquiries</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="want-to-sell.php"><i class="fas fa-fw fa-file"></i>Want to Sell</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="want-to-buy.php"><i class="fas fa-fw fa-file"></i>Want to Buy</a>
+                                        </li>
 
 <li class="nav-item">
-<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-212" aria-controls="submenu-2"><i class="fas fa-fw fa-file"></i>Reviews</a>
+<!-- <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-212" aria-controls="submenu-2"><i class="fas fa-fw fa-file"></i>Reviews</a> -->
 <div id="submenu-212" class="collapse submenu" style="">
 <ul class="nav flex-column">
 <li class="nav-item">
-<a class="nav-link" href="new-reviews.php">New </a>
+<!-- <a class="nav-link" href="new-reviews.php">New </a> -->
   </li>
 <li class="nav-item">
-<a class="nav-link" href="approved-review.php">Approved </a>
+<!-- <a class="nav-link" href="approved-review.php">Approved </a> -->
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="unapproved-reviews.php">Unapproved </a>
+<!-- <a class="nav-link" href="unapproved-reviews.php">Unapproved </a> -->
 </li>
               
 

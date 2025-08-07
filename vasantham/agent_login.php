@@ -73,7 +73,7 @@ if(isset($_POST['signin']))
                             <input type="password" class="form-control form-control-lg" name="password" id="password" required placeholder="Enter your password">
                         </div>
                         <div class="form-group mb-3">
-                            <button type="submit" name="signin" class="btn btn-primary btn-lg w-100">Sign In</button> -->
+                            <button type="submit" name="signin" class="btn btn-primary btn-lg w-100">Sign In</button>
                         </div>
                         <div class="form-group text-center mb-2">
                             <!-- <a href="forgot-password.php" class="text-decoration-none link-custom">Forgot your password?</a> -->
