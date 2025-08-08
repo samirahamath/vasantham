@@ -123,10 +123,9 @@ while($row5=mysqli_fetch_array($query5))
                                 </div>
                             </div>
                             <div class="properties properties-grid">
-                                <!-- .col-md-12 end -->
-
-<?php
-//Getting default page number
+    <div class="row">
+        <?php
+        //Getting default page number
         if (isset($_GET['pageno'])) {
             $pageno = $_GET['pageno'];
         } else {
@@ -151,46 +150,40 @@ $query=mysqli_query($con,"select tblproperty.*,tblcountry.CountryName,tblstate.S
 while($row=mysqli_fetch_array($query))
 {
 ?>
-
-                                <div class="col-xs-12 col-sm-6 col-md-6" width='300' height='300'>
-                                    <!-- .property-item #1 -->
-                                    <div class="property-item">
-                                        <div class="property--img">
-<a href="single-property-detail.php?proid=<?php echo $row['ID'];?>" target="_blank">
-<img src="propertyimages/<?php echo $row['FeaturedImage'];?>" alt="<?php echo $row['PropertyTitle'];?>"  width='380' height='300'>
-                                </a>
-<span class="property--status"><?php echo $row['Status'];?></span>
- </div>
- <div class="property--content">
-<div class="property--info">
- <h5 class="property--title">
-<a href="single-property-detail.php?proid=<?php echo $row['ID'];?>" target="_blank">
-    <?php echo $row['PropertyTitle'];?></a></h5>
-<p class="property--location"><?php echo $row['Address'];?>&nbsp;
-<?php echo $row['City'];?>&nbsp;
-<?php echo $row['StateName'];?>&nbsp;  
-<?php echo $row['CountryName'];?></p>
-<p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
- </div>
-                                            <!-- .property-info end -->
-<div class="property--features">
-<ul class="list-unstyled mb-0">
-<li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
-<li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
-<li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
-</ul>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+            <div class="property-item" style="width:100%; display:flex; flex-direction:column; height:100%;">
+                <div class="property--img">
+                    <a href="single-property-detail.php?proid=<?php echo $row['ID'];?>" target="_blank">
+                        <img src="propertyimages/<?php echo $row['FeaturedImage'];?>" alt="<?php echo $row['PropertyTitle'];?>" width='380' height='300' style="object-fit:cover; width:100%; height:200px;">
+                    </a>
+                    <span class="property--status"><?php echo $row['Status'];?></span>
+                </div>
+                <div class="property--content" style="flex:1;">
+                    <div class="property--info">
+                        <h5 class="property--title">
+                            <a href="single-property-detail.php?proid=<?php echo $row['ID'];?>" target="_blank">
+                                <?php echo $row['PropertyTitle'];?>
+                            </a>
+                        </h5>
+                        <p class="property--location"><?php echo $row['Address'];?>&nbsp;
+                        <?php echo $row['City'];?>&nbsp;
+                        <?php echo $row['StateName'];?>&nbsp;  
+                        <?php echo $row['CountryName'];?></p>
+                        <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
+                    </div>
+                    <div class="property--features">
+                        <ul class="list-unstyled mb-0">
+                            <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
+                            <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
+                            <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+    </div>
 </div>
-                                            <!-- .property-features end -->
-                                        </div>
-                                    </div>
-                                </div>
-<?php } ?>
-
-                                <!-- .property item end -->
-
-                              
-                                <!-- .property item end -->
-                            </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-50">
                           <ul class="pagination" >
         <li class="active"><a href="?pageno=1">First</a></li>
@@ -217,7 +210,7 @@ while($row=mysqli_fetch_array($query))
 
         <!-- cta #1
 ============================================= -->
-        <section id="cta" class="cta cta-1 text-center bg-overlay bg-overlay-dark pt-90">
+        <!-- <section id="cta" class="cta cta-1 text-center bg-overlay bg-overlay-dark pt-90">
             <div class="bg-section"><img src="assets/images/cta/bg-1.jpg" alt="Background"></div>
             <div class="container">
                 <div class="row">
@@ -226,11 +219,11 @@ while($row=mysqli_fetch_array($query))
                          <a href="contact.php" class="btn btn--primary">Contact</a>
                     </div>
                     <!-- .col-md-6 -->
-                </div>
+                <!-- </div> -->
                 <!-- .row -->
-            </div>
+            <!-- </div> -->
             <!-- .container -->
-        </section>
+        <!-- </section> --> 
         <!-- #cta1 end -->
         <!-- Footer #1
 ============================================= -->

@@ -523,11 +523,12 @@ while ($row=mysqli_fetch_array($query)) {
                         </div>
                              <?php }?>
                         <!-- .property-single-location end -->
-<?php $pid=intval($_GET['proid']);
-$qry=mysqli_query($con,"select tblfeedback.UserRemark,tblfeedback.PostingDate,tbluser.FullName from tblfeedback join tbluser on tbluser.ID=tblfeedback.UserId where tblfeedback.PropertyId='$pid' and tblfeedback.Is_Publish='1'"); 
-$countreview=mysqli_num_rows($qry);
+<?php //$pid=intval($_GET['proid']);
+//$qry=mysqli_query($con,"select tblfeedback.UserRemark,tblfeedback.PostingDate,tbluser.FullName from tblfeedback join tbluser on tbluser.ID=tblfeedback.UserId where tblfeedback.PropertyId='$pid' and tblfeedback.Is_Publish='1'"); 
+//$countreview=mysqli_num_rows($qry);
 ?>
                      
+                        <?php /* 
                         <div class="property-single-reviews inner-box">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -592,6 +593,7 @@ while($rw=mysqli_fetch_array($qry)){
                             <!-- .row end -->
                         </div>
                         <!-- .property-single-leave-review end -->
+                        */ ?>
                     </div>
                     <!-- .col-md-8 -->
                     <div class="col-xs-12 col-sm-12 col-md-4">
@@ -605,7 +607,7 @@ while ($row1=mysqli_fetch_array($ret1)) {
 ?>
                             <div class="widget--title">
                                 <?php if($row1['UserType']=="1"){?>
-                                <h5>Posted by  Agent/Broker</h5>
+                                <h5>Posted by <span class="agent--title"><?php echo $row1['FullName'];?></span></h5>
                             <?php } else{ ?>
                              <h5>Posted by  Owner</h5>
                          <?php } ?>
@@ -618,16 +620,16 @@ while ($row1=mysqli_fetch_array($ret1)) {
    
 
                                     <div class="agent--info">
-                                        <h5 class="agent--title"><?php echo $row1['FullName'];?></h5>
+                                        <h5 class="agent--title"><?php echo $row1['AgentID'];?></h5>
                                     </div>
                                 </a>
                                 <!-- .agent-profile-details end -->
                                 <div class="agent--contact">
-                                    <ul class="list-unstyled">
+                                    <!-- <ul class="list-unstyled">
                                         <li><i class="fa fa-phone"></i><?php echo $row1['MobileNumber'];?></li>
                                         <li><i class="fa fa-envelope-o"></i><?php echo $row1['Email'];?></li>
                                        
-                                    </ul>
+                                    </ul> -->
                                 </div>
                                 <!-- .agent-contact end -->
                               <?php }?>
@@ -827,20 +829,7 @@ while($row=mysqli_fetch_array($query))
 
         <!-- cta #1
 ============================================= -->
-        <section id="cta" class="cta cta-1 text-center bg-overlay bg-overlay-dark pt-90">
-            <div class="bg-section"><img src="assets/images/cta/bg-1.jpg" alt="Background"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3">
-                        <h3>Join our professional team & agents to start selling your house</h3>
-                        <a href="contact.php" class="btn btn--primary">Contact</a>
-                    </div>
-                    <!-- .col-md-6 -->
-                </div>
-                <!-- .row -->
-            </div>
-            <!-- .container -->
-        </section>
+       
         <!-- #cta1 end -->
         <!-- Footer #1
 ============================================= -->

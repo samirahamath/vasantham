@@ -2360,10 +2360,8 @@ ul.dot-list li i {
     #PAGINATION
 \*------------------------------------*/
 .pagination {
+	padding: 20px;
 	margin: 0;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
 }
 
 .pagination > li {
@@ -2390,6 +2388,7 @@ ul.dot-list li i {
 
 .pagination > .active > a,
 .pagination > li:hover > a {
+	padding: 30px;
 	background-color: #64ddbb !important;
 	color: #ffffff;
 	border-color: #64ddbb;
