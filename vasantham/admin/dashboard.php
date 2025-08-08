@@ -2,6 +2,7 @@
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
+include('../includes/approval-functions.php');
 if (strlen($_SESSION['remsaid']==0)) {
   header('location:logout.php');
   } 
@@ -210,8 +211,184 @@ $totalpropertylisted=mysqli_num_rows($query7);
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    
+                    <!-- Property Approval Statistics -->
+                    <?php 
+                    // Initialize default values
+                    $pendingCount = 0;
+                    $approvedCount = 0;
+                    $rejectedCount = 0;
+                    $approvalStats = array();
+                    
+                    // Check if approval functions are available and database has approval columns
+                    if (function_exists('getApprovalStatistics')) {
+                        try {
+                            $approvalStats = getApprovalStatistics($con);
+                            $pendingCount = isset($approvalStats['by_status']['Pending']) ? $approvalStats['by_status']['Pending'] : 0;
+                            $approvedCount = isset($approvalStats['by_status']['Approved']) ? $approvalStats['by_status']['Approved'] : 0;
+                            $rejectedCount = isset($approvalStats['by_status']['Rejected']) ? $approvalStats['by_status']['Rejected'] : 0;
+                        } catch (Exception $e) {
+                            // If approval system is not set up yet, show basic property count
+                            $basicQuery = mysqli_query($con, "SELECT COUNT(*) as total FROM tblproperty");
+                            if ($basicQuery) {
+                                $basicResult = mysqli_fetch_assoc($basicQuery);
+                                $approvedCount = $basicResult['total']; // Assume all existing properties are approved
+                            }
+                        }
+                    } else {
+                        // Fallback if approval functions are not available
+                        $basicQuery = mysqli_query($con, "SELECT COUNT(*) as total FROM tblproperty");
+                        if ($basicQuery) {
+                            $basicResult = mysqli_fetch_assoc($basicQuery);
+                            $approvedCount = $basicResult['total'];
+                        }
+                    }
+                    ?>
+                    
+                    <div class="row mt-4">
+                        <div class="col-xl-12">
+                            <h4 class="mb-3">Property Approval Statistics</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card border-warning">
+                                <h5 class="card-header bg-warning text-white">Pending Approval</h5>
+                                <div class="card-body">
+                                    <div class="metric-value d-inline-block">
+                                        <h1 class="mb-1 text-warning"><?php echo $pendingCount; ?></h1>
+                                    </div>
+                                    <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+                                        <span class="icon-circle-small icon-box-xs text-warning bg-warning-light">
+                                            <i class="fa fa-clock"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center bg-white">
+                                    <a href="approve-properties.php?status=Pending" class="card-link">Review Properties</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card border-success">
+                                <h5 class="card-header bg-success text-white">Approved Properties</h5>
+                                <div class="card-body">
+                                    <div class="metric-value d-inline-block">
+                                        <h1 class="mb-1 text-success"><?php echo $approvedCount; ?></h1>
+                                    </div>
+                                    <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+                                        <span class="icon-circle-small icon-box-xs text-success bg-success-light">
+                                            <i class="fa fa-check-circle"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center bg-white">
+                                    <a href="approve-properties.php?status=Approved" class="card-link">View Approved</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card border-danger">
+                                <h5 class="card-header bg-danger text-white">Rejected Properties</h5>
+                                <div class="card-body">
+                                    <div class="metric-value d-inline-block">
+                                        <h1 class="mb-1 text-danger"><?php echo $rejectedCount; ?></h1>
+                                    </div>
+                                    <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+                                        <span class="icon-circle-small icon-box-xs text-danger bg-danger-light">
+                                            <i class="fa fa-times-circle"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center bg-white">
+                                    <a href="approve-properties.php?status=Rejected" class="card-link">View Rejected</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card border-info">
+                                <h5 class="card-header bg-info text-white">Approval Rate</h5>
+                                <div class="card-body">
+                                    <div class="metric-value d-inline-block">
+                                        <?php 
+                                        $totalProcessed = $approvedCount + $rejectedCount;
+                                        $approvalRate = $totalProcessed > 0 ? round(($approvedCount / $totalProcessed) * 100, 1) : 0;
+                                        ?>
+                                        <h1 class="mb-1 text-info"><?php echo $approvalRate; ?>%</h1>
+                                    </div>
+                                    <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+                                        <span class="icon-circle-small icon-box-xs text-info bg-info-light">
+                                            <i class="fa fa-chart-line"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center bg-white">
+                                    <a href="approve-properties.php" class="card-link">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Approval Activity -->
+                    <div class="row mt-4">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <h5 class="card-header">Recent Approval Activity</h5>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Property</th>
+                                                    <th>Agent</th>
+                                                    <th>Action</th>
+                                                    <th>Admin</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php 
+                                                if (isset($approvalStats['recent_activity']) && !empty($approvalStats['recent_activity'])) {
+                                                    foreach ($approvalStats['recent_activity'] as $activity) {
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        <strong><?php echo htmlspecialchars(substr($activity['PropertyTitle'], 0, 30)) . '...'; ?></strong>
+                                                    </td>
+                                                    <td><?php echo htmlspecialchars($activity['AgentName']); ?></td>
+                                                    <td>
+                                                        <?php if($activity['Action'] == 'APPROVED') { ?>
+                                                            <span class="badge badge-success">Approved</span>
+                                                        <?php } elseif($activity['Action'] == 'REJECTED') { ?>
+                                                            <span class="badge badge-danger">Rejected</span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-info"><?php echo $activity['Action']; ?></span>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <td><?php echo htmlspecialchars($activity['AdminName']); ?></td>
+                                                    <td><?php echo date('M d, Y H:i', strtotime($activity['ActionDate'])); ?></td>
+                                                </tr>
+                                                <?php 
+                                                    }
+                                                } else { ?>
+                                                <tr>
+                                                    <td colspan="5" class="text-center text-muted">No recent activity</td>
+                                                </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center bg-white">
+                                    <a href="approve-properties.php" class="card-link">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
            <?php include_once('includes/footer.php');?>
         </div>
         <!-- ============================================================== -->
@@ -263,3 +440,10 @@ $totalpropertylisted=mysqli_num_rows($query7);
     </script>
 </body>
 </html>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->

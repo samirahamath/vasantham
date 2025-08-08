@@ -44,7 +44,7 @@
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query3=mysqli_query($con,"select distinct Type from  tblproperty");
+$query3=mysqli_query($con,"select distinct Type from  tblproperty WHERE ApprovalStatus='Approved'");
 while($row3=mysqli_fetch_array($query3))
 {
 ?>
@@ -69,7 +69,7 @@ while($row3=mysqli_fetch_array($query3))
                             </div>
                             <div class="widget--content">
                                 <?php
-$query4=mysqli_query($con,"select distinct Status from  tblproperty");
+$query4=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved'");
 while($row4=mysqli_fetch_array($query4))
 {
 ?>
@@ -94,7 +94,7 @@ while($row4=mysqli_fetch_array($query4))
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query5=mysqli_query($con,"select distinct City from  tblproperty");
+$query5=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved'");
 while($row5=mysqli_fetch_array($query5))
 {
 ?>
@@ -136,7 +136,7 @@ while($row5=mysqli_fetch_array($query5))
         $no_of_records_per_page = 8;
         $offset = ($pageno-1) * $no_of_records_per_page;
 // Getting total number of pages
-        $total_pages_sql = "SELECT COUNT(*) FROM tblproperty";
+        $total_pages_sql = "SELECT COUNT(*) FROM tblproperty WHERE ApprovalStatus='Approved'";
         $result = mysqli_query($con,$total_pages_sql);
         $total_rows = mysqli_fetch_array($result)[0];
         $total_pages = ceil($total_rows / $no_of_records_per_page);
@@ -145,7 +145,9 @@ while($row5=mysqli_fetch_array($query5))
 $query=mysqli_query($con,"select tblproperty.*,tblcountry.CountryName,tblstate.StateName 
     from tblproperty 
     left join tblcountry on tblcountry.ID=tblproperty.Country 
-    left join tblstate on tblstate.ID=tblproperty.State LIMIT $offset, $no_of_records_per_page");
+    left join tblstate on tblstate.ID=tblproperty.State 
+    WHERE tblproperty.ApprovalStatus='Approved'
+    LIMIT $offset, $no_of_records_per_page");
 while($row=mysqli_fetch_array($query))
 {
 ?>

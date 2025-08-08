@@ -244,11 +244,13 @@ echo "<script>window.location.href='my-properties.php'</script>";
                     <div class="col-xs-12 col-sm-8 col-md-8">
                       <?php
                       $uid=$_SESSION['remsuid'];
-$query=mysqli_query($con,"select * from tblproperty where UserID='$uid'");
+$query=mysqli_query($con,"select * from tblproperty where UserID='$uid' ORDER BY ListingDate DESC");
 $num=mysqli_num_rows($query);
 if($num>0){
 while($row=mysqli_fetch_array($query))
 {
+    // Get approval status, default to 'Approved' for backward compatibility
+    $approvalStatus = isset($row['ApprovalStatus']) ? $row['ApprovalStatus'] : 'Approved';
 ?>
                         <div class="property-item">
 
@@ -269,6 +271,42 @@ while($row=mysqli_fetch_array($query))
 <?php echo $row['State'];?>&nbsp;  
 <?php echo $row['Country'];?></p>
 <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
+
+                                    <!-- Approval Status Display -->
+                                    <div class="approval-status" style="margin: 10px 0;">
+                                        <?php if($approvalStatus == 'Approved') { ?>
+                                            <span class="badge" style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 15px;">
+                                                <i class="fa fa-check-circle"></i> Approved
+                                            </span>
+                                            <?php if($row['ApprovalDate']) { ?>
+                                                <small style="color: #666; display: block; margin-top: 5px;">
+                                                    Approved on <?php echo date('M d, Y', strtotime($row['ApprovalDate'])); ?>
+                                                </small>
+                                            <?php } ?>
+                                        <?php } elseif($approvalStatus == 'Rejected') { ?>
+                                            <span class="badge" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 15px;">
+                                                <i class="fa fa-times-circle"></i> Rejected
+                                            </span>
+                                            <?php if($row['RejectionDate']) { ?>
+                                                <small style="color: #666; display: block; margin-top: 5px;">
+                                                    Rejected on <?php echo date('M d, Y', strtotime($row['RejectionDate'])); ?>
+                                                </small>
+                                            <?php } ?>
+                                            <?php if($row['RejectionReason']) { ?>
+                                                <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 8px; border-radius: 5px; margin-top: 8px;">
+                                                    <strong>Rejection Reason:</strong><br>
+                                                    <?php echo htmlspecialchars($row['RejectionReason']); ?>
+                                                </div>
+                                            <?php } ?>
+                                        <?php } else { ?>
+                                            <span class="badge" style="background-color: #ffc107; color: #212529; padding: 5px 10px; border-radius: 15px;">
+                                                <i class="fa fa-clock"></i> Pending Review
+                                            </span>
+                                            <small style="color: #666; display: block; margin-top: 5px;">
+                                                Submitted on <?php echo date('M d, Y', strtotime($row['ListingDate'])); ?>
+                                            </small>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                                 <!-- .property-info end -->
                                 <div class="property--features">
@@ -278,11 +316,35 @@ while($row=mysqli_fetch_array($query))
                                         <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
 
                                     </ul>
-                                   <p> <a href="edit-property.php?editid=<?php echo $row['ID'];?>" class="edit--btn" style="color:blue;"><i class="fa fa-edit"></i>Edit</a></p>
-                                   <p style="margin-top: 5%;">
-
-                                    <a href="my-properties.php?id=<?php echo $row['ID']?>&del=delete" onClick="return confirm('Are you sure you want to delete?')" style="color:red;"><i class="fa fa-trash"></i> Delete</a>
-                                </p>
+                                   
+                                   <!-- Action buttons based on approval status -->
+                                   <div class="property-actions" style="margin-top: 15px;">
+                                       <?php if($approvalStatus == 'Rejected') { ?>
+                                           <p><a href="edit-property.php?editid=<?php echo $row['ID'];?>" class="edit--btn" style="background-color: #007bff;">
+                                               <i class="fa fa-edit"></i> Edit & Resubmit
+                                           </a></p>
+                                       <?php } else { ?>
+                                           <p><a href="edit-property.php?editid=<?php echo $row['ID'];?>" class="edit--btn" style="color:blue;">
+                                               <i class="fa fa-edit"></i> Edit
+                                           </a></p>
+                                       <?php } ?>
+                                       
+                                       <p style="margin-top: 5%;">
+                                           <a href="my-properties.php?id=<?php echo $row['ID']?>&del=delete" 
+                                              onClick="return confirm('Are you sure you want to delete?')" 
+                                              style="color:red;">
+                                               <i class="fa fa-trash"></i> Delete
+                                           </a>
+                                       </p>
+                                       
+                                       <?php if($approvalStatus == 'Pending') { ?>
+                                           <p style="margin-top: 5%;">
+                                               <small style="color: #666; font-style: italic;">
+                                                   <i class="fa fa-info-circle"></i> Your property is under review by our admin team.
+                                               </small>
+                                           </p>
+                                       <?php } ?>
+                                   </div>
                                 </div>
                                 <!-- .property-features end -->
                             </div>

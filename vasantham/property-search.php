@@ -44,7 +44,7 @@
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query3=mysqli_query($con,"select distinct Type from  tblproperty");
+$query3=mysqli_query($con,"select distinct Type from  tblproperty WHERE ApprovalStatus='Approved'");
 while($row3=mysqli_fetch_array($query3))
 {
 ?>
@@ -69,7 +69,7 @@ while($row3=mysqli_fetch_array($query3))
                             </div>
                             <div class="widget--content">
                                 <?php
-$query4=mysqli_query($con,"select distinct Status from  tblproperty");
+$query4=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved'");
 while($row4=mysqli_fetch_array($query4))
 {
 ?>
@@ -94,7 +94,7 @@ while($row4=mysqli_fetch_array($query4))
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query5=mysqli_query($con,"select distinct City from  tblproperty");
+$query5=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved'");
 while($row5=mysqli_fetch_array($query5))
 {
 ?>

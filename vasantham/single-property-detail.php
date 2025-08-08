@@ -115,8 +115,13 @@ $query=mysqli_query($con,"select tblproperty.*,tblcountry.CountryName,tblstate.S
     from tblproperty 
     left join tblcountry on tblcountry.ID=tblproperty.Country 
     left join tblstate on tblstate.ID=tblproperty.State 
-    where tblproperty.ID='$proid'");
+    where tblproperty.ID='$proid' AND tblproperty.ApprovalStatus='Approved'");
 $num=mysqli_num_rows($query);
+if($num == 0) {
+    echo '<script>alert("Property not found or not available.");</script>';
+    echo '<script>window.location.href="properties-grid.php";</script>';
+    exit();
+}
 while ($row=mysqli_fetch_array($query)) {
 ?>
             <div class="container">
@@ -774,7 +779,7 @@ $mnumebr=$ret['MobileNumber'];
                             <!-- .property-item #1 -->
                             <?php
                       
-$query=mysqli_query($con,"select * from tblproperty order by rand() limit 9");
+$query=mysqli_query($con,"select * from tblproperty WHERE ApprovalStatus='Approved' order by rand() limit 9");
 while($row=mysqli_fetch_array($query))
 {
 ?>
