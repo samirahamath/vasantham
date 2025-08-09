@@ -164,8 +164,8 @@
             <li><a href="contact.php">Contact</a></li>
             <li><a href="faq.php">FAQ</a></li>
             <li><a href="featured-properties.php">Featured Properties</a></li>
-            <li><a href="elements.php">Want to Sell</a></li>
-            <li><a href="want-to-buy.php">Want to Buy</a></li>
+            <li><a href="want-sell.php">Want to Sell</a></li>
+            <li><a href="want-buy.php">Want to Buy</a></li>
             <li><a href="join-us.php">Join Us</a></li>
           </ul>
         </div>

@@ -48,6 +48,7 @@ if (strlen($_SESSION['remsaid']==0)) {
                                             <th>Location</th>
                                             <th>City</th>
                                             <th>Your Message</th>
+                                            <th>Review Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,6 +68,12 @@ while ($row = mysqli_fetch_array($ret)) {
     echo '<td>' . htmlspecialchars($row['Location']) . '</td>';
     echo '<td>' . htmlspecialchars($row['City']) . '</td>';
     echo '<td>' . htmlspecialchars($row['YourMessage']) . '</td>';
+    // Add review status column with button
+    if (isset($row['IsReviewed']) && $row['IsReviewed']) {
+        echo '<td><button class="btn btn-success btn-sm" disabled>Reviewed</button></td>';
+    } else {
+        echo '<td><button class="btn btn-warning btn-sm review-btn" data-id="' . $row['ID'] . '">Not Reviewed</button></td>';
+    }
     echo '</tr>';
     $cnt++;
 }
@@ -94,6 +101,24 @@ $(document).ready(function() {
         "searching": true,
         "lengthChange": true,
         "info": true
+    });
+
+    // AJAX for review button
+    $(document).on('click', '.review-btn', function() {
+        var btn = $(this);
+        var id = btn.data('id');
+        $.ajax({
+            url: 'update-review-status.php',
+            type: 'POST',
+            data: { id: id, type: 'buy' },
+            success: function(response) {
+                if (response.trim() === 'success') {
+                    btn.removeClass('btn-warning review-btn').addClass('btn-success').text('Reviewed').prop('disabled', true);
+                } else {
+                    alert('Failed to update status.');
+                }
+            }
+        });
     });
 });
 </script>

@@ -33,7 +33,8 @@ include('includes/dbconnection.php');
     <div id="wrapper" class="wrapper clearfix">
         <?php include_once('includes/header.php');?>
         <!-- <hr /> --> <!-- Remove or comment out this line -->
-        <!-- <!-- Hero Search -->
+        <!-- Hero Search
+============================================= -->
         <style>
 /* --- Hero Banner Styles --- */
 .hero-banner {
@@ -494,6 +495,7 @@ include('includes/dbconnection.php');
         border: none;
         transition: background 0.2s;
     }
+\end{code}
 .cta .col-xs-12.col-sm-12.col-md-6.col-md-offset-3 {
     display: flex;
     flex-direction: column;
@@ -518,36 +520,28 @@ include('includes/dbconnection.php');
 
 <section id="heroSearch" class="hero-banner">
     <!-- Banner/Carousel for desktop/tablet -->
-    <div class="carousel slider-navs" id="banner-carousel" data-slide="1" data-slide-rs="1" data-autoplay="true" data-nav="true" data-dots="false" data-space="0" data-loop="true" data-speed="800">
-        <?php
-        // Fetch active banners ordered by DisplayOrder
-        $bannerQuery = mysqli_query($con, "SELECT * FROM tblbanner WHERE Status='Active' ORDER BY DisplayOrder ASC, ID ASC");
-        $firstBannerImg = '';
-        $bannerCount = 0;
-        while($banner = mysqli_fetch_array($bannerQuery)) {
-            $bannerCount++;
-            // Save first banner image for mobile fallback
-            if ($firstBannerImg == '') {
-                $firstBannerImg = $banner['BannerImage'];
-            }
-        ?>
+    <div class="carousel slider-navs" data-slide="1" data-slide-rs="1" data-autoplay="true" data-nav="true" data-dots="false" data-space="0" data-loop="true" data-speed="800">
+        <!-- Slide #1 -->
         <div class="slide--item">
             <div class="bg-section">
-                <!-- Make sure this folder and image exist: assets/images/banners/<?php echo htmlspecialchars($banner['BannerImage']); ?> -->
-                <img src="assets/images/banners/<?php echo htmlspecialchars($banner['BannerImage']); ?>" alt="<?php echo htmlspecialchars($banner['BannerName']); ?>">
+                <img src="assets/images/slider/slide-bg/7.jpg" alt="background">
             </div>
         </div>
-        <?php } ?>
-        <?php if($bannerCount == 0) { ?>
-            <div class="slide--item">
-                <div class="bg-section">
-                    <img  alt="No Banner Available">
-                </div>
+        <!-- Slide #2 -->
+        <div class="slide--item bg-overlay bg-overlay-dark3">
+            <div class="bg-section">
+                <img src="assets/images/slider/slide-bg/8.jpg" alt="background">
             </div>
-        <?php } ?>
+        </div>
+        <!-- Slide #3 -->
+        <div class="slide--item bg-overlay bg-overlay-dark3">
+            <div class="bg-section">
+                <img src="assets/images/slider/slide-bg/9.jpg" alt="background">
+            </div>
+        </div>
     </div>
     <!-- Static banner image for mobile -->
-    <img class="mobile-banner-img" src="assets/images/banners/<?php echo htmlspecialchars($firstBannerImg ? $firstBannerImg : 'default.jpg'); ?>" alt="background" style="display:none; filter:brightness(0.6);">
+    <img class="mobile-banner-img" src="assets/images/slider/slide-bg/7.jpg" alt="background" style="display:none; filter:brightness(0.6);">
     <!-- Banner Content -->
     <div class="banner-content">
         <h1>Find Your Favorite Property</h1>
@@ -564,7 +558,7 @@ include('includes/dbconnection.php');
                         <select name="city" id="city" required>
                             <option value="">Select City</option>
                             <?php
-                            $query=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved'");
+                            $query=mysqli_query($con,"select distinct City from  tblproperty");
                             while($row=mysqli_fetch_array($query))
                             {
                             ?>
@@ -577,7 +571,7 @@ include('includes/dbconnection.php');
                     <div class="form-group">
                         <select name="type" id="type" required>
                             <option value="">Select Property Type</option>
-                            <?php $query1=mysqli_query($con,"select distinct Type from tblproperty WHERE ApprovalStatus='Approved'");
+                            <?php $query1=mysqli_query($con,"select distinct Type from tblproperty");
                             while($row1=mysqli_fetch_array($query1))
                             {
                             ?>      
@@ -591,7 +585,7 @@ include('includes/dbconnection.php');
                         <select name="status" id="status" required>
                             <option value="">Select Any Status</option>
                             <?php
-                            $query2=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved'");
+                            $query2=mysqli_query($con,"select distinct Status from  tblproperty");
                             while($row2=mysqli_fetch_array($query2))
                             {
                             ?>
@@ -628,7 +622,7 @@ include('includes/dbconnection.php');
                             <!-- .property-item #1 -->
                             <?php
                       
-$query=mysqli_query($con,"select * from tblproperty WHERE ApprovalStatus='Approved' order by rand() limit 9");
+$query=mysqli_query($con,"select * from tblproperty order by rand() limit 9");
 while($row=mysqli_fetch_array($query))
 {
 ?>
@@ -819,22 +813,6 @@ while($row=mysqli_fetch_array($query))
     <script src="assets/js/functions.js"></script>
     <script>
 $(document).ready(function(){
-    // Initialize banner carousel if using Owl Carousel or similar
-    if ($('#banner-carousel').length && typeof $.fn.owlCarousel === 'function') {
-        $('#banner-carousel').owlCarousel({
-            items: 1,
-            loop: true,
-            nav: true,
-            dots: false,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            navText: [
-                '<i class="fa fa-chevron-left"></i>',
-                '<i class="fa fa-chevron-right"></i>'
-            ]
-        });
-    }
-
     $(".testimonials-carousel").owlCarousel({
         items: 2, // Show 2 at a time
         loop: true,
