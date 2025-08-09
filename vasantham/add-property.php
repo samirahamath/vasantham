@@ -147,29 +147,28 @@ echo "<script>window.location.href ='add-property.php'</script>";
 </head>
 <script>
 function getsate(val) {
-  $.ajax({
-type:"POST",
-url:"get-sate.php",
-data:'$countryid='+val,
-success:function(data){
-$("#state").html(data);
-}
-
-  });
+    $.ajax({
+        type: "POST",
+        url: "get-sate.php",
+        data: { countryid: val },
+        success: function(data){
+            $("#state").html(data);
+            $("#city").html('<option value="">Select City / Locality</option>');
+        }
+    });
 }
 </script>
 
 <script>
 function getcity(val1) {
-  $.ajax({
-type:"POST",
-url:"get-sate.php",
-data:'$stateid='+val1,
-success:function(data){
-$("#city").html(data);
-}
-
-  });
+    $.ajax({
+        type: "POST",
+        url: "get-sate.php",
+        data: { stateid: val1 },
+        success: function(data){
+            $("#city").html(data);
+        }
+    });
 }
 </script>
 

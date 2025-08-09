@@ -620,7 +620,7 @@ while ($row1=mysqli_fetch_array($ret1)) {
    
 
                                     <div class="agent--info">
-                                        <h5 class="agent--title"><?php echo $row1['AgentID'];?></h5>
+                                        <h5 class="agent--title">User ID :<?php echo $row1['AgentID'];?></h5>
                                     </div>
                                 </a>
                                 <!-- .agent-profile-details end -->
@@ -692,22 +692,22 @@ $mnumebr=$ret['MobileNumber'];
                                 <form class="mb-0" method="post">
                                     <div class="form-group">
                                         <label for="contact-name">Your Name*</label>
-<input type="text" class="form-control" value="<?php echo $fname;?>" name="fullname" id="fullname" required="true" readonly="true" >
+<input type="text" class="form-control" name="fullname" id="fullname" required="true" >
                                     </div>
                                     <!-- .form-group end -->
                                     <div class="form-group">
                                         <label for="contact-email">Email Address*</label>
-<input type="email" class="form-control" value="<?php echo $uemail;?>"  name="email" id="email" required="true" readonly="true">
+<input type="email" class="form-control" name="email" id="email" required="true" >
                                     </div>
                                     <!-- .form-group end -->
                                     <div class="form-group">
                                         <label for="contact-phone">Phone Number</label>
-<input type="text" class="form-control" value="<?php echo $mnumebr;?>"  name="mobnum" id="mobnum" required="true" maxlength="10" pattern="[0-9]+" readonly="true">
+<input type="text" class="form-control" name="mobnum" id="mobnum" required="true" maxlength="10" pattern="[0-9]+" >
                                     </div>
                                     <!-- .form-group end -->
                                     <div class="form-group">
                                         <label for="message">Message*</label>
-                                        <textarea class="form-control" name="message" id="message" rows="2" required="true"></textarea>
+                                        <textarea class="form-control" name="message" id="message" rows="2" ></textarea>
                                     </div>
                                     <!-- .form-group end -->
                                     <input type="submit" value="Send Request" name="submit" class="btn btn--primary btn--block">
@@ -720,37 +720,61 @@ $mnumebr=$ret['MobileNumber'];
 <?php } ?>
 <!-- widget mortgage calculator=============================-->
 
-                        <div class="widget widget-mortgage-calculator">
+                        <!-- <div class="widget widget-mortgage-calculator">
                             <div class="widget--title">
-                                <h5>Mortage Calculator</h5>
+                                <h5>Mortgage Calculator</h5>
                             </div>
                             <div class="widget--content">
-     <form class="mb-0" method="post" action="calculator.php">
+                                <form class="mb-0" id="mortgage-calc-form">
                                     <div class="form-group">
                                         <label for="sale-price">Sale Price</label>
-                                        <input type="text" class="form-control" name="saleprice" id="saleprice" placeholder="$" required="true">
+                                        <input type="number" class="form-control" name="saleprice" id="saleprice" placeholder="$" required>
                                     </div>
-                                    <!-- .form-group end -->
                                     <div class="form-group">
                                         <label for="down-payment">Down Payment</label>
-                                        <input type="text" class="form-control" name="downpayment" id="downpayment" placeholder="$" required="true">
+                                        <input type="number" class="form-control" name="downpayment" id="downpayment" placeholder="$" required>
                                     </div>
-                                    <!-- .form-group end -->
                                     <div class="form-group">
                                         <label for="term">Term</label>
-                                        <input type="text" class="form-control" name="term" id="term" placeholder="years" required="true">
+                                        <input type="number" class="form-control" name="term" id="term" placeholder="years" required>
                                     </div>
-                                    <!-- .form-group end -->
                                     <div class="form-group">
                                         <label for="interest-rate">Interest Rate</label>
-                                        <input type="text" class="form-control" name="interestrate" id="interestrate" placeholder="%" required="true">
+                                        <input type="number" step="0.01" class="form-control" name="interestrate" id="interestrate" placeholder="%" required>
                                     </div>
-                                    <!-- .form-group end -->
-                                    <input type="submit" value="Calculate" name="submit" class="btn btn--primary">
+                                    <button type="submit" class="btn btn--primary">Calculate</button>
                                 </form>
+                                <div id="mortgage-result" style="margin-top:15px; font-weight:600; color:#260844;"></div>
                             </div>
                         </div>
-                        <!-- . widget mortgage calculator end -->
+                        <script>
+                        document.getElementById('mortgage-calc-form').addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            var salePrice = parseFloat(document.getElementById('saleprice').value) || 0;
+                            var downPayment = parseFloat(document.getElementById('downpayment').value) || 0;
+                            var term = parseFloat(document.getElementById('term').value) || 0;
+                            var interestRate = parseFloat(document.getElementById('interestrate').value) || 0;
+
+                            var principal = salePrice - downPayment;
+                            var monthlyInterest = interestRate / 100 / 12;
+                            var numberOfPayments = term * 12;
+
+                            if (principal <= 0 || monthlyInterest <= 0 || numberOfPayments <= 0) {
+                                document.getElementById('mortgage-result').innerText = "Please enter valid values.";
+                                return;
+                            }
+
+                            var monthlyPayment = (principal * monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments)) /
+                                (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+
+                            if (isFinite(monthlyPayment)) {
+                                document.getElementById('mortgage-result').innerText =
+                                    "Estimated Monthly Payment: $" + monthlyPayment.toFixed(2);
+                            } else {
+                                document.getElementById('mortgage-result').innerText = "Calculation error. Please check your input.";
+                            }
+                        });
+                        </script> -->
                     </div>
                     <!-- .col-md-4 -->
                 </div>

@@ -6,6 +6,20 @@ if (strlen($_SESSION['remsaid']==0)) {
   header('location:logout.php');
   exit();
 }
+
+// Handle the reviewed status update
+if (isset($_GET['reviewed']) && isset($_GET['id'])) {
+    $enquiry_id = (int)$_GET['id'];
+    // Debug: Check if column exists and query runs
+    $update_query = "UPDATE tblwanttosell SET IsReviewed = 1 WHERE ID = $enquiry_id";
+    $result = mysqli_query($con, $update_query);
+    if (!$result) {
+        echo "<script>alert('Failed to update status: " . mysqli_error($con) . "');</script>";
+    }
+    // Redirect to avoid resubmission
+    echo "<script>window.location.href='want-to-sell.php'</script>";
+    exit();
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -48,15 +62,16 @@ if (strlen($_SESSION['remsaid']==0)) {
                                             <th>Location</th>
                                             <th>City</th>
                                             <th>Your Message</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 <?php
-// Replace 'tblwanttosell' with your actual table name for want-to-sell enquiries
 $q = "SELECT * FROM tblwanttosell ORDER BY ID DESC";
 $ret = mysqli_query($con, $q);
 $cnt = 1;
 while ($row = mysqli_fetch_array($ret)) {
+    $reviewed = isset($row['IsReviewed']) && $row['IsReviewed'];
     echo '<tr>';
     echo '<td>' . $cnt . '</td>';
     echo '<td>' . htmlspecialchars($row['YourName']) . '</td>';
@@ -67,6 +82,14 @@ while ($row = mysqli_fetch_array($ret)) {
     echo '<td>' . htmlspecialchars($row['Location']) . '</td>';
     echo '<td>' . htmlspecialchars($row['City']) . '</td>';
     echo '<td>' . htmlspecialchars($row['YourMessage']) . '</td>';
+    // Action column
+    echo '<td>';
+    if ($reviewed) {
+        echo '<button class="btn btn-success btn-sm" disabled>Reviewed</button>';
+    } else {
+        echo '<a href="want-to-sell.php?reviewed=1&id=' . $row['ID'] . '" class="btn btn-primary btn-sm">Mark as Reviewed</a>';
+    }
+    echo '</td>';
     echo '</tr>';
     $cnt++;
 }

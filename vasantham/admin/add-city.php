@@ -44,16 +44,14 @@ echo "<script>window.location.href ='add-city.php'</script>";
     <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
     <script>
 function getsate(val) {
-  $.ajax({
-
-type:"POST",
-url:"get-sate.php",
-data:'$countryid='+val,
-success:function(data){
-$("#state").html(data);
-}
-
-  });
+    $.ajax({
+        type: "POST",
+        url: "get-sate.php",
+        data: { countryid: val },
+        success: function(data){
+            $("#state").html(data);
+        }
+    });
 }
 </script>
 </head>

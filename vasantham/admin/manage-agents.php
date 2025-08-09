@@ -91,6 +91,7 @@ if (strlen($_SESSION['remsaid']==0)) {
                   <th>Agent ID</th>
                   <th>Agent Name</th>
                   <th>Mobile</th>
+                  <th>Email</th>
                   <th>Password</th>
                   <th>Action</th>
                 </tr>
@@ -109,6 +110,7 @@ while ($row=mysqli_fetch_array($ret)) {
                   <td><?php echo isset($row['AgentID']) ? $row['AgentID'] : ''; ?></td>
                   <td><?php echo $row['FullName'];?></td>
                   <td><?php echo $row['MobileNumber'];?></td>
+                  <td><?php echo $row['Email'];?></td>
                   <td><?php echo $password; ?></td>
                   <td>
                     <a href="edit-agent.php?id=<?php echo $row['ID']; ?>" class="btn btn-primary btn-sm">Edit</a>
