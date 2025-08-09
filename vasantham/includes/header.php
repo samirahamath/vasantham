@@ -32,7 +32,7 @@ include('includes/dbconnection.php');
 
                     <li><a href="services.php" style="color:#fff">services</a></li>
 
-                    <li><a href="contact.php" style="color:#fff">Blog</a></li>
+                    <li><a href="blog.php" style="color:#fff">Blog</a></li>
 
                     <li><a href="properties-grid.php" style="color:#fff">properties</a></li>
 
