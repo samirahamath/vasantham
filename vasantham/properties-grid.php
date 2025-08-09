@@ -185,16 +185,24 @@ while($row=mysqli_fetch_array($query))
     </div>
 </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-50">
-                          <ul class="pagination" >
-        <li class="active"><a href="?pageno=1">First</a></li>
-        <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
-            <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
-        </li>
-        <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
-            <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>">Next</a>
-        </li>
-        <li><a href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
-    </ul>
+                        <div style="display: flex; justify-content: center; gap: 10px;">
+                            <a href="?pageno=1"
+                               style="padding:10px 24px; border:none; background:#007bff; color:#fff; border-radius:4px; font-weight:600; text-decoration:none; transition:background 0.2s;">
+                                &laquo;
+                            </a>
+                            <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>"
+                               style="padding:10px 24px; border:none; background:<?php echo ($pageno <= 1) ? '#6c757d' : '#007bff'; ?>; color:#fff; border-radius:4px; font-weight:600; text-decoration:none; transition:background 0.2s; pointer-events:<?php echo ($pageno <= 1) ? 'none' : 'auto'; ?>;">
+                                &lt;
+                            </a>
+                            <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>"
+                               style="padding:10px 24px; border:none; background:<?php echo ($pageno >= $total_pages) ? '#6c757d' : '#007bff'; ?>; color:#fff; border-radius:4px; font-weight:600; text-decoration:none; transition:background 0.2s; pointer-events:<?php echo ($pageno >= $total_pages) ? 'none' : 'auto'; ?>;">
+                                &gt;
+                            </a>
+                            <a href="?pageno=<?php echo $total_pages; ?>"
+                               style="padding:10px 24px; border:none; background:#007bff; color:#fff; border-radius:4px; font-weight:600; text-decoration:none; transition:background 0.2s;">
+                                &raquo;
+                            </a>
+                        </div>
                             </div>
                             <!-- .col-md-12 end -->
                         </div>
