@@ -3,19 +3,26 @@ session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
 
-// Get user ID from URL parameter or session
-$user_id = isset($_GET['uid']) ? intval($_GET['uid']) : (isset($_SESSION['remsuid']) ? $_SESSION['remsuid'] : 0);
+// Get user ID from URL parameter
+$user_id = isset($_GET['uid']) ? intval($_GET['uid']) : 0;
 
 if($user_id == 0) {
     echo "<script>alert('Invalid user ID');</script>";
-    echo "<script>window.location.href='index.php'</script>";
+    echo "<script>window.location.href='properties-grid.php'</script>";
     exit;
 }
 
 // Get user details
-$user_query = mysqli_query($con, "SELECT FullName FROM tbluser WHERE ID='$user_id'");
+$user_query = mysqli_query($con, "SELECT FullName, Email, MobileNumber, AgentID, UserType FROM tbluser WHERE ID='$user_id'");
+if(mysqli_num_rows($user_query) == 0) {
+    echo "<script>alert('User not found');</script>";
+    echo "<script>window.location.href='properties-grid.php'</script>";
+    exit;
+}
 $user_data = mysqli_fetch_array($user_query);
-$user_name = $user_data ? $user_data['FullName'] : 'User';
+$user_name = $user_data['FullName'];
+$user_type = $user_data['UserType'];
+$agent_id = $user_data['AgentID'];
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
@@ -32,7 +39,7 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
     <title>Real Estate Management System - <?php echo $user_name; ?>'s Properties</title>
     
     <style>
-    /* Horizontal Property Card Styles */
+    /* Property Card Styles */
     .property-item {
         background: #fff;
         border-radius: 18px;
@@ -56,9 +63,9 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
         width: 300px;
         min-width: 300px;
         max-width: 300px;
-        /* height: 200px; */
+        height: 200px;
         overflow: hidden;
-        /* position: relative; */
+        position: relative;
         border-radius: 18px 0 0 18px;
         background: #f2f2f2;
         flex-shrink: 0;
@@ -70,10 +77,6 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
         object-position: center;
         transition: transform 0.3s;
         border-radius: 18px 0 0 18px;
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
     }
     .property-item:hover .property--img img {
         transform: scale(1.06);
@@ -156,7 +159,7 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
     }
     
     .page-header {
-        background: #260844;
+        background: linear-gradient(135deg, #260844 0%, #3d0e7e 100%);
         color: #fff;
         padding: 60px 0;
         margin-bottom: 50px;
@@ -179,6 +182,41 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
     }
     .page-header .breadcrumb .active {
         color: #FFD700;
+    }
+    
+    .user-info-card {
+        background: #fff;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #260844;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    
+    .user-details h3 {
+        color: #260844;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+    
+    .user-details p {
+        color: #666;
+        margin-bottom: 3px;
     }
     
     .properties-count {
@@ -212,70 +250,28 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
         }
         .property--img img {
             border-radius: 18px 18px 0 0;
-            object-position: center;
-            max-width: 100%;
-            max-height: 100%;
         }
         .property--content {
             padding: 18px 20px;
             min-height: auto;
         }
-        .property--title a {
-            font-size: 1.2rem;
-        }
-        .property--price {
-            font-size: 1.2rem;
+        .user-info-card {
+            flex-direction: column;
+            text-align: center;
         }
     }
     @media (max-width: 768px) {
         .property--img {
             height: 160px;
-            max-width: 100%;
-        }
-        .property--img img {
-            object-position: center;
-            max-width: 100%;
-            max-height: 100%;
         }
         .property--content {
             padding: 16px 18px;
         }
         .property--title a {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
         .property--features ul {
             gap: 10px;
-        }
-        .property--features li {
-            padding: 6px 10px;
-            font-size: 0.95rem;
-        }
-    }
-    @media (max-width: 600px) {
-        .property--img {
-            height: 140px;
-            max-width: 100%;
-        }
-        .property--img img {
-            object-position: center;
-            max-width: 100%;
-            max-height: 100%;
-        }
-        .property--content {
-            padding: 14px 16px;
-        }
-        .property--title a {
-            font-size: 1rem;
-        }
-        .property--price {
-            font-size: 1.1rem;
-        }
-        .property--features ul {
-            gap: 8px;
-        }
-        .property--features li {
-            padding: 5px 8px;
-            font-size: 0.9rem;
         }
         .page-header h1 {
             font-size: 1.8rem;
@@ -291,7 +287,7 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
         <!-- Page Header -->
         <section class="page-header">
             <div class="container">
-                <div class="row">
+                <div class="row mt-100">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="text-center">
                             <h1><?php echo $user_name; ?>'s Properties</h1>
@@ -309,9 +305,12 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
         <!-- Properties Section -->
         <section id="user-properties" class="pt-50 pb-90">
             <div class="container">
+                <!-- User Info Card -->
+                
+
                 <?php
-                // Get properties count for this user
-                $count_query = mysqli_query($con, "SELECT COUNT(*) as total FROM tblproperty WHERE UserID='$user_id'");
+                // Get properties count for this user (only approved properties)
+                $count_query = mysqli_query($con, "SELECT COUNT(*) as total FROM tblproperty WHERE UserID='$user_id' AND ApprovalStatus='Approved'");
                 $count_data = mysqli_fetch_array($count_query);
                 $total_properties = $count_data['total'];
                 ?>
@@ -323,7 +322,8 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
 
                 <div class="row">
                     <?php
-                    $query = mysqli_query($con, "SELECT * FROM tblproperty WHERE UserID='$user_id' ORDER BY ID DESC");
+                    // Fetch only approved properties for this user
+                    $query = mysqli_query($con, "SELECT * FROM tblproperty WHERE UserID='$user_id' AND ApprovalStatus='Approved' ORDER BY ID DESC");
                     $num = mysqli_num_rows($query);
                     
                     if($num > 0) {
@@ -333,7 +333,7 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
                         <div class="property-item">
                             <div class="property--img">
                                 <a href="single-property-detail.php?proid=<?php echo $row['ID'];?>">
-                                    <img width="100%" src="propertyimages/<?php echo $row['FeaturedImage'];?>" alt="<?php echo $row['PropertyTitle'];?>">
+                                    <img src="propertyimages/<?php echo $row['FeaturedImage'];?>" alt="<?php echo $row['PropertyTitle'];?>">
                                     <span class="property--status"><?php echo $row['Status'];?></span>
                                 </a>
                             </div>
@@ -345,9 +345,9 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
                                         </a>
                                     </h5>
                                     <p class="property--location">
-                                        <?php echo $row['Address'];?>&nbsp;
-                                        <?php echo $row['City'];?>&nbsp;
-                                        <?php echo $row['State'];?>&nbsp;  
+                                        <?php echo $row['Address'];?>, 
+                                        <?php echo $row['City'];?>, 
+                                        <?php echo $row['State'];?>, 
                                         <?php echo $row['Country'];?>
                                     </p>
                                     <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
@@ -370,7 +370,7 @@ $user_name = $user_data ? $user_data['FullName'] : 'User';
                         <div class="text-center" style="padding: 60px 0;">
                             <i class="fa fa-home" style="font-size: 4rem; color: #ccc; margin-bottom: 20px;"></i>
                             <h3 style="color: #666;">No Properties Found</h3>
-                            <p style="color: #999;">This user hasn't listed any properties yet.</p>
+                            <p style="color: #999;">This user hasn't listed any approved properties yet.</p>
                             <a href="properties-grid.php" class="btn btn-primary" style="background: #260844; border-color: #260844; margin-top: 20px;">
                                 <i class="fa fa-arrow-left"></i> Back to All Properties
                             </a>

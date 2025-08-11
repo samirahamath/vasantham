@@ -15,7 +15,7 @@
                                 <li><a href="enquiry.php">Received Enquiry</a></li>
 
                              
-                                    <li><a href="ansenquiry.php">Answered Enquiries</a></li>
+                                    <!-- <li><a href="ansenquiry.php">Answered Enquiries</a></li> -->
                                 <li><a href="logout.php">Logout</a></li>
 
                             <?php } ?>

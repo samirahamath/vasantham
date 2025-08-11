@@ -7,175 +7,439 @@ include('includes/dbconnection.php');
 <html dir="ltr" lang="en-US">
 
 <head>
-
-
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CPoppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <!-- Stylesheets
-    ============================================= -->
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link href="assets/css/external.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
+    
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
-    <!-- Document Title
-    ============================================= -->
     <title>Vasantham Realty | Home Page</title>
 </head>
 
 <body>
-    <!-- Document Wrapper
-	============================================= -->
     <div id="wrapper" class="wrapper clearfix">
         <?php include_once('includes/header.php');?>
-        <!-- <hr /> --> <!-- Remove or comment out this line -->
-        <!-- Hero Search
-============================================= -->
+        
+        <!-- Banner Slider Section -->
+        <section id="banner-slider" class="banner-slider">
+            <div class="owl-carousel banner-carousel">
+                <?php
+                $bannerQuery = mysqli_query($con, "SELECT * FROM tblbanner WHERE Status='Active' ORDER BY DisplayOrder ASC");
+                while($banner = mysqli_fetch_array($bannerQuery)) {
+                ?>
+                <div class="banner-slide">
+                    <div class="banner-image">
+                        <img src="assets/images/banners/<?php echo $banner['BannerImage']; ?>" alt="<?php echo $banner['BannerName']; ?>">
+                        <div class="banner-overlay"></div>
+                    </div>
+                    <div class="banner-content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-8 col-md-offset-2 text-center">
+                                    <?php if(!empty($banner['BannerTitle'])) { ?>
+                                    <h1 class="banner-title" data-animation="fadeInUp" data-delay="300ms">
+                                        <?php echo $banner['BannerTitle']; ?>
+                                    </h1>
+                                    <?php } ?>
+                                    
+                                    <?php if(!empty($banner['BannerSubtitle'])) { ?>
+                                    <p class="banner-subtitle" data-animation="fadeInUp" data-delay="500ms">
+                                        <?php echo $banner['BannerSubtitle']; ?>
+                                    </p>
+                                    <?php } ?>
+                                    
+                                    <?php if(!empty($banner['ButtonText']) && !empty($banner['ButtonLink'])) { ?>
+                                    <div class="banner-actions" data-animation="fadeInUp" data-delay="700ms">
+                                        <a href="<?php echo $banner['ButtonLink']; ?>" class="btn btn-banner">
+                                            <?php echo $banner['ButtonText']; ?>
+                                        </a>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
+            </div>
+        </section>
+
         <style>
-/* --- Hero Banner Styles --- */
-.hero-banner {
-    position: relative;
-    width: 100%;
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #260844;
-    overflow: hidden;
-    margin-top: 0;
-    box-shadow: 0 8px 32px rgba(38,8,68,0.10);
-}
-.hero-banner .carousel {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 1;
-}
-.hero-banner .carousel .slide--item,
-.hero-banner .carousel .slide--item .bg-section {
-    height: 100vh;
-    min-height: 500px;
-}
-.hero-banner .carousel img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    filter: brightness(0.6) blur(0.5px);
-    transition: filter 0.3s;
-}
-.hero-banner .banner-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    text-align: center;
-    color: #fff;
-    padding: 0 20px;
-}
-.hero-banner h1 {
-    color: #FFD700;
-    font-size: 3.2rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-shadow: 0 4px 24px rgba(38,8,68,0.25);
-    margin-bottom: 0.5em;
-    line-height: 1.1;
-    font-family: 'Poppins', 'Open Sans', Arial, sans-serif;
-    animation: fadeInDown 1s;
-}
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px);}
-    to { opacity: 1; transform: translateY(0);}
-}
+        /* Banner Slider Styles */
+        .banner-slider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
 
-/* --- Search Form Styles --- */
-.search-properties-card {
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(38,8,68,0.16);
-    padding: 36px 28px 20px 28px;
-    margin: -70px auto 48px auto;
-    max-width: 950px;
-    position: relative;
-    z-index: 10;
-    border: 1px solid #f2f2f2;
-    transition: box-shadow 0.2s;
-}
-.search-properties-card:hover {
-    box-shadow: 0 12px 40px rgba(38,8,68,0.22);
-}
-.search-properties-card .form-group {
-    margin-bottom: 18px;
-}
-.search-properties-card input[type="submit"] {
-    background-color: #260844; /* Solid dark violet */
-    color: #fff;
-    font-weight: 700;
-    border: none;
-    box-shadow: 0 2px 8px rgba(38,8,68,0.10);
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
-}
+        .banner-slide {
+            position: relative;
+            height: 70vh;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.search-properties-card input[type="submit"]:hover {
-    background-color: #3d0e7e; /* Slightly lighter on hover */
-    box-shadow: 0 4px 16px rgba(38,8,68,0.18);
-}
+        .banner-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
 
-.search-properties-card select {
-    background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 18px 18px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
+        .banner-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
 
-/* Responsive Styles */
-@media (max-width: 991px) {
-    .search-properties-card {
-        padding: 20px 8px 10px 8px;
-        margin: -40px auto 24px auto;
-    }
-    .hero-banner h1 {
-        font-size: 2.1rem;
-    }
-}
-@media (max-width: 767px) {
-    .hero-banner {
-        min-height: 120px !important;
-        height: 120px !important;
-    }
-    .hero-banner .mobile-banner-img {
-        display: block !important;
-        width: 100vw !important;
-        height: 120px !important;
-        object-fit: cover;
-        object-position: top;
-    }
-    .hero-banner .carousel {
-        display: none !important;
-    }
-    .hero-banner .banner-content {
-        top: 50%;
-        transform: translateY(-50%);
-        position: absolute;
-        width: 100%;
-        padding: 0 10px;
-    }
-}
-@media (min-width: 768px) {
-    .hero-banner .mobile-banner-img {
-        display: none !important;
-    }
-}
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(38,8,68,0.7) 0%, rgba(38,8,68,0.4) 100%);
+            z-index: 2;
+        }
 
-<style>
-/* --- Latest Properties Carousel Card Styles --- */
+        .banner-content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .banner-title {
+            color: #FFD700;
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 24px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .banner-subtitle {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+            line-height: 1.5;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .banner-actions {
+            margin-top: 40px;
+        }
+
+        .btn-banner {
+            background: linear-gradient(135deg, #C29425 0%, #FFD700 100%);
+            color: #260844;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 8px 25px rgba(194,148,37,0.3);
+        }
+
+        .btn-banner:hover {
+            background: linear-gradient(135deg, #FFD700 0%, #C29425 100%);
+            color: #260844;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(194,148,37,0.4);
+            text-decoration: none;
+        }
+
+        /* Owl Carousel Custom Styles */
+        .banner-carousel .owl-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            z-index: 4;
+            transform: translateY(-50%);
+        }
+
+        .banner-carousel .owl-nav button {
+            position: absolute;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            font-size: 22px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .banner-carousel .owl-nav button.owl-prev {
+            left: 25px;
+        }
+
+        .banner-carousel .owl-nav button.owl-next {
+            right: 25px;
+        }
+
+        .banner-carousel .owl-nav button:hover {
+            background: rgba(194,148,37,0.9);
+            border-color: #FFD700;
+            transform: scale(1.15);
+            box-shadow: 0 8px 25px rgba(194,148,37,0.4);
+        }
+
+        .banner-carousel .owl-nav button:active {
+            transform: scale(1.05);
+        }
+
+        .banner-carousel .owl-nav button span {
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        /* Custom arrow icons */
+        .banner-carousel .owl-nav button.owl-prev::before {
+            content: '‹';
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .banner-carousel .owl-nav button.owl-next::before {
+            content: '›';
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .banner-carousel .owl-dots {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            display: flex;
+            gap: 12px;
+        }
+
+        .banner-carousel .owl-dots .owl-dot {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .banner-carousel .owl-dots .owl-dot span {
+            display: block;
+            width: 14px;
+            height: 14px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .banner-carousel .owl-dots .owl-dot.active span,
+        .banner-carousel .owl-dots .owl-dot:hover span {
+            background: #FFD700;
+            border-color: #FFD700;
+            transform: scale(1.4);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+        }
+
+        /* Responsive Navigation Styles */
+        @media (max-width: 991px) {
+            .banner-carousel .owl-nav button {
+                width: 55px;
+                height: 55px;
+                font-size: 18px;
+            }
+            
+            .banner-carousel .owl-nav button.owl-prev {
+                left: 20px;
+            }
+            
+            .banner-carousel .owl-nav button.owl-next {
+                right: 20px;
+            }
+
+            .banner-carousel .owl-nav button.owl-prev::before,
+            .banner-carousel .owl-nav button.owl-next::before {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .banner-carousel .owl-nav button {
+                width: 45px;
+                height: 45px;
+                font-size: 16px;
+            }
+            
+            .banner-carousel .owl-nav button.owl-prev {
+                left: 15px;
+            }
+            
+            .banner-carousel .owl-nav button.owl-next {
+                right: 15px;
+            }
+
+            .banner-carousel .owl-nav button.owl-prev::before,
+            .banner-carousel .owl-nav button.owl-next::before {
+                font-size: 24px;
+            }
+
+            .banner-carousel .owl-dots {
+                bottom: 20px;
+            }
+
+            .banner-carousel .owl-dots .owl-dot span {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner-carousel .owl-nav button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .banner-carousel .owl-nav button.owl-prev::before,
+            .banner-carousel .owl-nav button.owl-next::before {
+                font-size: 20px;
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 991px) {
+            .banner-slide {
+                height: 60vh;
+                min-height: 400px;
+            }
+            
+            .banner-title {
+                font-size: 2.5rem;
+            }
+            
+            .banner-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .banner-carousel .owl-nav button {
+                width: 50px;
+                height: 50px;
+                font-size: 16px;
+            }
+            
+            .banner-carousel .owl-nav button.owl-prev {
+                left: 15px;
+            }
+            
+            .banner-carousel .owl-nav button.owl-next {
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .banner-slide {
+                height: 50vh;
+                min-height: 350px;
+            }
+            
+            .banner-title {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .banner-subtitle {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+            
+            .btn-banner {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            .banner-carousel .owl-nav button {
+                display: none;
+            }
+        }
+
+        /* Search Form Styles - Updated positioning */
+        .search-properties-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(38,8,68,0.16);
+            padding: 36px 28px 20px 28px;
+            margin: -70px auto 48px auto;
+            max-width: 950px;
+            position: relative;
+            z-index: 10;
+            border: 1px solid #f2f2f2;
+            transition: box-shadow 0.2s;
+        }
+
+        .search-properties-card:hover {
+            box-shadow: 0 12px 40px rgba(38,8,68,0.22);
+        }
+
+        .search-properties-card .form-group {
+            margin-bottom: 18px;
+        }
+
+        .search-properties-card input[type="submit"] {
+            background-color: #260844;
+            color: #fff;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 2px 8px rgba(38,8,68,0.10);
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-properties-card input[type="submit"]:hover {
+            background-color: #3d0e7e;
+            box-shadow: 0 4px 16px rgba(38,8,68,0.18);
+        }
+
+        .search-properties-card select {
+            background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px 18px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        /* --- Latest Properties Carousel Card Styles --- */
 .property-item {
     background: #fff;
     border-radius: 18px;
@@ -495,7 +759,6 @@ include('includes/dbconnection.php');
         border: none;
         transition: background 0.2s;
     }
-\end{code}
 .cta .col-xs-12.col-sm-12.col-md-6.col-md-offset-3 {
     display: flex;
     flex-direction: column;
@@ -518,37 +781,7 @@ include('includes/dbconnection.php');
 /* ...existing code... */
 </style>
 
-<section id="heroSearch" class="hero-banner">
-    <!-- Banner/Carousel for desktop/tablet -->
-    <div class="carousel slider-navs" data-slide="1" data-slide-rs="1" data-autoplay="true" data-nav="true" data-dots="false" data-space="0" data-loop="true" data-speed="800">
-        <!-- Slide #1 -->
-        <div class="slide--item">
-            <div class="bg-section">
-                <img src="assets/images/slider/slide-bg/7.jpg" alt="background">
-            </div>
-        </div>
-        <!-- Slide #2 -->
-        <div class="slide--item bg-overlay bg-overlay-dark3">
-            <div class="bg-section">
-                <img src="assets/images/slider/slide-bg/8.jpg" alt="background">
-            </div>
-        </div>
-        <!-- Slide #3 -->
-        <div class="slide--item bg-overlay bg-overlay-dark3">
-            <div class="bg-section">
-                <img src="assets/images/slider/slide-bg/9.jpg" alt="background">
-            </div>
-        </div>
-    </div>
-    <!-- Static banner image for mobile -->
-    <img class="mobile-banner-img" src="assets/images/slider/slide-bg/7.jpg" alt="background" style="display:none; filter:brightness(0.6);">
-    <!-- Banner Content -->
-    <div class="banner-content">
-        <h1>Find Your Favorite Property</h1>
-    </div>
-</section>
-
-<!-- Search Form BELOW the banner -->
+<!-- Search Form -->
 <div class="container">
     <div class="search-properties-card">
         <form class="mb-0" method="post" name="search" action="property-search.php">
@@ -811,28 +1044,89 @@ while($row=mysqli_fetch_array($query))
     <script src="assets/js/jquery-2.2.4.min.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/functions.js"></script>
+    
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    
     <script>
-$(document).ready(function(){
-    $(".testimonials-carousel").owlCarousel({
-        items: 2, // Show 2 at a time
-        loop: true,
-        nav: true,
-        dots: false,
-        autoplay: true,
-        autoplayTimeout: 4000,
-        autoplayHoverPause: true,
-        margin: 24, // Add space between cards
-        navText: [
-            '<i class="fa fa-chevron-left"></i>',
-            '<i class="fa fa-chevron-right"></i>'
-        ],
-        responsive: {
-            0: { items: 1 },
-            768: { items: 2 }
-        }
-    });
-});
-</script>
-</body>
+    $(document).ready(function(){
+        // Banner Carousel with enhanced navigation
+        $(".banner-carousel").owlCarousel({
+            items: 1,
+            loop: true,
+            nav: true,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 6000,
+            autoplayHoverPause: true,
+            animateOut: 'fadeOut',
+            animateIn: 'fadeIn',
+            smartSpeed: 800,
+            navText: ['', ''], // Empty strings since we're using CSS ::before content
+            responsive: {
+                0: { 
+                    nav: true,
+                    dots: true
+                },
+                768: { 
+                    nav: true,
+                    dots: true
+                }
+            }
+        });
 
+        // Add keyboard navigation for banner
+        $(document).keydown(function(e) {
+            if (e.keyCode == 37) { // Left arrow key
+                $('.banner-carousel').trigger('prev.owl.carousel');
+            }
+            if (e.keyCode == 39) { // Right arrow key
+                $('.banner-carousel').trigger('next.owl.carousel');
+            }
+        });
+
+        // Add touch/swipe support for mobile
+        $('.banner-carousel').on('touchstart', function(e) {
+            this.touchStartX = e.originalEvent.touches[0].clientX;
+        });
+
+        $('.banner-carousel').on('touchmove', function(e) {
+            e.preventDefault();
+        });
+
+        $('.banner-carousel').on('touchend', function(e) {
+            var touchEndX = e.originalEvent.changedTouches[0].clientX;
+            var touchStartX = this.touchStartX;
+            
+            if (touchEndX < touchStartX - 50) {
+                $(this).trigger('next.owl.carousel');
+            }
+            if (touchEndX > touchStartX + 50) {
+                $(this).trigger('prev.owl.carousel');
+            }
+        });
+
+        // Testimonials Carousel
+        $(".testimonials-carousel").owlCarousel({
+            items: 2,
+            loop: true,
+            nav: true,
+            dots: false,
+            autoplay: true,
+            autoplayTimeout: 4000,
+            autoplayHoverPause: true,
+            margin: 24,
+            navText: [
+                '<i class="fa fa-chevron-left"></i>',
+                '<i class="fa fa-chevron-right"></i>'
+            ],
+            responsive: {
+                0: { items: 1 },
+                768: { items: 2 }
+            }
+        });
+    });
+    </script>
+
+</body>
 </html>

@@ -603,40 +603,34 @@ while($rw=mysqli_fetch_array($qry)){
 $ret1=mysqli_query($con,"select * from tbluser join tblproperty on tblproperty.UserID=tbluser.ID where tblproperty.ID=$proid");
 $cnt=1;
 while ($row1=mysqli_fetch_array($ret1)) {
-
 ?>
-                            <div class="widget--title">
-                                <?php if($row1['UserType']=="1"){?>
-                                <h5>Posted by <span class="agent--title"><?php echo $row1['FullName'];?></span></h5>
-                            <?php } else{ ?>
-                             <h5>Posted by  Owner</h5>
-                         <?php } ?>
-                            </div>
-                            <div class="widget--content">
-                                <a href="user-properties.php?uid=<?php echo $row1['ID'];?>">
-                                    <div class="agent--img">
-                                        <img src="propertyimages/images.png" alt="agent" class="img-responsive" height="100" width="100">
-                                    </div>
-   
-
-                                    <div class="agent--info">
-                                        <h5 class="agent--title">User ID :<?php echo $row1['AgentID'];?></h5>
-                                    </div>
-                                </a>
-                                <!-- .agent-profile-details end -->
-                                <div class="agent--contact">
-                                    <!-- <ul class="list-unstyled">
-                                        <li><i class="fa fa-phone"></i><?php echo $row1['MobileNumber'];?></li>
-                                        <li><i class="fa fa-envelope-o"></i><?php echo $row1['Email'];?></li>
-                                       
-                                    </ul> -->
-                                </div>
-                                <!-- .agent-contact end -->
-                              <?php }?>
-                                <!-- .agent-social-links -->
-                            </div>
-                        </div>
-                        <!-- . widget property agent end -->
+    <div class="widget--title">
+        <?php if($row1['UserType']=="1"){?>
+        <h5>Posted by <span class="agent--title"><?php echo $row1['FullName'];?></span></h5>
+        <?php } else{ ?>
+        <h5>Posted by Owner</h5>
+        <?php } ?>
+    </div>
+    <div class="widget--content">
+        <!-- Make the entire agent profile clickable -->
+        <a href="user-properties.php?uid=<?php echo $row1['UserID'];?>" style="text-decoration: none; color: inherit;">
+            <div class="agent--img">
+                <img src="propertyimages/images.png" alt="agent" class="img-responsive" height="100" width="100">
+            </div>
+            <div class="agent--info">
+                <h5 class="agent--title">User ID: <?php echo $row1['AgentID'];?></h5>
+                <!-- <p style="color: #666; margin-top: 5px;">Click to view all properties by <?php echo $row1['FullName'];?></p> -->
+            </div>
+        </a>
+        <!-- .agent-profile-details end -->
+        <div class="agent--contact">
+            
+        </div>
+        <!-- .agent-contact end -->
+    <?php }?>
+    </div>
+</div>
+<!-- . widget property agent end -->
 
 <!-- For Guest User =============================-->
 <?php if($_SESSION['remsuid']==0)

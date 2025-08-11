@@ -7,7 +7,7 @@ echo "<script>alert('Please login for add property.');</script>";
 echo "<script>window.location.href ='logout.php'</script>";
   }
   else{
-
+  }
 if(isset($_POST['submit']))
   {
 $uid=$_SESSION['remsuid'];
@@ -153,6 +153,16 @@ function getsate(val) {
         data: { countryid: val },
         success: function(data){
             $("#state").html(data);
+            // Auto-select Tamil Nadu after loading states
+            setTimeout(function() {
+                $("#state option").each(function() {
+                    if($(this).text().toLowerCase().includes('tamil nadu')) {
+                        $(this).prop('selected', true);
+                        // Load cities for Tamil Nadu
+                        getcity($(this).val());
+                    }
+                });
+            }, 500);
             $("#city").html('<option value="">Select City / Locality</option>');
         }
     });
@@ -172,10 +182,60 @@ function getcity(val1) {
 }
 </script>
 
+<!-- Script to auto-load default country and state on page load -->
+<script>
+$(document).ready(function() {
+    // Auto-select India as default country
+    var indiaOption = $("#country option").filter(function() {
+        return $(this).text().toLowerCase().includes('india');
+    });
+    
+    if(indiaOption.length > 0) {
+        indiaOption.prop('selected', true);
+        var defaultCountryId = indiaOption.val();
+        
+        if(defaultCountryId) {
+            // Load states for India
+            $.ajax({
+                type: "POST",
+                url: "get-sate.php",
+                data: { countryid: defaultCountryId },
+                success: function(data){
+                    $("#state").html(data);
+                    
+                    // Auto-select Tamil Nadu after states are loaded
+                    setTimeout(function() {
+                        var tamilNaduOption = $("#state option").filter(function() {
+                            return $(this).text().toLowerCase().includes('tamil nadu');
+                        });
+                        
+                        if(tamilNaduOption.length > 0) {
+                            tamilNaduOption.prop('selected', true);
+                            var defaultStateId = tamilNaduOption.val();
+                            
+                            // Load cities for Tamil Nadu
+                            if(defaultStateId) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "get-sate.php",
+                                    data: { stateid: defaultStateId },
+                                    success: function(data){
+                                        $("#city").html(data);
+                                    }
+                                });
+                            }
+                        }
+                    }, 800);
+                }
+            });
+        }
+    }
+});
+</script>
 
 <body>
     <!-- Document Wrapper
-	============================================= -->
+    ============================================= -->
     <div id="wrapper" class="wrapper clearfix">
         <?php include_once('includes/header.php');?>
               <hr />
@@ -676,4 +736,3 @@ function getcity(val1) {
 </body>
 
 </html>
- <?php } ?>

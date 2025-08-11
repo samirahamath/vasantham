@@ -126,32 +126,6 @@ echo "<script>window.location.href='my-properties.php'</script>";
     font-weight: 600;
     color: #260844;
 }
-.edit--btn, .delete--btn {
-    font-weight: 600;
-    font-size: 1rem;
-    border-radius: 6px;
-    padding: 4px 14px;
-    text-decoration: none;
-    margin-right: 10px;
-    transition: background 0.2s, color 0.2s;
-    display: inline-block;
-}
-.edit--btn {
-    color: #fff !important;
-    background: #260844;
-}
-.edit--btn:hover {
-    background: #3d0e7e;
-    color: #fff !important;
-}
-.delete--btn {
-    color: #fff !important;
-    background: #d32f2f;
-}
-.delete--btn:hover {
-    background: #b71c1c;
-    color: #fff !important;
-}
 .property--features p {
     margin-bottom: 0;
     display: inline-block;
@@ -314,37 +288,16 @@ while($row=mysqli_fetch_array($query))
                                         <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
                                         <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
                                         <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
-
                                     </ul>
                                    
-                                   <!-- Action buttons based on approval status -->
-                                   <div class="property-actions" style="margin-top: 15px;">
-                                       <?php if($approvalStatus == 'Rejected') { ?>
-                                           <p><a href="edit-property.php?editid=<?php echo $row['ID'];?>" class="edit--btn" style="background-color: #007bff;">
-                                               <i class="fa fa-edit"></i> Edit & Resubmit
-                                           </a></p>
-                                       <?php } else { ?>
-                                           <p><a href="edit-property.php?editid=<?php echo $row['ID'];?>" class="edit--btn" style="color:blue;">
-                                               <i class="fa fa-edit"></i> Edit
-                                           </a></p>
-                                       <?php } ?>
-                                       
-                                       <p style="margin-top: 5%;">
-                                           <a href="my-properties.php?id=<?php echo $row['ID']?>&del=delete" 
-                                              onClick="return confirm('Are you sure you want to delete?')" 
-                                              style="color:red;">
-                                               <i class="fa fa-trash"></i> Delete
-                                           </a>
-                                       </p>
-                                       
-                                       <?php if($approvalStatus == 'Pending') { ?>
-                                           <p style="margin-top: 5%;">
-                                               <small style="color: #666; font-style: italic;">
-                                                   <i class="fa fa-info-circle"></i> Your property is under review by our admin team.
-                                               </small>
-                                           </p>
-                                       <?php } ?>
-                                   </div>
+                                   <!-- Action buttons removed -->
+                                   <?php if($approvalStatus == 'Pending') { ?>
+                                       <div style="margin-top: 15px;">
+                                           <small style="color: #666; font-style: italic;">
+                                               <i class="fa fa-info-circle"></i> Your property is under review by our admin team.
+                                           </small>
+                                       </div>
+                                   <?php } ?>
                                 </div>
                                 <!-- .property-features end -->
                             </div>
