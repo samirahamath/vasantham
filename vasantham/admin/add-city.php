@@ -9,8 +9,8 @@ if (strlen($_SESSION['remsaid']==0)) {
   {
 
 $cmsaid=$_SESSION['remsaid'];
- $countryid=$_POST['country'];
- $stateid=$_POST['state'];
+ $countryid=101;
+ $stateid=4035;
  $cityname=$_POST['cityname'];
 
 
@@ -101,32 +101,8 @@ function getsate(val) {
                                         <p style="font-size:16px; color:red" align="center"> <?php if($msg){
     echo $msg;
   }  ?> </p>
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">State Name</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                                <select type="text" name="country" id="country" required="true" onChange="getsate(this.value)" class="form-control">
-                                                    <option value="">Select Country</option>
-              <?php $query=mysqli_query($con,"select * from tblcountry");
-              while($row=mysqli_fetch_array($query))
-              {
-              ?>      
-                  <option value="<?php echo $row['ID'];?>"><?php echo $row['CountryName'];?></option>
-                  <?php } ?>
-                                                </select>
-
-                                </select>
-
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">State Name</label>
-                                            <div class="col-12 col-sm-8 col-lg-6">
-                                                <select type="text" name="state" id="state" required="true" class="form-control">
-                                                    <option value="">Select State</option>
-        
-                                                </select>
-                                            </div>
-                                        </div>
+                                         <input type="hidden" name="country" value="101">
+                                         <input type="hidden" name="state" value="4035">
                                          <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">City Name</label>
                                             <div class="col-12 col-sm-8 col-lg-6">

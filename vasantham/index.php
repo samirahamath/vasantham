@@ -532,12 +532,9 @@ include('includes/dbconnection.php');
     gap: 18px;
 }
 .property--features li {
-    color: #444;
+    color: #1b1919ff;
     font-size: 0.98rem;
-    background: #f7f6fb;
-    border-radius: 6px;
-    padding: 4px 10px;
-    margin-right: 4px;
+   
 }
 .property--features .feature {
     font-weight: 600;
