@@ -10,10 +10,10 @@
                 <ul class="navbar-nav flex-column">
                     <li class="nav-divider">Menu</li>
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php"><i class="fa fa-fw fa-user-circle"></i>Dashboard</a>
+                        <a class="nav-link" href="dashboard.php"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Property Type</a>
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-building"></i> Property Type</a>
                         <div id="submenu-2" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
@@ -25,8 +25,8 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>State Name</a>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-map-marker-alt"></i> State Name</a>
                         <div id="submenu-3" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
@@ -37,9 +37,9 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fab fa-fw fa-wpforms"></i>State</a>
+                    </li> -->
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fa fa-fw fa-flag"></i> State</a>
                         <div id="submenu-4" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
@@ -50,9 +50,9 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>City</a>
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fa fa-fw fa-map-marker-alt"></i> City</a>
                         <div id="submenu-5" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
@@ -65,25 +65,28 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="manage-agents.php"><i class="fas fa-fw fa-file"></i>Agents</a>
+                        <a class="nav-link" href="manage-agents.php"><i class="fa fa-fw fa-users"></i> Manage Realtors</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="listed-properties.php"><i class="fas fa-fw fa-file"></i>List of Properties</a>
+                        <a class="nav-link" href="listed-properties.php"><i class="fa fa-fw fa-list"></i> List of Properties</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="approve-properties.php"><i class="fas fa-fw fa-check-circle"></i>Approve Properties</a>
+                        <a class="nav-link" href="approve-properties.php"><i class="fa fa-fw fa-thumbs-up"></i> Approve Properties</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="all-enquiries.php"><i class="fas fa-fw fa-file"></i>All Enquiries</a>
+                        <a class="nav-link" href="all-enquiries.php"><i class="fa fa-fw fa-comments"></i> All Enquiries</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="want-to-sell.php"><i class="fas fa-fw fa-file"></i>Want to Sell</a>
+                        <a class="nav-link" href="for-enquiry-query.php"><i class="fa fa-fw fa-question-circle"></i> For Enquiries Query</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="want-to-buy.php"><i class="fas fa-fw fa-file"></i>Want to Buy</a>
+                        <a class="nav-link" href="want-to-sell.php"><i class="fa fa-fw fa-hand-holding-usd"></i> Want to Sell</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-banner" aria-controls="submenu-banner"><i class="fas fa-fw fa-image"></i>Banner Management</a>
+                        <a class="nav-link" href="want-to-buy.php"><i class="fa fa-fw fa-shopping-cart"></i> Want to Buy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-banner" aria-controls="submenu-banner"><i class="fa fa-fw fa-images"></i> Banner Management</a>
                         <div id="submenu-banner" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
@@ -97,8 +100,8 @@
                     </li>
                     <!-- Blog Management Section -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-blog" aria-controls="submenu-blog">
-                            <i class="fas fa-fw fa-blog"></i>Blog Management
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-blog" aria-controls="#submenu-blog">
+                            <i class="fa fa-fw fa-image"></i> Blog Management
                         </a>
                         <div id="submenu-blog" class="collapse submenu">
                             <ul class="nav flex-column">
@@ -111,28 +114,28 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-divider">Features</li>
+                    <li class="nav-divider"><i class="fa fa-fw fa-star"></i> Features</li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-fw fa-file"></i> Pages </a>
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fa fa-fw fa-file-alt"></i> Pages </a>
                         <div id="submenu-6" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="aboutus.php">About Us</a>
+                                    <a class="nav-link" href="aboutus.php"><i class="fa fa-fw fa-info-circle"></i> About Us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="contactus.php">Contact Us</a>
+                                    <a class="nav-link" href="contactus.php"><i class="fa fa-fw fa-address-book"></i> Contact Us</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="search-property.php"><i class="fa fa-fw fa-search"></i>Search Property</a>
+                        <a class="nav-link" href="search-property.php"><i class="fa fa-fw fa-search"></i> Search Property</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="bwdates-reports-ds.php"><i class="fa fa-fw fa-search"></i>Reports</a>
+                        <a class="nav-link" href="bwdates-reports-ds.php"><i class="fa fa-fw fa-file-alt"></i> Reports</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="url-management.php"><i class="fa fa-fw fa-search"></i>URL Management</a>
+                        <a class="nav-link" href="url-management.php"><i class="fa fa-fw fa-link"></i> URL Management</a>
                     </li>
                 </ul>
             </div>

@@ -40,7 +40,7 @@ include('includes/dbconnection.php');
 
                     <?php if (empty($_SESSION['remsuid'])) { ?>
                         <div class="module module-property pull-left" style="margin-right:18px;">
-                            <a href="add-property.php" class="btn"><i class="fa fa-phone"></i> For Enquiry</a>
+                            <a href="for-enquiry.php" class="btn"><i class="fa fa-phone"></i> For Enquiry</a>
                         </div>
                     <?php } ?>
                     
@@ -70,14 +70,14 @@ include('includes/dbconnection.php');
                         <?php } ?>
                     </li>
                     
-                    <?php if (strlen($_SESSION['remsuid']==0)) { ?>
+                    <!-- <?php if (strlen($_SESSION['remsuid']==0)) { ?>
                         <li>
                             <a href="agent_login.php" style="color:#fff; cursor:pointer;">Login</a>
                         </li>
-                        <!-- <li>
+                         <li>
                             <a href="agent_register.php" style="color:#fff; cursor:pointer;">Register</a>
                         </li> -->
-                    <?php } ?>
+                    <?php } ?> 
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

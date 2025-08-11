@@ -54,14 +54,14 @@ if (strlen($_SESSION['remsaid']==0)) {
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Manage Agents</h2>
+                            <h2 class="pageheader-title">Manage Realtors</h2>
                            
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="dashboard.php" class="breadcrumb-link">Dashboard</a></li>
-                                        
-                                        <li class="breadcrumb-item active" aria-current="page">Manage Agents</li>
+
+                                        <li class="breadcrumb-item active" aria-current="page">Manage Realtors</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -77,24 +77,24 @@ if (strlen($_SESSION['remsaid']==0)) {
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Manage Agents</h5>
+                            <h5 class="card-header">Manage Realtors</h5>
                             <div class="card-body">
                                 <div class="d-flex justify-content-end mb-3">
-                                    <a href="add-agent.php" class="btn btn-primary">Add Agent</a>
+                                    <a href="add-agent.php" class="btn btn-primary">Add Realtors</a>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered first">
                                         <thead>
                                         <tr>
-                                            <tr>
-                  <th data-breakpoints="xs">S.NO</th>
-                  <th>Agent ID</th>
-                  <th>Agent Name</th>
-                  <th>Mobile</th>
-                  <th>Email</th>
-                  <th>Password</th>
-                  <th>Action</th>
-                </tr>
+      <th data-breakpoints="xs">S.NO</th>
+      <th>Realtor ID</th>
+      <th>Realtor Name</th>
+      <th>Mobile</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Property Count</th>
+      <th>Action</th>
+    </tr>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -104,6 +104,11 @@ $ret=mysqli_query($con,"select * from tbluser where UserType='1'");
 $cnt=1;
 while ($row=mysqli_fetch_array($ret)) {
     $password = $row['Password'];
+    $agentId = $row['ID'];
+    // Get property count for this agent
+    $propCountRes = mysqli_query($con, "SELECT COUNT(*) as propcount FROM tblproperty WHERE UserID='$agentId'");
+    $propCountRow = mysqli_fetch_assoc($propCountRes);
+    $propertyCount = $propCountRow['propcount'];
 ?>
                 <tr>
                   <td><?php echo $cnt;?></td>
@@ -112,6 +117,7 @@ while ($row=mysqli_fetch_array($ret)) {
                   <td><?php echo $row['MobileNumber'];?></td>
                   <td><?php echo $row['Email'];?></td>
                   <td><?php echo $password; ?></td>
+                  <td><?php echo $propertyCount; ?></td> <!-- Show property count -->
                   <td>
                     <a href="edit-agent.php?id=<?php echo $row['ID']; ?>" class="btn btn-primary btn-sm">Edit</a>
                     <a href="manage-agents.php?del=delete&id=<?php echo $row['ID']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this agent?');">Delete</a>

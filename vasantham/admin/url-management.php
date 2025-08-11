@@ -63,11 +63,31 @@ if (strlen($_SESSION['remsaid']==0)) {
                                             <tr>
                                                 <td>1</td>
                                                 <td>Agent Login</td>
-                                                <td><a href="http://localhost/vasantham/vasantham/vasantham/agent_login.php" target="_blank">http://localhost/vasantham/vasantham/vasantham/agent_login.php</a></td>
+                                                <td><a href="https://vasanthamrealty.com/agent_login.php" target="_blank">https://vasanthamrealty.com/agent_login.php</a></td>
                                                 <td>Internal</td>
                                                 <td>
-                                                    <a href="http://localhost/vasantham/vasantham/vasantham/agent_login.php" target="_blank" class="btn btn-success btn-sm">Open</a>
-                                                    <button class="btn btn-info btn-sm" onclick="copyToClipboard('http://localhost/vasantham/vasantham/vasantham/agent_login.php')">Copy</button>
+                                                    <a href="https://vasanthamrealty.com/agent_login.php" target="_blank" class="btn btn-success btn-sm">Open</a>
+                                                    <button class="btn btn-info btn-sm" onclick="copyToClipboard('https://vasanthamrealty.com/agent_login.php')">Copy</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Webmail</td>
+                                                <td><a href="https://vasanthamrealty.com/webmail" target="_blank">https://vasanthamrealty.com/webmail</a></td>
+                                                <td>External</td>
+                                                <td>
+                                                    <a href="https://vasanthamrealty.com/webmail" target="_blank" class="btn btn-success btn-sm">Open</a>
+                                                    <button class="btn btn-info btn-sm" onclick="copyToClipboard('https://vasanthamrealty.com/webmail')">Copy</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Website</td>
+                                                <td><a href="https://vasanthamrealty.com/" target="_blank">https://vasanthamrealty.com/</a></td>
+                                                <td>External</td>
+                                                <td>
+                                                    <a href="https://vasanthamrealty.com/" target="_blank" class="btn btn-success btn-sm">Open</a>
+                                                    <button class="btn btn-info btn-sm" onclick="copyToClipboard('https://vasanthamrealty.com/')">Copy</button>
                                                 </td>
                                             </tr>
                                             
