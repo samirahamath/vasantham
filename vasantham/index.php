@@ -7,6 +7,8 @@ include('includes/dbconnection.php');
 <html dir="ltr" lang="en-US">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CPoppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
@@ -70,6 +72,463 @@ include('includes/dbconnection.php');
         </section>
 
         <style>
+        /* ===== RESPONSIVE CSS FRAMEWORK ===== */
+        
+        /* Cross-browser compatibility and vendor prefixes */
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        /* Smooth scrolling for all browsers */
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        
+        /* CSS Custom Properties for Responsive Design */
+        :root {
+            /* Responsive spacing */
+            --spacing-xs: clamp(0.5rem, 2vw, 1rem);
+            --spacing-sm: clamp(1rem, 3vw, 1.5rem);
+            --spacing-md: clamp(1.5rem, 4vw, 2rem);
+            --spacing-lg: clamp(2rem, 5vw, 3rem);
+            --spacing-xl: clamp(3rem, 6vw, 4rem);
+            
+            /* Responsive typography */
+            --font-size-xs: clamp(0.75rem, 2vw, 0.875rem);
+            --font-size-sm: clamp(0.875rem, 2.5vw, 1rem);
+            --font-size-base: clamp(1rem, 3vw, 1.125rem);
+            --font-size-lg: clamp(1.125rem, 3.5vw, 1.25rem);
+            --font-size-xl: clamp(1.25rem, 4vw, 1.5rem);
+            --font-size-2xl: clamp(1.5rem, 4.5vw, 2rem);
+            --font-size-3xl: clamp(2rem, 5vw, 2.5rem);
+            
+            /* Container widths */
+            --container-mobile: 100%;
+            --container-tablet: 750px;
+            --container-desktop: 1140px;
+            
+            /* Breakpoints */
+            --mobile-small: 320px;
+            --mobile-large: 480px;
+            --tablet: 768px;
+            --desktop: 992px;
+        }
+        
+        /* Mobile-First Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        
+        /* Responsive Utility Classes */
+        .responsive-container {
+            width: 100%;
+            max-width: var(--container-mobile);
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+        
+        @media (min-width: 768px) {
+            .responsive-container {
+                max-width: var(--container-tablet);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .responsive-container {
+                max-width: var(--container-desktop);
+            }
+        }
+        
+        /* Touch-friendly elements */
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Responsive text utilities */
+        .text-responsive-sm { font-size: var(--font-size-sm); }
+        .text-responsive-base { font-size: var(--font-size-base); }
+        .text-responsive-lg { font-size: var(--font-size-lg); }
+        .text-responsive-xl { font-size: var(--font-size-xl); }
+        
+        /* Responsive spacing utilities */
+        .spacing-xs { margin: var(--spacing-xs); }
+        .spacing-sm { margin: var(--spacing-sm); }
+        .spacing-md { margin: var(--spacing-md); }
+        .spacing-lg { margin: var(--spacing-lg); }
+        
+        .p-responsive-xs { padding: var(--spacing-xs); }
+        .p-responsive-sm { padding: var(--spacing-sm); }
+        .p-responsive-md { padding: var(--spacing-md); }
+        .p-responsive-lg { padding: var(--spacing-lg); }
+        
+        /* Mobile-first responsive grid helpers */
+        .mobile-stack > * {
+            width: 100%;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        @media (min-width: 768px) {
+            .mobile-stack {
+                display: flex;
+                gap: var(--spacing-md);
+            }
+            .mobile-stack > * {
+                margin-bottom: 0;
+            }
+        }
+        
+        /* Responsive image base */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Tablet-specific layout optimizations */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            /* Tablet property carousel optimization */
+            .carousel[data-slide-rs="2"] .property-item {
+                margin-bottom: 30px;
+            }
+            
+            /* Tablet services section */
+            .services-section .col-md-4 {
+                margin-bottom: 30px;
+            }
+            
+            /* Tablet testimonials */
+            .testimonials-section .container {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            
+            /* Tablet CTA section */
+            .cta .container {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            
+            /* Tablet navigation improvements */
+            .touch-target {
+                min-height: 48px;
+                min-width: 48px;
+            }
+        }
+        
+        /* Orientation change handling */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .banner-slide {
+                height: 80vh;
+                min-height: 350px;
+            }
+            
+            .banner-title {
+                font-size: clamp(1.5rem, 4vw, 2.5rem);
+                margin-bottom: 10px;
+            }
+            
+            .banner-subtitle {
+                font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+                margin-bottom: 15px;
+            }
+            
+            .banner-actions {
+                margin-top: 20px;
+            }
+        }
+        
+        @media (orientation: portrait) and (max-width: 767px) {
+            .search-properties-card {
+                margin: -40px 10px 20px 10px;
+            }
+        }
+        
+        @media (orientation: landscape) and (max-width: 767px) {
+            .search-properties-card {
+                margin: -30px 20px 30px 20px;
+                padding: 20px 15px;
+            }
+            
+            .search-properties-card .row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .search-properties-card .col-xs-12 {
+                flex: 1;
+                min-width: 200px;
+            }
+        }
+        
+        /* Smooth transitions for orientation changes */
+        .banner-slide,
+        .banner-title,
+        .banner-subtitle,
+        .search-properties-card {
+            transition: all 0.3s ease;
+        }
+        
+        /* Performance optimizations for mobile */
+        @media (max-width: 767px) {
+            /* Reduce animations on mobile for better performance */
+            .property-item:hover {
+                transform: translateY(-2px) scale(1.005);
+            }
+            
+            .service-card:hover,
+            .testimonial-card:hover {
+                transform: translateY(-2px) scale(1.01);
+            }
+            
+            /* Optimize image rendering */
+            .banner-image img,
+            .property--img img {
+                image-rendering: optimizeQuality;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            
+            /* Reduce box-shadow complexity on mobile */
+            .property-item,
+            .service-card,
+            .testimonial-card,
+            .search-properties-card {
+                box-shadow: 0 4px 16px rgba(38,8,68,0.08);
+            }
+            
+            .property-item:hover,
+            .service-card:hover,
+            .testimonial-card:hover {
+                box-shadow: 0 6px 20px rgba(38,8,68,0.12);
+            }
+        }
+        
+        /* Critical above-the-fold optimization */
+        .banner-slider {
+            will-change: transform;
+        }
+        
+        .banner-image img {
+            loading: eager; /* Load banner images immediately */
+        }
+        
+        .property--img img {
+            loading: lazy; /* Lazy load property images */
+        }
+        
+        /* Optimize carousel performance */
+        .owl-carousel {
+            -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+        }
+        
+        /* Responsive testing and debugging utilities */
+        .responsive-debug {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            z-index: 9999;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        /* Show debug info in development */
+        .responsive-debug.show {
+            display: block;
+        }
+        
+        .responsive-debug::after {
+            content: 'Mobile';
+        }
+        
+        @media (min-width: 480px) {
+            .responsive-debug::after {
+                content: 'Mobile Large';
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .responsive-debug::after {
+                content: 'Tablet';
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .responsive-debug::after {
+                content: 'Desktop';
+            }
+        }
+        
+        /* Accessibility testing helpers */
+        .touch-test {
+            outline: 2px dashed transparent;
+        }
+        
+        .touch-test:focus,
+        .touch-test:hover {
+            outline: 2px dashed #C29425;
+        }
+        
+        /* Ensure all interactive elements are accessible */
+        a, button, input, select, textarea, [role="button"] {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        @media (max-width: 767px) {
+            /* Mobile touch target validation */
+            a:not(.btn), button:not(.btn) {
+                padding: 8px;
+            }
+        }
+        
+        /* Cross-browser compatibility and final polish */
+        
+        /* Flexbox fallbacks for older browsers */
+        .mobile-stack {
+            display: block;
+        }
+        
+        @supports (display: flex) {
+            @media (min-width: 768px) {
+                .mobile-stack {
+                    display: flex;
+                }
+            }
+        }
+        
+        /* CSS Grid fallbacks */
+        @supports not (display: grid) {
+            .responsive-grid {
+                display: block;
+            }
+            
+            .responsive-grid > * {
+                float: left;
+                width: 100%;
+            }
+            
+            @media (min-width: 768px) {
+                .responsive-grid > * {
+                    width: 50%;
+                }
+            }
+            
+            @media (min-width: 992px) {
+                .responsive-grid > * {
+                    width: 33.333%;
+                }
+            }
+        }
+        
+        /* Enhanced focus styles for accessibility */
+        a:focus,
+        button:focus,
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #C29425;
+            outline-offset: 2px;
+        }
+        
+        /* Reduced motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .banner-title {
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            }
+            
+            .btn-banner {
+                border: 2px solid #000;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .banner-carousel .owl-nav,
+            .banner-carousel .owl-dots,
+            .footer-social {
+                display: none !important;
+            }
+            
+            .banner-slide {
+                height: auto !important;
+                min-height: auto !important;
+            }
+            
+            body {
+                font-size: 12pt !important;
+                line-height: 1.4 !important;
+            }
+        }
+        
+        /* Final responsive polish */
+        
+        /* Ensure images never break layout */
+        img {
+            max-width: 100%;
+            height: auto;
+            -ms-interpolation-mode: bicubic;
+        }
+        
+        /* Prevent horizontal scrolling */
+        body {
+            overflow-x: hidden;
+        }
+        
+        /* Smooth transitions for all interactive elements */
+        a, button, input, select, textarea {
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        
+        /* Optimize font rendering */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        
+        /* ===== END RESPONSIVE FRAMEWORK ===== */
+        
         /* Banner Slider Styles */
         .banner-slider {
             position: relative;
@@ -79,11 +538,25 @@ include('includes/dbconnection.php');
 
         .banner-slide {
             position: relative;
-            height: 70vh;
-            min-height: 500px;
+            height: 50vh;
+            min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        @media (min-width: 768px) {
+            .banner-slide {
+                height: 60vh;
+                min-height: 400px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .banner-slide {
+                height: 70vh;
+                min-height: 500px;
+            }
         }
 
         .banner-image {
@@ -123,20 +596,20 @@ include('includes/dbconnection.php');
 
         .banner-title {
             color: #FFD700;
-            font-size: 3.5rem;
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
             font-weight: 800;
-            letter-spacing: 2px;
+            letter-spacing: clamp(1px, 0.5vw, 2px);
             text-shadow: 0 4px 24px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
+            margin-bottom: var(--spacing-sm);
             line-height: 1.2;
             font-family: 'Poppins', sans-serif;
         }
 
         .banner-subtitle {
             color: #ffffff;
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 3vw, 1.3rem);
             font-weight: 400;
-            margin-bottom: 30px;
+            margin-bottom: var(--spacing-md);
             text-shadow: 0 2px 12px rgba(0,0,0,0.3);
             line-height: 1.5;
             max-width: 600px;
@@ -335,52 +808,35 @@ include('includes/dbconnection.php');
             }
         }
 
-        /* Responsive Styles */
-        @media (max-width: 991px) {
-            .banner-slide {
-                height: 60vh;
-                min-height: 400px;
+        /* Tablet-specific optimizations */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .banner-content {
+                padding: 0 30px;
             }
             
-            .banner-title {
-                font-size: 2.5rem;
-            }
-            
-            .banner-subtitle {
+            .btn-banner {
+                padding: 14px 30px;
                 font-size: 1.1rem;
             }
             
-            .banner-carousel .owl-nav button {
-                width: 50px;
-                height: 50px;
-                font-size: 16px;
+            .search-properties-card {
+                margin: -60px auto 40px auto;
+                padding: 30px 25px;
             }
             
-            .banner-carousel .owl-nav button.owl-prev {
-                left: 15px;
-            }
-            
-            .banner-carousel .owl-nav button.owl-next {
-                right: 15px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .banner-slide {
-                height: 50vh;
-                min-height: 350px;
-            }
-            
-            .banner-title {
-                font-size: 2rem;
-                margin-bottom: 15px;
-            }
-            
-            .banner-subtitle {
-                font-size: 1rem;
+            .search-properties-card .form-group {
                 margin-bottom: 20px;
             }
             
+            .search-properties-card select,
+            .search-properties-card input[type="submit"] {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Mobile banner button optimization */
+        @media (max-width: 767px) {
             .btn-banner {
                 padding: 12px 25px;
                 font-size: 1rem;
@@ -437,6 +893,48 @@ include('includes/dbconnection.php');
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
+        }
+
+        /* Mobile-first responsive search form */
+        @media (max-width: 767px) {
+            .search-properties-card {
+                margin: -50px auto 30px auto;
+                padding: 20px 15px;
+                border-radius: 12px;
+            }
+            
+            .search-properties-card .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .search-properties-card select,
+            .search-properties-card input[type="submit"] {
+                width: 100%;
+                padding: 14px 15px;
+                font-size: 16px; /* Prevents zoom on iOS */
+                border-radius: 8px;
+                border: 1px solid #ddd;
+                min-height: 44px; /* Touch-friendly */
+            }
+            
+            .search-properties-card input[type="submit"] {
+                margin-top: 10px;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-properties-card {
+                margin: -40px 15px 20px 15px;
+                padding: 15px 12px;
+            }
+            
+            .search-properties-card select,
+            .search-properties-card input[type="submit"] {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
         }
 
         /* --- Latest Properties Carousel Card Styles --- */
@@ -503,7 +1001,7 @@ include('includes/dbconnection.php');
 .property--title a {
     color: #260844;
     font-weight: 700;
-    font-size: 1.18rem;
+    font-size: clamp(1rem, 2.8vw, 1.18rem);
     letter-spacing: 0.5px;
     text-decoration: none;
     transition: color 0.2s;
@@ -545,28 +1043,51 @@ include('includes/dbconnection.php');
 /* Responsive Styles */
 @media (max-width: 991px) {
     .property--img {
-        height: 160px;
+        height: 180px;
     }
     .property--content {
-        padding: 14px 10px 10px 10px;
+        padding: 18px 16px 14px 16px;
     }
     .property-item {
         border-radius: 12px;
+        margin-bottom: 24px;
     }
 }
-@media (max-width: 600px) {
+
+@media (max-width: 767px) {
     .property--img {
-        height: 110px;
+        height: 160px;
+    }
+    .property--content {
+        padding: 16px 14px 12px 14px;
+    }
+    .property--features ul {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .property--features li {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .property--img {
+        height: 140px;
         border-radius: 10px 10px 0 0;
     }
-    .property--title a {
-        font-size: 1rem;
+    .property--content {
+        padding: 14px 12px 10px 12px;
     }
     .property--features ul {
         gap: 8px;
     }
     .property-item {
         border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    .property--status {
+        padding: 4px 12px;
+        font-size: 0.9rem;
     }
 }
 /* --- Services Section --- */
@@ -576,14 +1097,14 @@ include('includes/dbconnection.php');
 .section-title {
     color: #260844;
     font-weight: 800;
-    font-size: 2.2rem;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: clamp(0.5px, 0.3vw, 1px);
 }
 .section-subtitle {
     color: #555;
-    font-size: 1.08rem;
-    margin-bottom: 30px;
+    font-size: clamp(1rem, 2.5vw, 1.08rem);
+    margin-bottom: var(--spacing-md);
 }
 .service-card {
     background: #fff;
@@ -685,22 +1206,61 @@ include('includes/dbconnection.php');
     background: #C29425;
     color: #fff;
 }
+/* Enhanced Services Section Mobile Optimization */
 @media (max-width: 991px) {
-    .service-card, .testimonial-card {
+    .service-card {
+        min-height: 280px;
+        padding: 24px 16px 20px 16px;
+        margin-bottom: 24px;
+    }
+    .testimonial-card {
         min-height: 260px;
         padding: 22px 8px 16px 8px;
     }
     .testimonials-row {
         gap: 12px;
     }
+    .service-icon {
+        font-size: 2.4rem;
+        margin-bottom: 16px;
+    }
 }
-@media (max-width: 600px) {
-    .service-card, .testimonial-card {
+
+@media (max-width: 767px) {
+    .service-card {
+        min-height: 240px;
+        padding: 20px 15px 16px 15px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+    }
+    .service-icon {
+        font-size: 2.2rem;
+        margin-bottom: 14px;
+    }
+    .service-card h4 {
+        font-size: clamp(1.1rem, 3vw, 1.2rem);
+        margin-bottom: 10px;
+    }
+    .service-card p {
+        font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .service-card {
+        min-height: 200px;
+        padding: 16px 12px 14px 12px;
+        margin-bottom: 16px;
+        border-radius: 10px;
+    }
+    .service-icon {
+        font-size: 2rem;
+        margin-bottom: 12px;
+    }
+    .testimonial-card {
         min-height: 180px;
         padding: 14px 4px 10px 4px;
-    }
-    .section-title {
-        font-size: 1.3rem;
     }
 }
 
@@ -738,9 +1298,9 @@ include('includes/dbconnection.php');
 }
 .cta h3 {
     color: #fff;
-    font-size: 2.1rem;
+    font-size: clamp(1.2rem, 4vw, 2.1rem);
     font-weight: 700;
-    margin-bottom: 24px;
+    margin-bottom: var(--spacing-md);
     text-shadow: 0 2px 12px rgba(38,8,68,0.18);
 }
 .cta .btn--primary {
@@ -1047,6 +1607,130 @@ while($row=mysqli_fetch_array($query))
     
     <script>
     $(document).ready(function(){
+        // Orientation change handling
+        function handleOrientationChange() {
+            // Force layout recalculation
+            $('.banner-carousel').trigger('refresh.owl.carousel');
+            $('.testimonials-carousel').trigger('refresh.owl.carousel');
+            
+            // Adjust banner height on orientation change
+            setTimeout(function() {
+                $(window).trigger('resize');
+            }, 100);
+        }
+        
+        // Listen for orientation changes
+        $(window).on('orientationchange', function() {
+            setTimeout(handleOrientationChange, 300);
+        });
+        
+        // Handle resize events for smooth transitions with throttling
+        var resizeTimer;
+        $(window).on('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                $('.banner-carousel').trigger('refresh.owl.carousel');
+                $('.testimonials-carousel').trigger('refresh.owl.carousel');
+            }, 250);
+        });
+        
+        // Performance optimization: Reduce carousel autoplay on mobile
+        var isMobile = window.innerWidth <= 767;
+        var autoplayTimeout = isMobile ? 8000 : 6000;
+        
+        // Responsive testing utilities
+        function addResponsiveDebugger() {
+            if (!$('.responsive-debug').length) {
+                $('body').append('<div class="responsive-debug"></div>');
+            }
+        }
+        
+        // Test touch interactions
+        function testTouchTargets() {
+            $('a, button, input, select').each(function() {
+                var $el = $(this);
+                var height = $el.outerHeight();
+                var width = $el.outerWidth();
+                
+                if (height < 44 || width < 44) {
+                    console.warn('Touch target too small:', $el[0], 'Size:', width + 'x' + height);
+                }
+            });
+        }
+        
+        // Test responsive breakpoints
+        function testBreakpoints() {
+            var width = $(window).width();
+            var breakpoint = '';
+            
+            if (width < 480) breakpoint = 'Mobile Small';
+            else if (width < 768) breakpoint = 'Mobile Large';
+            else if (width < 992) breakpoint = 'Tablet';
+            else breakpoint = 'Desktop';
+            
+            console.log('Current breakpoint:', breakpoint, 'Width:', width);
+        }
+        
+        // Run tests on load and resize
+        testTouchTargets();
+        testBreakpoints();
+        
+        $(window).on('resize', function() {
+            testBreakpoints();
+        });
+        
+        // Final enhancements and progressive enhancement
+        
+        // Add loading states for better UX
+        $('.banner-carousel').on('initialized.owl.carousel', function() {
+            $('.banner-slider').addClass('loaded');
+        });
+        
+        // Enhance form accessibility
+        $('select, input').on('focus', function() {
+            $(this).closest('.form-group').addClass('focused');
+        }).on('blur', function() {
+            $(this).closest('.form-group').removeClass('focused');
+        });
+        
+        // Add smooth scrolling for anchor links
+        $('a[href^="#"]').on('click', function(e) {
+            var target = $(this.getAttribute('href'));
+            if (target.length) {
+                e.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top - 80
+                }, 600);
+            }
+        });
+        
+        // Lazy loading enhancement for images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+        
+        // Add viewport height fix for mobile browsers
+        function setViewportHeight() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        setViewportHeight();
+        $(window).on('resize orientationchange', setViewportHeight);
+        
         // Banner Carousel with enhanced navigation
         $(".banner-carousel").owlCarousel({
             items: 1,
@@ -1054,20 +1738,25 @@ while($row=mysqli_fetch_array($query))
             nav: true,
             dots: true,
             autoplay: true,
-            autoplayTimeout: 6000,
+            autoplayTimeout: autoplayTimeout,
             autoplayHoverPause: true,
-            animateOut: 'fadeOut',
-            animateIn: 'fadeIn',
-            smartSpeed: 800,
+            animateOut: isMobile ? 'slideOutLeft' : 'fadeOut',
+            animateIn: isMobile ? 'slideInRight' : 'fadeIn',
+            smartSpeed: isMobile ? 600 : 800,
             navText: ['', ''], // Empty strings since we're using CSS ::before content
+            lazyLoad: true,
             responsive: {
                 0: { 
-                    nav: true,
-                    dots: true
+                    nav: false,
+                    dots: true,
+                    autoplay: true,
+                    autoplayTimeout: 8000
                 },
                 768: { 
                     nav: true,
-                    dots: true
+                    dots: true,
+                    autoplay: true,
+                    autoplayTimeout: 6000
                 }
             }
         });
