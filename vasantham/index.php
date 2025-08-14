@@ -1546,7 +1546,7 @@ while($row=mysqli_fetch_array($query))
 <div class="owl-carousel testimonials-carousel">
     <div class="testimonial-card">
         <div class="testimonial-avatar">
-            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Client">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Client">
         </div>
         <p class="testimonial-text">"Vasantham Realty made buying our first home a breeze. The team was professional, patient, and always available!"</p>
         <h5 class="testimonial-name">Priya S.</h5>
@@ -1554,7 +1554,7 @@ while($row=mysqli_fetch_array($query))
     </div>
     <div class="testimonial-card">
         <div class="testimonial-avatar">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Client">
         </div>
         <p class="testimonial-text">"I sold my property above market price thanks to their expert marketing. Highly recommended!"</p>
         <h5 class="testimonial-name">Ramesh K.</h5>
@@ -1562,7 +1562,7 @@ while($row=mysqli_fetch_array($query))
     </div>
     <div class="testimonial-card">
         <div class="testimonial-avatar">
-            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Client">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Client">
         </div>
         <p class="testimonial-text">"The rental process was smooth and transparent. I found the perfect apartment in no time."</p>
         <h5 class="testimonial-name">Anita M.</h5>
@@ -1570,7 +1570,7 @@ while($row=mysqli_fetch_array($query))
     </div>
     <div class="testimonial-card">
         <div class="testimonial-avatar">
-            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Client">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Client">
         </div>
         <p class="testimonial-text">"Excellent service and very friendly staff. I highly recommend Vasantham Realty for all your property needs."</p>
         <h5 class="testimonial-name">Chandran P.</h5>
@@ -1578,7 +1578,7 @@ while($row=mysqli_fetch_array($query))
     </div>
     <div class="testimonial-card">
         <div class="testimonial-avatar">
-            <img src="https://randomuser.me/api/portraits/men/77.jpg" alt="Client">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Client">
         </div>
         <p class="testimonial-text">"They helped me find a great investment property. The process was smooth and transparent."</p>
         <h5 class="testimonial-name">Krishna S.</h5>
