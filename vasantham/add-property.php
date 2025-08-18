@@ -369,7 +369,7 @@ $(document).ready(function() {
                                     <!-- .col-md-4 end -->
                                     <div class="col-xs-12 col-sm-4 col-md-4">
                                         <div class="form-group">
-                                            <label for="Area">Area</label>
+                                            <label for="Area">Land Area</label>
                                             <input type="text" class="form-control" name="area" id="area" placeholder="sq ft">
                                         </div>
                                     </div>
@@ -644,29 +644,29 @@ $(document).ready(function() {
                                             <label for="select-country">Country</label>
                                             <div class="select--box">
                                                 <i class="fa fa-angle-down"></i>
-                                     <select type="text" name="country" id="country" required="true" onChange="getsate(this.value)" class="form-control">
-                                             <option value="">Select Country</option>
-              <?php $query=mysqli_query($con,"select * from tblcountry");
-              while($row=mysqli_fetch_array($query))
-              {
-              ?>      
-                  <option value="<?php echo $row['ID'];?>"><?php echo $row['CountryName'];?></option>
-                  <?php } ?>
-                                         </select>
+                                                <select id="country" name="country" required="true" onChange="getsate(this.value)">
+                                                    <option value="">Select Country</option>
+                                                    <?php $query=mysqli_query($con,"select * from tblcountry");
+                                                    while($row=mysqli_fetch_array($query))
+                                                    {
+                                                    ?>
+                                                        <option value="<?php echo $row['ID'];?>"><?php echo $row['CountryName'];?></option>
+                                                    <?php } ?>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
 
 
-            <div class="col-xs-12 col-sm-4 col-md-4">
+                                    <div class="col-xs-12 col-sm-4 col-md-4">
                                         <div class="form-group">
                                             <label for="state">State</label>
-                                             <div class="select--box">
+                                            <div class="select--box">
                                                 <i class="fa fa-angle-down"></i>
-                                            <select type="text" class="form-control" name="state" id="state" onChange="getcity(this.value)" >
-                                            </select>
+                                                <select id="state" name="state" onChange="getcity(this.value)">
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
 
@@ -676,9 +676,9 @@ $(document).ready(function() {
                                             <label for="city">City</label>
                                             <div class="select--box">
                                                 <i class="fa fa-angle-down"></i>
-                                            <select class="form-control" name="city" id="city">
-                                            </select>
-                                        </div>
+                                                <select id="city" name="city">
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- .col-md-4 end -->
@@ -704,27 +704,18 @@ $(document).ready(function() {
                                 <!-- .row end -->
                             </div>
                             <!-- .form-box end -->
-                            <input type="submit" value="Submit" name="submit" class="btn btn--primary">
+                            <input type="submit" value="Submit" name="submit" class="btn btn-lg" style="background-color: #260844; color: #fff; border-color: #260844;">
                         </form>
                     </div>
                     <!-- .col-md-12 end -->
                 </div>
                 <!-- .row end -->
             </div>
-        </section>
-                    </div>
-                    <!-- /.navbar-collapse -->
-                </div>
-                <!-- /.container-fluid -->
-            </nav>
+    </section>
 
-        </header>
-        
-        
-
-        <!-- Footer #1
+    <!-- Footer #1
 ============================================= -->
-        <?php include_once('includes/footer.php');?>
+    <?php include_once('includes/footer.php');?>
     </div>
     <!-- #wrapper end -->
 
