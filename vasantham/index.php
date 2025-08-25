@@ -899,28 +899,64 @@ include('includes/dbconnection.php');
         @media (max-width: 767px) {
             .search-properties-card {
                 margin: -50px auto 30px auto;
-                padding: 20px 15px;
+                padding: 18px 12px;
                 border-radius: 12px;
             }
-            
-            .search-properties-card .form-group {
-                margin-bottom: 15px;
+
+            /* tighten column gutters so selects align neatly */
+            .search-properties-card .row {
+                margin-left: -6px;
+                margin-right: -6px;
             }
-            
-            .search-properties-card select,
-            .search-properties-card input[type="submit"] {
+            .search-properties-card .row > [class*="col-"] {
+                padding-left: 6px;
+                padding-right: 6px;
+            }
+
+            .search-properties-card .form-group {
+                margin-bottom: 12px;
+            }
+
+            /* Ensure selects are full-width, touch friendly and show arrow correctly */
+            .search-properties-card select {
+                display: block;
                 width: 100%;
-                padding: 14px 15px;
-                font-size: 16px; /* Prevents zoom on iOS */
+                
+                font-size: 16px; /* prevents zoom on iOS when focused */
                 border-radius: 8px;
                 border: 1px solid #ddd;
-                min-height: 44px; /* Touch-friendly */
+                min-height: 44px; /* touch target */
+                background-position: right 12px center;
+                background-size: 18px 18px;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                box-sizing: border-box;
+                background-color: #fff;
+                color: #222;
             }
-            
+
+            /* Hide native IE/Edge dropdown icon to ensure our custom padding works */
+            .search-properties-card select::-ms-expand {
+                display: none;
+            }
+
+            /* make submit full width and prominent */
             .search-properties-card input[type="submit"] {
-                margin-top: 10px;
-                font-weight: 700;
-                letter-spacing: 1px;
+                display: block;
+                width: 100%;
+                font-size: 16px; /* Prevents zoom on iOS */
+                border-radius: 8px;
+                border: 1px solid #260844;
+                min-height: 44px; /* Touch-friendly */
+                margin-top: 6px;
+                box-shadow: 0 2px 8px rgba(38,8,68,0.08);
+            }
+
+            /* Ensure select caret (background SVG) is visible on small screens */
+            .search-properties-card select {
+                background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+                background-repeat: no-repeat;
             }
         }
 
@@ -1185,26 +1221,61 @@ include('includes/dbconnection.php');
     font-size: 0.98rem;
     font-weight: 600;
 }
+.testimonials-carousel {
+    position: relative;
+}
+/* Nav hidden by default; appears on hover/focus for desktop, always visible on touch devices */
 .testimonials-carousel .owl-nav {
     display: flex;
     justify-content: center;
     margin-top: 18px;
     gap: 18px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms;
+    pointer-events: none;
 }
+.testimonials-carousel:hover .owl-nav,
+.testimonials-carousel:focus-within .owl-nav {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+/* Ensure touch devices (no hover) still show controls */
+@media (hover: none) {
+    .testimonials-carousel .owl-nav {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+}
+/* Base nav button: circular, center icon, transparent by default */
 .testimonials-carousel .owl-nav button {
-    background: #260844;
-    color: #fff;
+    background: transparent;
+    color: #9b9b9b;
     border: none;
     border-radius: 50%;
     width: 44px;
     height: 44px;
-    font-size: 1.5rem;
-    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: background 0.18s, color 0.18s, transform 0.12s;
     outline: none;
+    padding: 0;
 }
-.testimonials-carousel .owl-nav button:hover {
-    background: #C29425;
-    color: #fff;
+/* Left (prev) button: subtle gray chevron */
+
+
+/* Right (next) button: filled gold circle with white chevron */
+
+
+.testimonials-carousel .owl-nav button .fa {
+    font-size: 18px;
 }
 /* Enhanced Services Section Mobile Optimization */
 @media (max-width: 991px) {
@@ -1411,8 +1482,7 @@ include('includes/dbconnection.php');
                         <div class="carousel carousel-dots" data-slide="3" data-slide-rs="2" data-autoplay="true" data-nav="false" data-dots="true" data-space="25" data-loop="true" data-speed="800">
                             <!-- .property-item #1 -->
                             <?php
-                      
-$query=mysqli_query($con,"select * from tblproperty order by rand() limit 9");
+$query=mysqli_query($con,"SELECT * FROM tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL ORDER BY ListingDate DESC LIMIT 9");
 while($row=mysqli_fetch_array($query))
 {
 ?>
@@ -1434,13 +1504,13 @@ while($row=mysqli_fetch_array($query))
                                         <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
                                     </div>
                                     <!-- .property-info end -->
-                                    <div class="property--features">
+                                    <!-- <div class="property--features">
                                         <ul class="list-unstyled mb-0">
                                             <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
                                             <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
                                             <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                     <!-- .property-features end -->
                                 </div>
                             </div>
@@ -1457,6 +1527,141 @@ while($row=mysqli_fetch_array($query))
             <!-- .container -->
         </section>
         <!-- #properties-carousel  end  -->
+
+        <!-- Latest Villas (similar to Latest Properties) -->
+        <section id="properties-villas" class="properties-carousel pt-90 pb-90">
+            <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="heading heading-2 text-center mb-70">
+                    <h2 class="heading--title">Latest Villas</h2>
+                </div>
+                <!-- .heading-title end -->
+                </div>
+                <!-- .col-md-12 end -->
+            </div>
+            <!-- .row end -->
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="carousel carousel-dots" data-slide="3" data-slide-rs="2" data-autoplay="true" data-nav="false" data-dots="true" data-space="25" data-loop="true" data-speed="800">
+                    <!-- .property-item #1 -->
+                    <?php
+                    // Show only approved properties of type 'Villas'
+                    $queryVillas = mysqli_query($con, "SELECT * FROM tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL AND Type='Villas' ORDER BY ListingDate DESC LIMIT 9");
+                    while($rowv = mysqli_fetch_array($queryVillas))
+                    {
+                    ?>
+                    <div class="property-item">
+                    <div class="property--img">
+                        <a href="single-property-detail.php?proid=<?php echo $rowv['ID'];?>">
+                        <img src="propertyimages/<?php echo $rowv['FeaturedImage'];?>" alt="<?php echo $rowv['PropertyTitle'];?>" width='380' height='300'>
+                        <span class="property--status"><?php echo $rowv['Status'];?></span>
+                        </a>
+                    </div>
+                    <div class="property--content">
+                        <div class="property--info">
+                        <h5 class="property--title">
+                            <a href="single-property-detail.php?proid=<?php echo $rowv['ID'];?>">
+                            <?php echo $rowv['PropertyTitle'];?>
+                            </a>
+                        </h5>
+                        <p class="property--location">
+                            <?php echo $rowv['Address'];?>&nbsp;
+                            <?php echo $rowv['City'];?>&nbsp;
+                            <?php echo $rowv['State'];?>&nbsp;  
+                            <?php echo $rowv['Country'];?>
+                        </p>
+                        <p class="property--price"><?php echo $rowv['RentorsalePrice'];?></p>
+                        </div>
+                        <!-- .property-info end -->
+                        <!-- <div class="property--features">
+                        <ul class="list-unstyled mb-0">
+                            <li><span class="feature">Beds:</span><span class="feature-num"><?php echo !empty($rowv['Bedrooms']) ? $rowv['Bedrooms'] : '-';?></span></li>
+                            <li><span class="feature">Baths:</span><span class="feature-num"><?php echo !empty($rowv['Bathrooms']) ? $rowv['Bathrooms'] : '-';?></span></li>
+                            <li><span class="feature">Area:</span><span class="feature-num"><?php echo !empty($rowv['Area']) ? $rowv['Area'] : '-';?></span></li>
+                        </ul>
+                        </div> -->
+                        <!-- .property-features end -->
+                    </div>
+                    </div>
+                    <?php } ?>
+                </div>
+                <!-- .carousel end -->
+                </div>
+                <!-- .col-md-12 -->
+            </div>
+            <!-- .row -->
+            </div>
+            <!-- .container -->
+        </section>
+        <!-- #properties-villas end -->
+        <!-- Latest Plots (similar to Latest Properties) -->
+        <section id="properties-plots" class="properties-carousel pt-90 pb-90">
+            <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="heading heading-2 text-center mb-70">
+                    <h2 class="heading--title">Latest Plots</h2>
+                </div>
+                <!-- .heading-title end -->
+                </div>
+                <!-- .col-md-12 end -->
+            </div>
+            <!-- .row end -->
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="carousel carousel-dots" data-slide="3" data-slide-rs="2" data-autoplay="true" data-nav="false" data-dots="true" data-space="25" data-loop="true" data-speed="800">
+                    <!-- .property-item #1 -->
+                    <?php
+                    // Show only approved properties of type 'Lands' or 'Plots'
+                    $queryPlots = mysqli_query($con, "SELECT * FROM tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL AND (Type='Lands' OR Type='Plots') ORDER BY ListingDate DESC LIMIT 9");
+                    while($rowp = mysqli_fetch_array($queryPlots))
+                    {
+                    ?>
+                    <div class="property-item">
+                    <div class="property--img">
+                        <a href="single-property-detail.php?proid=<?php echo $rowp['ID'];?>">
+                        <img src="propertyimages/<?php echo $rowp['FeaturedImage'];?>" alt="<?php echo $rowp['PropertyTitle'];?>" width='380' height='300'>
+                        <span class="property--status"><?php echo $rowp['Status'];?></span>
+                        </a>
+                    </div>
+                    <div class="property--content">
+                        <div class="property--info">
+                        <h5 class="property--title">
+                            <a href="single-property-detail.php?proid=<?php echo $rowp['ID'];?>">
+                            <?php echo $rowp['PropertyTitle'];?>
+                            </a>
+                        </h5>
+                        <p class="property--location">
+                            <?php echo $rowp['Address'];?>&nbsp;
+                                        <p class="property--price"><?php echo $rowp['RentorsalePrice'];?></p>
+                                    </div>
+                                    <!-- .property-info end -->
+                                    <?php if(!empty($rowp['Bedrooms']) || !empty($rowp['Bathrooms']) || !empty($rowp['Area'])) { ?>
+                                    <!-- <div class="property--features">
+                                        <ul class="list-unstyled mb-0">
+                                            <li><span class="feature">Beds:</span><span class="feature-num"><?php echo !empty($rowp['Bedrooms']) ? $rowp['Bedrooms'] : '-';?></span></li>
+                                            <li><span class="feature">Baths:</span><span class="feature-num"><?php echo !empty($rowp['Bathrooms']) ? $rowp['Bathrooms'] : '-';?></span></li>
+                                            <li><span class="feature">Area:</span><span class="feature-num"><?php echo !empty($rowp['Area']) ? $rowp['Area'] : '-';?></span></li>
+                                        </ul>
+                                    </div> -->
+                                    <?php } ?>
+                                    <!-- .property-features end -->
+                                </div>
+                            </div>
+                            <?php } ?>
+
+
+                        </div>
+                        <!-- .carousel end -->
+                    </div>
+                    <!-- .col-md-12 -->
+                </div>
+                <!-- .row -->
+            </div>
+            <!-- .container -->
+        </section>
+        <!-- #properties-plots end -->
 
         <!-- Feature
 

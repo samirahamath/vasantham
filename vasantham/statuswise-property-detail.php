@@ -11,6 +11,86 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <title>Real Estate Management System | Properties Grid</title>
+     <style>
+        /* Ensure property grid cards align: full-height cards and flex column content */
+        .properties-grid .property-item {
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
+        }
+        .properties-grid .property--content {
+            flex: 1 1 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+        }
+        /* Keep price and meta pinned to bottom */
+        .properties-grid .property--info { margin-bottom: 12px; }
+        .properties-grid .property--price { margin-top: auto; }
+        /* Stronger alignment rules */
+        .properties-grid .property-item {
+            min-height: 420px; /* ensure enough room for image + title + meta + price */
+            flex: 1 1 auto !important;
+        }
+        .properties-grid .property--info {
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100%;
+        }
+        /* Force image area to fixed height so cards align */
+        .properties-grid .property--img img {
+            height: 200px !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            display: block;
+        }
+        /* Make sure the image container doesn't collapse and remains fixed size */
+        .properties-grid .property--img { flex: 0 0 auto; }
+        /* Reserve consistent space for title/location area */
+        .properties-grid .property--info {
+            min-height: 120px;
+        }
+        /* Clamp title to two lines so cards have predictable height */
+        .properties-grid .property--title {
+            display: block;
+            line-height: 1.2em;
+            max-height: 2.4em; /* ~2 lines */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 6px;
+        }
+        /* More robust multiline clamp for title link */
+        .properties-grid .property--title a {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        /* Prevent long location text from pushing card height — clamp to a single line */
+        .properties-grid .property--location {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #777;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .properties-grid .property--location {
+            /* fallback in case other rules are removed */
+        }
+        .properties-grid .property--price {
+            font-size: 1.4rem;
+            color: #34c997;
+            font-weight: 700;
+            margin-top: auto !important;
+        }
+        /* Force bootstrap grid columns that contain property cards to stretch equally */
+        .properties-grid .row > [class*="col-"] {
+            display: flex;
+            align-items: stretch;
+        }
+    </style>
 </head>
 
 <body>
@@ -44,7 +124,7 @@
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query3=mysqli_query($con,"select distinct Type from  tblproperty WHERE ApprovalStatus='Approved'");
+$query3=mysqli_query($con,"select distinct Type from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row3=mysqli_fetch_array($query3))
 {
 ?>
@@ -68,7 +148,7 @@ while($row3=mysqli_fetch_array($query3))
                             </div>
                             <div class="widget--content">
                                 <?php
-$query4=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved'");
+$query4=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row4=mysqli_fetch_array($query4))
 {
 ?>
@@ -93,7 +173,7 @@ while($row4=mysqli_fetch_array($query4))
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query5=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved'");
+$query5=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row5=mysqli_fetch_array($query5))
 {
 ?>
@@ -126,7 +206,7 @@ while($row5=mysqli_fetch_array($query5))
 
 <?php
 $stproid=$_GET['stproid'];
-$query=mysqli_query($con,"select * from tblproperty where Status='$stproid' AND ApprovalStatus='Approved'");
+$query=mysqli_query($con,"select * from tblproperty where Status='$stproid' AND ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 $num=mysqli_num_rows($query);
 while($row=mysqli_fetch_array($query))
 {
@@ -153,13 +233,13 @@ while($row=mysqli_fetch_array($query))
 <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
  </div>
                                             <!-- .property-info end -->
-<div class="property--features">
+<!-- <div class="property--features">
 <ul class="list-unstyled mb-0">
 <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
 <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
 <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
 </ul>
-</div>
+</div> -->
                                             <!-- .property-features end -->
                                         </div>
                                     </div>
@@ -171,18 +251,25 @@ while($row=mysqli_fetch_array($query))
                               
                                 <!-- .property item end -->
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-50">
-                                <ul class="pagination">
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">...</a></li>
-                                    <li>
-                                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true"><i class="fa fa-angle-right"></i></span>
-                        </a>
-                                    </li>
-                                </ul>
+                             <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-50">
+                        <div style="display: flex; justify-content: center; gap: 10px;">
+                            <a href="?pageno=1"
+                               style="padding:10px 24px; border:none; background:#007bff; color:#fff; border-radius:4px; font-weight:600; text-decoration:none; transition:background 0.2s;">
+                                &laquo;
+                            </a>
+                            <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>"
+                               style="padding:10px 24px; border:none; background:<?php echo ($pageno <= 1) ? '#6c757d' : '#007bff'; ?>; color:#fff; border-radius:4px; font-weight:600; text-decoration:none; transition:background 0.2s; pointer-events:<?php echo ($pageno <= 1) ? 'none' : 'auto'; ?>;">
+                                &lt;
+                            </a>
+                            <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>"
+                               style="padding:10px 24px; border:none; background:<?php echo ($pageno >= $total_pages) ? '#6c757d' : '#007bff'; ?>; color:#fff; border-radius:4px; font-weight:600; text-decoration:none; transition:background 0.2s; pointer-events:<?php echo ($pageno >= $total_pages) ? 'none' : 'auto'; ?>;">
+                                &gt;
+                            </a>
+                            <a href="?pageno=<?php echo $total_pages; ?>"
+                               style="padding:10px 24px; border:none; background:#007bff; color:#fff; border-radius:4px; font-weight:600; text-decoration:none; transition:background 0.2s;">
+                                &raquo;
+                            </a>
+                        </div>
                             </div>
                             <!-- .col-md-12 end -->
                         </div>
@@ -196,22 +283,7 @@ while($row=mysqli_fetch_array($query))
         </section>
         <!-- #properties-grid  end  -->
 
-        <!-- cta #1
-============================================= -->
-        <section id="cta" class="cta cta-1 text-center bg-overlay bg-overlay-dark pt-90">
-            <div class="bg-section"><img src="assets/images/cta/bg-1.jpg" alt="Background"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3">
-                        <h3>Join our professional team & agents to start selling your house</h3>
-                        <a href="#" class="btn btn--primary">Contact</a>
-                    </div>
-                    <!-- .col-md-6 -->
-                </div>
-                <!-- .row -->
-            </div>
-            <!-- .container -->
-        </section>
+      
         <!-- #cta1 end -->
         <!-- Footer #1
 ============================================= -->

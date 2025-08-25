@@ -14,8 +14,27 @@ if(isset($_POST['submit'])) {
     $bedrooms = $_POST['bedrooms'];
     $additional = $_POST['additional'];
     $message = $_POST['message'];
-    // Insert into DB
-    $query = mysqli_query($con, "INSERT INTO tblenquiry (FullName, Phone, Email, PropertyType, Location, Budget, Purpose, Bedrooms, Additional, Message) VALUES ('$fullname', '$phone', '$email', '$property_type', '$location', '$budget', '$purpose', '$bedrooms', '$additional', '$message')");
+    // Helper to return SQL literal NULL or escaped quoted string
+    function sqlVal($con, $val) {
+        if (!isset($val) || trim($val) === '') return 'NULL';
+        return "'" . mysqli_real_escape_string($con, $val) . "'";
+    }
+
+    // Build INSERT using SQL NULL for empty fields
+    $sql = "INSERT INTO tblforenquiry (FullName, Phone, Email, PropertyType, Location, Budget, Purpose, Bedrooms, Additional, Message) VALUES (" .
+        sqlVal($con, $fullname) . ", " .
+        sqlVal($con, $phone) . ", " .
+        sqlVal($con, $email) . ", " .
+        sqlVal($con, $property_type) . ", " .
+        sqlVal($con, $location) . ", " .
+        sqlVal($con, $budget) . ", " .
+        sqlVal($con, $purpose) . ", " .
+        sqlVal($con, $bedrooms) . ", " .
+        sqlVal($con, $additional) . ", " .
+        sqlVal($con, $message) .
+    ")";
+
+    $query = mysqli_query($con, $sql);
     if($query) {
         echo "<script>alert('Your enquiry has been submitted successfully. We will contact you soon.');</script>";
         echo "<script>window.location.href='for-enquiry.php'</script>";

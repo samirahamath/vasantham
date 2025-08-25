@@ -390,7 +390,7 @@ include('includes/dbconnection.php');
                     <div class="user-dropdown">
                         <a href="user-profile.php">
                             <i class="fa fa-user"></i>
-                            <span>Agent Profile</span>
+                            <span>Realtor Profile</span>
                         </a>
                         <a href="logout.php">
                             <i class="fa fa-sign-out"></i>

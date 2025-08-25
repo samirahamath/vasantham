@@ -23,7 +23,7 @@ if(isset($_POST['login']))
  
 <head>
    
-    <title>Real Estate Management System || Login</title>
+    <title>Vasantham Realty || Login</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
     <link href="../assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
@@ -52,7 +52,7 @@ if(isset($_POST['login']))
     <!-- ============================================================== -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><h2 style="color: blue">REMS</h2><span class="splash-description">Please enter your user information.</span></div>
+            <div class="card-header text-center"><h2 style="color: blue">Vasantham Realty</h2><span class="splash-description">Please enter your user information.</span></div>
             <div class="card-body">
               <form action="" method="post" name="login">
                         <p style="font-size:16px; color:red" align="center"> <?php if($msg){

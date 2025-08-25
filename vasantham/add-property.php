@@ -8,46 +8,51 @@ echo "<script>window.location.href ='logout.php'</script>";
   }
   else{
   }
-if(isset($_POST['submit']))
-  {
-$uid=$_SESSION['remsuid'];
-$protitle=$_POST['propertytitle'];
-$prodec=addslashes($_POST['propertydescription']);
-$type=$_POST['selecttype'];
-$status=$_POST['status'];
-$location=$_POST['location'];
-$bedrooms=$_POST['bedrooms'];
-$bathrooms=$_POST['bathrooms'];
-$floors=$_POST['floors'];
-$garages=$_POST['garages'];
-$area=$_POST['area'];
-$size=$_POST['size'];
-$srprice=$_POST['salerentprice'];
-$beforepricelabel=$_POST['beforepricelabel'];
-$afterpricelabel=$_POST['afterpricelabel'];
-$ccolling=$_POST['centercolling'];
-$balcony=$_POST['balcony'];
-$petfrndly=$_POST['petfrndly'];
-$barbeque=$_POST['barbeque'];
-$firealarm=$_POST['firealarm'];
-$modkitchen=$_POST['modkitchen'];
-$storage=$_POST['storage'];
-$dryer=$_POST['dryer'];
-$heating=$_POST['heating'];
-$pool=$_POST['pool'];
-$laundry=$_POST['laundry'];
-$sauna=$_POST['sauna'];
-$gym=$_POST['gym'];
-$elevator=$_POST['elevator'];
-$dishwasher=$_POST['dishwasher'];
-$eexit=$_POST['eexit'];
 
-$proaddress=$_POST['address'];
-$procountry=$_POST['country'];
-$procity=$_POST['city'];
-$prostate=$_POST['state'];
-$prozipcode=$_POST['zipcode'];
-$neighborhood=$_POST['neighborhood'];
+if(isset($_POST['submit']))
+    {
+        $uid = $_SESSION['remsuid'];
+        function nullIfEmpty($val) {
+                return (isset($val) && trim($val) !== '') ? addslashes($val) : NULL;
+        }
+        $protitle = nullIfEmpty($_POST['propertytitle']);
+        $prodec = nullIfEmpty($_POST['propertydescription']);
+        $type = nullIfEmpty($_POST['selecttype']);
+        $status = nullIfEmpty($_POST['status']);
+        $location = nullIfEmpty($_POST['location']);
+        $bedrooms = nullIfEmpty($_POST['bedrooms']);
+        $bathrooms = nullIfEmpty($_POST['bathrooms']);
+        $floors = nullIfEmpty($_POST['floors']);
+        $garages = nullIfEmpty($_POST['garages']);
+        $area = nullIfEmpty($_POST['area']);
+        $size = nullIfEmpty($_POST['size']);
+        $srprice = nullIfEmpty($_POST['salerentprice']);
+        $beforepricelabel = nullIfEmpty($_POST['beforepricelabel']);
+        $afterpricelabel = nullIfEmpty($_POST['afterpricelabel']);
+        $ccolling = nullIfEmpty($_POST['centercolling']);
+        $balcony = nullIfEmpty($_POST['balcony']);
+        $petfrndly = nullIfEmpty($_POST['petfrndly']);
+        $barbeque = nullIfEmpty($_POST['barbeque']);
+        $firealarm = nullIfEmpty($_POST['firealarm']);
+        $modkitchen = nullIfEmpty($_POST['modkitchen']);
+        $storage = nullIfEmpty($_POST['storage']);
+        $dryer = nullIfEmpty($_POST['dryer']);
+        $heating = nullIfEmpty($_POST['heating']);
+        $pool = nullIfEmpty($_POST['pool']);
+        $laundry = nullIfEmpty($_POST['laundry']);
+        $sauna = nullIfEmpty($_POST['sauna']);
+        $gym = nullIfEmpty($_POST['gym']);
+        $elevator = nullIfEmpty($_POST['elevator']);
+        $dishwasher = nullIfEmpty($_POST['dishwasher']);
+        $eexit = nullIfEmpty($_POST['eexit']);
+
+        $proaddress = nullIfEmpty($_POST['address']);
+        $profacing = nullIfEmpty($_POST['facing']);
+        $procountry = nullIfEmpty($_POST['country']);
+        $procity = nullIfEmpty($_POST['city']);
+        $prostate = nullIfEmpty($_POST['state']);
+        $prozipcode = nullIfEmpty($_POST['zipcode']);
+        $neighborhood = nullIfEmpty($_POST['neighborhood']);
 
 $proid=mt_rand(100000000, 999999999);
 //fetured Image
@@ -111,7 +116,7 @@ $propic5=md5($pic5).time().$extension5;
      move_uploaded_file($_FILES["galleryimage4"]["tmp_name"],"propertyimages/".$propic4);
      move_uploaded_file($_FILES["galleryimage5"]["tmp_name"],"propertyimages/".$propic5);
 
-    $query=mysqli_query($con,"insert into tblproperty(UserID,PropertyTitle,PropertDescription,Type,Status,Location,Bedrooms,Bathrooms,Floors,Garages,Area,Size,RentorsalePrice,BeforePricelabel,AfterPricelabel,PropertyID,CenterCooling,Balcony,PetFriendly,Barbeque,FireAlarm,ModernKitchen,Storage,Dryer,Heating,Pool,Laundry,Sauna,Gym,Elevator,DishWasher,EmergencyExit,FeaturedImage,GalleryImage1,GalleryImage2,GalleryImage3,GalleryImage4,GalleryImage5,Address,Country,City,State,ZipCode,Neighborhood,ApprovalStatus)value('$uid','$protitle','$prodec','$type','$status','$location','$bedrooms','$bathrooms','$floors','$garages','$area','$size','$srprice','$beforepricelabel','$afterpricelabel','$proid','$ccolling','$balcony','$petfrndly','$barbeque','$firealarm','$modkitchen','$storage','$dryer','$heating','$pool','$laundry','$sauna','$gym','$elevator','$dishwasher','$eexit','$propic','$propic1','$propic2','$propic3','$propic4','$propic5','$proaddress','$procountry','$procity','$prostate','$prozipcode','$neighborhood','Pending')");
+    $query=mysqli_query($con,"insert into tblproperty(UserID,PropertyTitle,PropertDescription,Type,Status,Location,Bedrooms,Bathrooms,Floors,Garages,Area,Size,RentorsalePrice,BeforePricelabel,AfterPricelabel,PropertyID,CenterCooling,Balcony,PetFriendly,Barbeque,FireAlarm,ModernKitchen,Storage,Dryer,Heating,Pool,Laundry,Sauna,Gym,Elevator,DishWasher,EmergencyExit,FeaturedImage,GalleryImage1,GalleryImage2,GalleryImage3,GalleryImage4,GalleryImage5,Address,Facing,Country,City,State,ZipCode,Neighborhood,ApprovalStatus)value('$uid','$protitle','$prodec','$type','$status','$location','$bedrooms','$bathrooms','$floors','$garages','$area','$size','$srprice','$beforepricelabel','$afterpricelabel','$proid','$ccolling','$balcony','$petfrndly','$barbeque','$firealarm','$modkitchen','$storage','$dryer','$heating','$pool','$laundry','$sauna','$gym','$elevator','$dishwasher','$eexit','$propic','$propic1','$propic2','$propic3','$propic4','$propic5','$proaddress','$profacing','$procountry','$procity','$prostate','$prozipcode','$neighborhood','Pending')");
    if ($query) {
     echo '<script>alert("Property has been submitted for approval. You will be notified once it is reviewed by our admin team.")</script>';
 echo "<script>window.location.href ='add-property.php'</script>";
@@ -341,6 +346,26 @@ $(document).ready(function() {
                                     <!-- .col-md-4 end -->
                                     <div class="col-xs-12 col-sm-4 col-md-4">
                                         <div class="form-group">
+                                            <label for="Facing">Facing</label>
+                                            <div class="select--box">
+                                                <i class="fa fa-angle-down"></i>
+                                                <select id="facing" name="facing">
+                                                    <option value="">Select Facing</option>
+                                                    <option value="East">East</option>
+                                                    <option value="West">West</option>
+                                                    <option value="North">North</option>
+                                                    <option value="South">South</option>
+                                                    <option value="North-East">North-East</option>
+                                                    <option value="North-West">North-West</option>
+                                                    <option value="South-East">South-East</option>
+                                                    <option value="South-West">South-West</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- .col-md-4 end -->
+                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                        <div class="form-group">
                                             <label for="Bedrooms">Bedrooms</label>
                                             <input type="text" class="form-control" name="bedrooms" id="bedrooms">
                                         </div>
@@ -362,8 +387,21 @@ $(document).ready(function() {
                                     <!-- .col-md-4 end -->
                                     <div class="col-xs-12 col-sm-4 col-md-4">
                                         <div class="form-group">
-                                            <label for="Garages">Garages</label>
-                                            <input type="text" class="form-control" name="garages" id="garages">
+                                            <label for="garages">Car Parking</label>
+                                            <div class="select--box">
+                                                <i class="fa fa-angle-down"></i>
+                                                <select id="garages" name="garages">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label for="furnished">Furnished</label>
+                                            <input type="text" class="form-control" name="furnished" id="furnished">
                                         </div>
                                     </div>
                                     <!-- .col-md-4 end -->
@@ -376,7 +414,7 @@ $(document).ready(function() {
                                     <!-- .col-md-4 end -->
                                     <div class="col-xs-12 col-sm-4 col-md-4">
                                         <div class="form-group">
-                                            <label for="Size">Size</label>
+                                            <label for="Size">Built-up Area</label>
                                             <input type="text" class="form-control" name="size" id="size" placeholder="sq ft">
                                         </div>
                                     </div>
@@ -384,23 +422,50 @@ $(document).ready(function() {
                                     <div class="col-xs-12 col-sm-4 col-md-4">
                                         <div class="form-group">
                                             <label for="Sale-Rent-Price">Sale or Rent Price*</label>
-                                            <input type="text" class="form-control" name="salerentprice" id="salerentprice" required>
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
+                                                name="salerentprice" 
+                                                id="salerentprice" 
+                                                required
+                                                oninput="formatCurrency(this)"
+                                                autocomplete="off"
+                                            >
                                         </div>
                                     </div>
+                                    
+                                    <script>
+                                    function formatCurrency(input) {
+                                        // Remove all non-digit characters
+                                        let value = input.value.replace(/[^0-9]/g, '');
+                                        if (value === '') {
+                                            input.value = '';
+                                            return;
+                                        }
+                                        // Format as per Indian numbering system (e.g., 12,34,567)
+                                        let lastThree = value.substring(value.length - 3);
+                                        let otherNumbers = value.substring(0, value.length - 3);
+                                        if (otherNumbers !== '') {
+                                            lastThree = ',' + lastThree;
+                                        }
+                                        let formatted = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+                                        input.value = formatted;
+                                    }
+                                    </script>
                                     <!-- .col-md-4 end -->
-                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                    <!-- <div class="col-xs-12 col-sm-4 col-md-4">
                                         <div class="form-group">
                                             <label for="Before-Price-Label">Before Price Label</label>
                                             <input type="text" class="form-control" name="beforepricelabel" id="beforepricelabel" placeholder="ex: start from">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- .col-md-4 end -->
-                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                    <!-- <div class="col-xs-12 col-sm-4 col-md-4">
                                         <div class="form-group">
                                             <label for="After-Price-Label">After Price Label</label>
                                             <input type="text" class="form-control" name="afterpricelabel" id="afterpricelabel" placeholder="ex: monthly">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     
                                 </div>
                                 <!-- .row end -->

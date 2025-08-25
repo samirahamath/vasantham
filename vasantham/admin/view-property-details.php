@@ -8,47 +8,75 @@ if (strlen($_SESSION['remsaid']==0)) {
 
 if(isset($_POST['submit']))
 {
-$uid=$_GET['viewid'];
-$protitle=$_POST['propertytitle'];
-$prodec=$_POST['propertydescription'];
-$type=$_POST['type'];
-$status=$_POST['status'];
-$location=$_POST['location'];
-$bedrooms=$_POST['bedrooms'];
-$bathrooms=$_POST['bathrooms'];
-$floors=$_POST['floors'];
-$garages=$_POST['garages'];
-$area=$_POST['area'];
-$saleprice=$_POST['saleprice'];
-$beforepricelabel=$_POST['beforepricelabel'];
-$afterpricelabel=$_POST['afterpricelabel'];
-$ccooling=isset($_POST['centercolling']) ? 1 : 0;
-$balcony=isset($_POST['balcony']) ? 1 : 0;
-$petfrndly=isset($_POST['petfrndly']) ? 1 : 0;
-$barbeque=isset($_POST['barbeque']) ? 1 : 0;
-$firealarm=isset($_POST['firealarm']) ? 1 : 0;
-$storage=isset($_POST['storage']) ? 1 : 0;
-$dryer=isset($_POST['dryer']) ? 1 : 0;
-$heating=isset($_POST['heating']) ? 1 : 0;
-$pool=isset($_POST['pool']) ? 1 : 0;
-$laundry=isset($_POST['laundry']) ? 1 : 0;
-$sauna=isset($_POST['sauna']) ? 1 : 0;
-$gym=isset($_POST['gym']) ? 1 : 0;
-$elevator=isset($_POST['elevator']) ? 1 : 0;
-$dishwasher=isset($_POST['dishwasher']) ? 1 : 0;
-$eexit=isset($_POST['eexit']) ? 1 : 0;
-$address=$_POST['address'];
-$zipcode=$_POST['zipcode'];
-$neighborhood=$_POST['neighborhood'];
+    $uid = intval($_GET['viewid']);
 
- $query=mysqli_query($con, "update tblproperty set PropertyTitle='$protitle',PropertDescription='$prodec',Type='$type',Status='$status',Location='$location',Bedrooms='$bedrooms',Bathrooms='$bathrooms',Floors='$floors',Garages='$garages',Area='$area',RentorsalePrice='$saleprice',BeforePricelabel='$beforepricelabel',AfterPricelabel='$afterpricelabel',CenterCooling='$ccooling',Balcony='$balcony',PetFriendly='$petfrndly',Barbeque='$barbeque',FireAlarm='$firealarm',Storage='$storage',Dryer='$dryer',Heating='$heating',Pool='$pool',Laundry='$laundry',Sauna='$sauna',Gym='$gym',Elevator='$elevator',DishWasher='$dishwasher',EmergencyExit='$eexit',Address='$address',ZipCode='$zipcode',Neighborhood='$neighborhood' where ID='$uid'");
+    // Helper to return SQL literal: NULL or quoted escaped string
+    function sqlVal($con, $fieldName) {
+        if (!isset($_POST[$fieldName]) || trim($_POST[$fieldName]) === '') {
+            return 'NULL';
+        }
+        return "'" . mysqli_real_escape_string($con, $_POST[$fieldName]) . "'";
+    }
+
+    // Checkbox/boolean fields
+    $ccooling = isset($_POST['centercolling']) ? 1 : 0;
+    $balcony = isset($_POST['balcony']) ? 1 : 0;
+    $petfrndly = isset($_POST['petfrndly']) ? 1 : 0;
+    $barbeque = isset($_POST['barbeque']) ? 1 : 0;
+    $firealarm = isset($_POST['firealarm']) ? 1 : 0;
+    $storage = isset($_POST['storage']) ? 1 : 0;
+    $dryer = isset($_POST['dryer']) ? 1 : 0;
+    $heating = isset($_POST['heating']) ? 1 : 0;
+    $pool = isset($_POST['pool']) ? 1 : 0;
+    $laundry = isset($_POST['laundry']) ? 1 : 0;
+    $sauna = isset($_POST['sauna']) ? 1 : 0;
+    $gym = isset($_POST['gym']) ? 1 : 0;
+    $elevator = isset($_POST['elevator']) ? 1 : 0;
+    $dishwasher = isset($_POST['dishwasher']) ? 1 : 0;
+    $eexit = isset($_POST['eexit']) ? 1 : 0;
+
+    // Build assignments, using NULL for empty inputs
+    $assignments = [];
+    $assignments[] = 'PropertyTitle=' . sqlVal($con, 'propertytitle');
+    $assignments[] = 'PropertDescription=' . sqlVal($con, 'propertydescription');
+    $assignments[] = 'Type=' . sqlVal($con, 'type');
+    $assignments[] = 'Status=' . sqlVal($con, 'status');
+    $assignments[] = 'Location=' . sqlVal($con, 'location');
+    $assignments[] = 'Bedrooms=' . sqlVal($con, 'bedrooms');
+    $assignments[] = 'Bathrooms=' . sqlVal($con, 'bathrooms');
+    $assignments[] = 'Floors=' . sqlVal($con, 'floors');
+    $assignments[] = 'Garages=' . sqlVal($con, 'garages');
+    $assignments[] = 'Area=' . sqlVal($con, 'area');
+    $assignments[] = 'RentorsalePrice=' . sqlVal($con, 'saleprice');
+    $assignments[] = 'BeforePricelabel=' . sqlVal($con, 'beforepricelabel');
+    $assignments[] = 'AfterPricelabel=' . sqlVal($con, 'afterpricelabel');
+    $assignments[] = 'CenterCooling=' . ($ccooling ? '1' : '0');
+    $assignments[] = 'Balcony=' . ($balcony ? '1' : '0');
+    $assignments[] = 'PetFriendly=' . ($petfrndly ? '1' : '0');
+    $assignments[] = 'Barbeque=' . ($barbeque ? '1' : '0');
+    $assignments[] = 'FireAlarm=' . ($firealarm ? '1' : '0');
+    $assignments[] = 'Storage=' . ($storage ? '1' : '0');
+    $assignments[] = 'Dryer=' . ($dryer ? '1' : '0');
+    $assignments[] = 'Heating=' . ($heating ? '1' : '0');
+    $assignments[] = 'Pool=' . ($pool ? '1' : '0');
+    $assignments[] = 'Laundry=' . ($laundry ? '1' : '0');
+    $assignments[] = 'Sauna=' . ($sauna ? '1' : '0');
+    $assignments[] = 'Gym=' . ($gym ? '1' : '0');
+    $assignments[] = 'Elevator=' . ($elevator ? '1' : '0');
+    $assignments[] = 'DishWasher=' . ($dishwasher ? '1' : '0');
+    $assignments[] = 'EmergencyExit=' . ($eexit ? '1' : '0');
+    $assignments[] = 'Address=' . sqlVal($con, 'address');
+    $assignments[] = 'Facing=' . sqlVal($con, 'facing');
+    $assignments[] = 'ZipCode=' . sqlVal($con, 'zipcode');
+    $assignments[] = 'Neighborhood=' . sqlVal($con, 'neighborhood');
+
+    $sql = "UPDATE tblproperty SET " . implode(',', $assignments) . " WHERE ID='" . $uid . "'";
+    $query = mysqli_query($con, $sql);
 
     if ($query) {
-    $msg="Property details has been updated.";
-  }
-  else
-    {
-      $msg="Something Went Wrong. Please try again";
+        $msg = "Property details has been updated.";
+    } else {
+        $msg = "Something Went Wrong. Please try again";
     }
 }
 
@@ -140,48 +168,97 @@ while ($row=mysqli_fetch_array($ret)) {
                                 </tr>
                                 <tr>
                                     <th>Property Title </th>
-                                    <td><input type="text" name="propertytitle" class="form-control" required="true" value="<?php  echo $row['PropertyTitle'];?>"></td>
+                                    <td><input type="text" name="propertytitle" class="form-control"   value="<?php  echo $row['PropertyTitle'];?>"></td>
                                 </tr>
                                 <tr>
                                     <th>Property Description </th>
-                                    <td><textarea name="propertydescription" class="form-control" required="true"><?php  echo $row['PropertDescription'];?></textarea></td>
+                                    <td><textarea name="propertydescription" class="form-control"  ><?php  echo $row['PropertDescription'];?></textarea></td>
                                 </tr>
                                 <tr>
                                     <th>Type </th>
-                                    <td><input type="text" name="type" class="form-control" required="true" value="<?php  echo $row['Type'];?>"></td>
+                                    <td><input type="text" name="type" class="form-control"   value="<?php  echo $row['Type'];?>"></td>
                                 </tr>
                                 <tr>
                                     <th>Status </th>
-                                    <td><input type="text" name="status" class="form-control" required="true" value="<?php  echo $row['Status'];?>"></td>
+                                    <td><input type="text" name="status" class="form-control"   value="<?php  echo $row['Status'];?>"></td>
                                 </tr>
                                 <tr>
                                     <th>Location </th>
-                                    <td><input type="text" name="location" class="form-control" required="true" value="<?php  echo $row['Location'];?>"></td>
+                                    <td><input type="text" name="location" class="form-control"   value="<?php  echo $row['Location'];?>"></td>
+                                </tr>
+                                <tr>
+                                    <th>Facing </th>
+                                    <td>
+                                        <select name="facing" class="form-control">
+                                            <option value="">Select Facing</option>
+                                            <option value="East" <?php if(isset($row['Facing']) && $row['Facing'] == "East") echo "selected"; ?>>East</option>
+                                            <option value="West" <?php if(isset($row['Facing']) && $row['Facing'] == "West") echo "selected"; ?>>West</option>
+                                            <option value="North" <?php if(isset($row['Facing']) && $row['Facing'] == "North") echo "selected"; ?>>North</option>
+                                            <option value="South" <?php if(isset($row['Facing']) && $row['Facing'] == "South") echo "selected"; ?>>South</option>
+                                            <option value="North-East" <?php if(isset($row['Facing']) && $row['Facing'] == "North-East") echo "selected"; ?>>North-East</option>
+                                            <option value="North-West" <?php if(isset($row['Facing']) && $row['Facing'] == "North-West") echo "selected"; ?>>North-West</option>
+                                            <option value="South-East" <?php if(isset($row['Facing']) && $row['Facing'] == "South-East") echo "selected"; ?>>South-East</option>
+                                            <option value="South-West" <?php if(isset($row['Facing']) && $row['Facing'] == "South-West") echo "selected"; ?>>South-West</option>
+                                        </select>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Bedrooms </th>
-                                    <td><input type="text" name="bedrooms" class="form-control" required="true" value="<?php  echo $row['Bedrooms'];?>"></td>
+                                    <td><input type="text" name="bedrooms" class="form-control" value="<?php  echo $row['Bedrooms'];?>"></td>
                                 </tr>
                                 <tr>
                                     <th>Bathrooms </th>
-                                    <td><input type="text" name="bathrooms" class="form-control" required="true" value="<?php  echo $row['Bathrooms'];?>"></td>
+                                    <td><input type="text" name="bathrooms" class="form-control" value="<?php  echo $row['Bathrooms'];?>"></td>
                                 </tr>
                                 <tr>
                                     <th>Floors </th>
-                                    <td><input type="text" name="floors" class="form-control" required="true" value="<?php  echo $row['Floors'];?>"></td>
+                                    <td><input type="text" name="floors" class="form-control" value="<?php  echo $row['Floors'];?>"></td>
                                 </tr>
                                 <tr>
-                                    <th>Garages </th>
-                                    <td><input type="text" name="garages" class="form-control" required="true" value="<?php  echo $row['Garages'];?>"></td>
+                                    <th>Car Parking</th>
+                                    <td>
+                                        <select name="garages" class="form-control">
+                                            <option value="0" <?php if($row['Garages'] == "0") echo "selected"; ?>>No</option>
+                                            <option value="1" <?php if($row['Garages'] == "1") echo "selected"; ?>>Yes</option>
+                                        </select>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Area </th>
-                                    <td><input type="text" name="area" class="form-control" required="true" value="<?php  echo $row['Area'];?>"></td>
+                                    <td><input type="text" name="area" class="form-control"   value="<?php  echo $row['Area'];?>"></td>
                                 </tr>
                                 <tr>
                                     <th>Rent/salePrice </th>
-                                    <td><input type="text" name="saleprice" class="form-control" required="true" value="<?php  echo $row['RentorsalePrice'];?>"></td>
+                                    <td>
+                                        <input 
+                                            type="text" 
+                                            name="saleprice" 
+                                            class="form-control" 
+                                            value="<?php echo $row['RentorsalePrice'];?>"
+                                            id="saleprice"
+                                            oninput="formatCurrency(this)"
+                                            autocomplete="off"
+                                        >
+                                    </td>
                                 </tr>
+                                <script>
+                                function formatCurrency(input) {
+                                    // Remove all non-digit characters
+                                    let value = input.value.replace(/[^0-9]/g, '');
+                                    if (value === '') {
+                                        input.value = '';
+                                        return;
+                                    }
+                                    // Format as per Indian numbering system (e.g., 12,34,567)
+                                    let lastThree = value.substring(value.length - 3);
+                                    let otherNumbers = value.substring(0, value.length - 3);
+                                    if (otherNumbers !== '') {
+                                        lastThree = ',' + lastThree;
+                                    }
+                                    let formatted = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+                                    input.value = formatted;
+                                }
+                                </script>
                                 <tr>
                                     <th>Before Price label </th>
                                     <td><input type="text" name="beforepricelabel" class="form-control" value="<?php  echo $row['BeforePricelabel'];?>"></td>
@@ -348,7 +425,7 @@ while ($row=mysqli_fetch_array($ret)) {
                                     <p style="color: red">Property Address</p>
                                 <tr>
                                     <th>Address </th>
-                                    <td><input type="text" name="address" class="form-control" required="true" value="<?php  echo $row['Address'];?>"></td>
+                                    <td><input type="text" name="address" class="form-control"   value="<?php  echo $row['Address'];?>"></td>
                                 </tr>
 <tr>
 <th>Country </th>
@@ -369,11 +446,11 @@ while ($row=mysqli_fetch_array($ret)) {
                                
                                 <tr>
                                     <th>Zip Code </th>
-                                    <td><input type="text" name="zipcode" class="form-control" required="true" value="<?php  echo $row['ZipCode'];?>"></td>
+                                    <td><input type="text" name="zipcode" class="form-control"   value="<?php  echo $row['ZipCode'];?>"></td>
                                 </tr>
                                 <tr>
                                     <th>Neighborhood </th>
-                                    <td><input type="text" name="neighborhood" class="form-control" required="true" value="<?php  echo $row['Neighborhood'];?>"></td>
+                                    <td><input type="text" name="neighborhood" class="form-control" value="<?php  echo $row['Neighborhood'];?>"></td>
                                 </tr>
                                 <tr>
                                     <th>Listing Date </th>

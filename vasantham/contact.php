@@ -35,39 +35,6 @@ include('includes/dbconnection.php');
          <?php include_once('includes/header.php');?>
 
           <hr />
-        <!-- Page Title #1
-============================================ -->
-        <section id="page-title" style="margin-top:-3%" class="page-title bg-overlay bg-overlay-dark2">
-            <div class="bg-section">
-                <img src="assets/images/page-titles/1.jpg" alt="Background" />
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3">
-                        <div class="title title-1 text-center">
-                            <div class="title--content">
-                                <div class="title--heading">
-                                    <h1>Contact</h1>
-                                </div>
-                                <ol class="breadcrumb">
-                                    <li><a href="index.php">Home</a></li>
-                                    <li class="active">Contact</li>
-                                </ol>
-                                <p class="contact-title-desc" style="margin-top:15px;">
-                                    Feel free to reach out to us for any inquiries or support. We are here to help you with all your real estate needs.
-                                </p>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <!-- .title end -->
-                    </div>
-                    <!-- .col-md-12 end -->
-                </div>
-                <!-- .row end -->
-            </div>
-            <!-- .container end -->
-        </section>
-        <!-- #page-title end -->
 
         <!-- Contact #1
 ============================================= -->
@@ -94,7 +61,7 @@ while ($row=mysqli_fetch_array($ret)) {
                         <div class="contact-panel">
                             <h3>Phone:</h3>
                             
-                            <p>+<?php  echo $row['MobileNumber'];?></p>
+                            <p>+91 <?php  echo $row['MobileNumber'];?></p>
                         </div>
                         <!-- .contact-panel -->
                         <div class="contact-panel">

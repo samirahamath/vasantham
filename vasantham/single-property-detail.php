@@ -81,6 +81,8 @@ $query=mysqli_query($con,"insert into tblfeedback(UserId,PropertyId,UserRemark) 
             </div>
 
             <div class="container">
+                <!-- Property quick details -->
+                
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3">
                         <div class="title title-1 text-center">
@@ -131,7 +133,18 @@ while ($row=mysqli_fetch_array($query)) {
                             <div class="property--info clearfix">
                                 <div class="pull-left">
                                     <h5 class="property--title"><?php echo $row['PropertyTitle'];?></h5>
-                                    <p class="property--location"><?php echo $row['Address'];?>, <?php echo $row['CountryName'];?>, <?php echo $row['StateName'];?>,<?php echo $row['City'];?>,<?php echo $row['ZipCode'];?></p>
+                                    <?php
+                                    // Build location parts only from non-empty values to avoid showing empty/NULL fields
+                                    $locParts = array();
+                                    if (!empty($row['Address'])) $locParts[] = $row['Address'];
+                                    if (!empty($row['CountryName'])) $locParts[] = $row['CountryName'];
+                                    if (!empty($row['StateName'])) $locParts[] = $row['StateName'];
+                                    if (!empty($row['City'])) $locParts[] = $row['City'];
+                                    if (!empty($row['ZipCode'])) $locParts[] = $row['ZipCode'];
+                                    if (!empty($locParts)) {
+                                        echo '<p class="property--location">' . htmlspecialchars(implode(', ', $locParts)) . '</p>';
+                                    }
+                                    ?>
                                 </div>
                                 <div class="pull-right">
                                     <span class="property--status"><?php echo $row['Status'];?></span>
@@ -210,78 +223,87 @@ while ($row=mysqli_fetch_array($query)) {
                                     </div>
                                 </div>
                                 <!-- feature-panel #1 -->
+                                <?php if (!empty($row['Area'])) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-panel">
-                                        <div class="feature--img">
+                                        <!-- <div class="feature--img">
                                             <img src="assets/images/property-single/features/1.png" alt="icon">
-                                        </div>
+                                        </div> -->
                                         <div class="feature--content">
                                             <h5>Area:</h5>
-                                            <p><?php echo $row['Area'];?></p>
+                                            <p><?php echo htmlspecialchars($row['Area']);?></p>
                                         </div>
                                     </div>
                                 </div>
+                                <?php } ?>
+
+                                <?php if (!empty($row['Facing'])) { ?>
+                                    <div class="col-xs-6 col-sm-4 col-md-4">
+                                        <div class="feature-panel">
+                                            <!-- <div class="feature--img">
+                                                <img src="assets/images/property-single/features/7.png" alt="icon">
+                                            </div> -->
+                                            <div class="feature--content">
+                                                <h5>Facing:</h5>
+                                                <p><?php echo htmlspecialchars($row['Facing']); ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <!-- feature-panel end -->
                                 <!-- feature-panel #2 -->
+                                <?php if (!empty($row['Bedrooms'])) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-panel">
-                                        <div class="feature--img">
-                                            <img src="assets/images/property-single/features/2.png" alt="icon">
-                                        </div>
                                         <div class="feature--content">
                                             <h5>Beds:</h5>
-                                            <p><?php echo $row['Bedrooms'];?></p>
+                                            <p><?php echo htmlspecialchars($row['Bedrooms']);?></p>
                                         </div>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-panel end -->
                                 <!-- feature-panel #3 -->
+                                <?php if (!empty($row['Bathrooms'])) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-panel">
-                                        <div class="feature--img">
-                                            <img src="assets/images/property-single/features/3.png" alt="icon">
-                                        </div>
                                         <div class="feature--content">
                                             <h5>Baths:</h5>
-                                            <p><?php echo $row['Bathrooms'];?></p>
+                                            <p><?php echo htmlspecialchars($row['Bathrooms']);?></p>
                                         </div>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-panel end -->
                                 <!-- feature-panel #4 -->
+                                <?php if (!empty($row['Size'])) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-panel">
-                                        <div class="feature--img">
-                                            <img src="assets/images/property-single/features/4.png" alt="icon">
-                                        </div>
                                         <div class="feature--content">
                                             <h5>Size:</h5>
-                                            <p><?php echo $row['Size'];?></p>
+                                            <p><?php echo htmlspecialchars($row['Size']);?></p>
                                         </div>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-panel end -->
                                 <!-- feature-panel #5 -->
+                                <?php if (!empty($row['Floors'])) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-panel">
-                                        <div class="feature--img">
-                                            <img src="assets/images/property-single/features/5.png" alt="icon">
-                                        </div>
                                         <div class="feature--content">
                                             <h5>Floors:</h5>
-                                            <p><?php echo $row['Floors'];?></p>
+                                            <p><?php echo htmlspecialchars($row['Floors']);?></p>
                                         </div>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-panel end -->
                                 <!-- feature-panel #6 -->
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-panel">
-                                        <div class="feature--img">
-                                            <img src="assets/images/property-single/features/6.png" alt="icon">
-                                        </div>
                                         <div class="feature--content">
-                                            <h5>Garage:</h5>
+                                            <h5>Car Parking</h5>
                                             <p><?php echo $row['Garages'];?></p>
                                         </div>
                                     </div>
@@ -308,190 +330,174 @@ while ($row=mysqli_fetch_array($query)) {
                                     </div>
                                 </div>
                                 <!-- feature-item #1 -->
-                                <div class="col-xs-6 col-sm-4 col-md-4">
-                                    <div class="feature-item">
-                                    <p>    
-<?php if($row['CenterCooling']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>    Center Cooling</p>
-                                    </div>
-                                </div>
-                                <!-- feature-item end -->
-                                <!-- feature-item #2 -->
-                                <div class="col-xs-6 col-sm-4 col-md-4">
-                                    <div class="feature-item">
-  <p> 
-<?php if($row['Balcony']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Balcony</p>
-                                    </div>
-                                </div>
-                                <!-- feature-item end -->
-                                <!-- feature-item #3 -->
+                                <?php if (!empty($row['CenterCooling']) && $row['CenterCooling']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-<?php if($row['PetFriendly']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Pet Friendly</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Center Cooling
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
+                                <!-- feature-item end -->
+                                <!-- feature-item #2 -->
+                                <?php if (!empty($row['Balcony']) && $row['Balcony']==1) { ?>
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Balcony
+                                        </p>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                                <!-- feature-item end -->
+                                <!-- feature-item #3 -->
+                                <?php if (!empty($row['PetFriendly']) && $row['PetFriendly']==1) { ?>
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Pet Friendly
+                                        </p>
+                                    </div>
+                                </div>
+                                <?php } ?>
                                 <!-- feature-item end -->
                                 <!-- feature-item #4 -->
 
-              <div class="col-xs-6 col-sm-4 col-md-4">
-                <div class="feature-item">
-                    <p>
- <?php if($row['Barbeque']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Barbeque</p>
-                                    </div>
-                                </div>
-
-
+                                <?php if (!empty($row['Barbeque']) && $row['Barbeque']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
-                                <div class="feature-item">
-                                    <p>
- <?php if($row['FireAlarm']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Fire Alarm</p>
+                                    <div class="feature-item">
+                                        <p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Barbeque
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
+
+
+                                <?php if (!empty($row['FireAlarm']) && $row['FireAlarm']==1) { ?>
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Fire Alarm
+                                        </p>
+                                    </div>
+                                </div>
+                                <?php } ?>
                                 <!-- feature-item end -->
                                 <!-- feature-item #5 -->
+                                <?php if (!empty($row['ModernKitchen']) && $row['ModernKitchen']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['ModernKitchen']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Modern Kitchen</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Modern Kitchen
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-item end -->
                                 <!-- feature-item #6 -->
+                                <?php if (!empty($row['Storage']) && $row['Storage']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['Storage']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Storage</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Storage
+                                        </p>
                                     </div>
                                 </div>
-                             <div class="col-xs-6 col-sm-4 col-md-4">
-                                    <div class="feature-item">
-                                        <p>
-                                        <?php if($row['Dryer']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Dryer</p>
-                                    </div>
-                                </div>
+                                <?php } ?>
+                                <?php if (!empty($row['Dryer']) && $row['Dryer']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['Heating']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Heating</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Dryer
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
+                                <?php if (!empty($row['Heating']) && $row['Heating']==1) { ?>
+                                <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="feature-item">
+                                        <p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Heating
+                                        </p>
+                                    </div>
+                                </div>
+                                <?php } ?>
                                 <!-- feature-item end -->
                                 <!-- feature-item #8 -->
+                                <?php if (!empty($row['Pool']) && $row['Pool']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['Pool']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Pool</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Pool
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-item end -->
                                 <!-- feature-item #9 -->
+                                <?php if (!empty($row['Laundry']) && $row['Laundry']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['Laundry']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Laundry</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Laundry
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-item end -->
                                 <!-- feature-item #10 -->
+                                <?php if (!empty($row['Gym']) && $row['Gym']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['Gym']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Gym</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Gym
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
 
+                                <?php if (!empty($row['Sauna']) && $row['Sauna']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['Sauna']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Sauna</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Sauna
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-item end -->
                                 <!-- feature-item #11 -->
+                                <?php if (!empty($row['Elevator']) && $row['Elevator']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['Elevator']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Elevator</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Elevator
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <!-- feature-item end -->
                                 <!-- feature-item #12 -->
+                                <?php if (!empty($row['DishWasher']) && $row['DishWasher']==1) { ?>
                                 <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['DishWasher']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>Dish Washer</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Dish Washer
+                                        </p>
                                     </div>
                                 </div>
-<div class="col-xs-6 col-sm-4 col-md-4">
+                                <?php } ?>
+                                <?php if (!empty($row['EmergencyExit']) && $row['EmergencyExit']==1) { ?>
+                                <div class="col-xs-6 col-sm-4 col-md-4">
                                     <div class="feature-item">
                                         <p>
-                                        <?php if($row['EmergencyExit']==1){?>
-<img src="assets/images/check.png" width="12" height="12">
-<?php } else { ?>
-    <img src="assets/images/close.png" width="12" height="12">               
-<?php } ?>EmergencyExit</p>
+                                            <img src="assets/images/check.png" width="12" height="12"> Emergency Exit
+                                        </p>
                                     </div>
                                 </div>
+                                <?php } ?>
 
                                 <!-- feature-item end -->
                             </div>
@@ -661,7 +667,7 @@ while ($row1=mysqli_fetch_array($ret1)) {
                                         <textarea class="form-control" name="message" id="message" rows="2" required="true"></textarea>
                                     </div>
                                     <!-- .form-group end -->
-                                    <input type="submit" value="Send Request" name="submit" class="btn btn--primary btn--block">
+                                    <button type="submit" name="submit" class="btn btn--primary btn--block">Send Request</button>
                                 </form>
                             </div>
                         </div>
@@ -821,13 +827,13 @@ while($row=mysqli_fetch_array($query))
 <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
 </div>
                                     <!-- .property-info end -->
-<div class="property--features">
+<!-- <div class="property--features">
 <ul class="list-unstyled mb-0">
 <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
 <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
 <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                     <!-- .property-features end -->
                                 </div>
                             </div>
@@ -1022,21 +1028,29 @@ while($row=mysqli_fetch_array($query))
     outline: none;
 }
 
-.btn--primary, .btn.btn--primary {
+.btn--primary, .btn.btn--primary,
+input.btn--primary {
     background: #260844 !important;
     color: #fff !important;
     border: none;
     border-radius: 8px;
     font-weight: 700;
-    padding: 10px 28px;
     font-size: 1.08rem;
     transition: background 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 8px rgba(38,8,68,0.10);
     text-align: center;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+}
+/* Utility class to make a button span full width */
+.btn--block {
+    display: block !important;
+    width: 100% !important;
+}
+.btn--primary, .btn--block, input.btn--primary, input.btn--block {
+    text-align: center !important;
 }
 .btn--primary:hover, .btn.btn--primary:hover {
     background: #3d0e7e !important;

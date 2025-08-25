@@ -9,7 +9,7 @@ if (strlen($_SESSION['remsuid']==0 || $_SESSION['ut']==3)) {
 if(isset($_GET['del']))
 {
 mysqli_query($con,"delete from tblproperty where ID ='".$_GET['id']."'");
-echo "<script>alert('Data Deleted');</script>";
+echo "<script>alert('Property Deleted');</script>";
 echo "<script>window.location.href='my-properties.php'</script>";
 }
 
@@ -218,13 +218,15 @@ echo "<script>window.location.href='my-properties.php'</script>";
                     <div class="col-xs-12 col-sm-8 col-md-8">
                       <?php
                       $uid=$_SESSION['remsuid'];
-$query=mysqli_query($con,"select * from tblproperty where UserID='$uid' ORDER BY ListingDate DESC");
+$query=mysqli_query($con,"SELECT * FROM tblproperty WHERE UserID='$uid' AND (ApprovalStatus IS NULL OR ApprovalStatus = '' OR LOWER(TRIM(ApprovalStatus)) IN ('pending','approved')) ORDER BY ListingDate DESC");
 $num=mysqli_num_rows($query);
 if($num>0){
 while($row=mysqli_fetch_array($query))
 {
-    // Get approval status, default to 'Approved' for backward compatibility
-    $approvalStatus = isset($row['ApprovalStatus']) ? $row['ApprovalStatus'] : 'Approved';
+    // Get approval status; treat empty/NULL as 'Pending'
+    $approvalStatus = isset($row['ApprovalStatus']) && trim($row['ApprovalStatus']) !== '' ? $row['ApprovalStatus'] : 'Pending';
+    // Normalized value for case-insensitive comparisons
+    $approvalStatusNorm = strtolower(trim($approvalStatus));
 ?>
                         <div class="property-item">
 
@@ -248,16 +250,29 @@ while($row=mysqli_fetch_array($query))
 
                                     <!-- Approval Status Display -->
                                     <div class="approval-status" style="margin: 10px 0;">
-                                        <?php if($approvalStatus == 'Approved') { ?>
-                                            <span class="badge" style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 15px;">
-                                                <i class="fa fa-check-circle"></i> Approved
-                                            </span>
-                                            <?php if($row['ApprovalDate']) { ?>
-                                                <small style="color: #666; display: block; margin-top: 5px;">
-                                                    Approved on <?php echo date('M d, Y', strtotime($row['ApprovalDate'])); ?>
-                                                </small>
-                                            <?php } ?>
-                                        <?php } elseif($approvalStatus == 'Rejected') { ?>
+                                        <?php 
+                                        // Consider a property 'On Hold' when ApprovalStatus is Approved but ApprovedBy is NULL/empty/0
+                                        $approvedByVal = array_key_exists('ApprovedBy', $row) ? $row['ApprovedBy'] : null;
+                                        $isHeld = ($approvalStatusNorm == 'approved') && (is_null($approvedByVal) || $approvedByVal === '' || intval($approvedByVal) === 0);
+
+                                        if ($approvalStatusNorm == 'approved') {
+                                            if ($isHeld) {
+                                                // Show held state for owner
+                                                echo '<span class="badge" style="background-color: #ffc107; color: #212529; padding: 5px 10px; border-radius: 15px;">';
+                                                echo '<i class="fa fa-pause-circle"></i> On Hold';
+                                                echo '</span>';
+                                                if (!empty($row['ApprovalDate'])) {
+                                                    echo '<br><small style="color: #666; display: block; margin-top: 5px;">Previously approved on '.date('M d, Y', strtotime($row['ApprovalDate'])).'</small>';
+                                                }
+                                            } else {
+                                                echo '<span class="badge" style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 15px;">';
+                                                echo '<i class="fa fa-check-circle"></i> Approved';
+                                                echo '</span>';
+                                                if(!empty($row['ApprovalDate'])) {
+                                                    echo '<br><small style="color: #666; display: block; margin-top: 5px;">Approved on '.date('M d, Y', strtotime($row['ApprovalDate'])).'</small>';
+                                                }
+                                            }
+                                        } elseif($approvalStatusNorm == 'rejected') { ?>
                                             <span class="badge" style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 15px;">
                                                 <i class="fa fa-times-circle"></i> Rejected
                                             </span>
@@ -271,8 +286,8 @@ while($row=mysqli_fetch_array($query))
                                                     <strong>Rejection Reason:</strong><br>
                                                     <?php echo htmlspecialchars($row['RejectionReason']); ?>
                                                 </div>
-                                            <?php } ?>
-                                        <?php } else { ?>
+                                            <?php } 
+                                        } else { ?>
                                             <span class="badge" style="background-color: #ffc107; color: #212529; padding: 5px 10px; border-radius: 15px;">
                                                 <i class="fa fa-clock"></i> Pending Review
                                             </span>
@@ -284,20 +299,25 @@ while($row=mysqli_fetch_array($query))
                                 </div>
                                 <!-- .property-info end -->
                                 <div class="property--features">
-                                    <ul>
+                                    <!-- <ul>
                                         <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
                                         <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
                                         <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
-                                    </ul>
+                                    </ul> -->
                                    
-                                   <!-- Action buttons removed -->
-                                   <?php if($approvalStatus == 'Pending') { ?>
-                                       <div style="margin-top: 15px;">
+                                   <div style="margin-top: 15px;">
+                                       <a href="my-properties.php?del=1&id=<?php echo $row['ID']; ?>" 
+                                          class="btn btn-danger btn-sm" 
+                                          style="margin-right: 10px;"
+                                          onclick="return confirm('Are you sure you want to delete this property? This action cannot be undone.');">
+                                           <i class="fa fa-trash"></i> Delete
+                                       </a>
+                                       <?php if($approvalStatusNorm == 'pending') { ?>
                                            <small style="color: #666; font-style: italic;">
                                                <i class="fa fa-info-circle"></i> Your property is under review by our admin team.
                                            </small>
-                                       </div>
-                                   <?php } ?>
+                                       <?php } ?>
+                                   </div>
                                 </div>
                                 <!-- .property-features end -->
                             </div>

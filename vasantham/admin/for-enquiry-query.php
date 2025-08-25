@@ -1,22 +1,32 @@
-
 <?php
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
 if (strlen($_SESSION['remsaid']==0)) {
-  header('location:logout.php');
-  exit();
+    header('location:logout.php');
+    exit();
 }
-// Handle status toggle
+// Handle status toggle (Reviewed / Not Reviewed)
 if (isset($_GET['toggle']) && isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $currentStatus = $_GET['toggle'] === 'Solved' ? 'Solved' : 'Not Solved';
-    $newStatus = $currentStatus === 'Solved' ? 'Not Solved' : 'Solved';
-    mysqli_query($con, "UPDATE tblenquiry SET Status='$newStatus' WHERE ID='$id'");
+    // normalize incoming toggle value
+    $currentStatus = $_GET['toggle'] === 'Reviewed' ? 'Reviewed' : 'Not Reviewed';
+    $newStatus = $currentStatus === 'Reviewed' ? 'Not Reviewed' : 'Reviewed';
+    mysqli_query($con, "UPDATE tblforenquiry SET Status='".mysqli_real_escape_string($con,$newStatus)."' WHERE ID='$id'");
     header('Location: for-enquiry-query.php');
     exit();
 }
-$result = mysqli_query($con, "SELECT * FROM tblenquiry ORDER BY EnquiryDate DESC");
+
+// optional delete handler (runs before output)
+if (isset($_GET['delete']) && isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    mysqli_query($con, "DELETE FROM tblforenquiry WHERE ID='$id'");
+    header('Location: for-enquiry-query.php');
+    exit();
+}
+
+// fetch rows
+$result = mysqli_query($con, "SELECT * FROM tblforenquiry ORDER BY EnquiryDate DESC");
 ?>
 <!doctype html>
 <html lang="en">
@@ -41,7 +51,7 @@ $result = mysqli_query($con, "SELECT * FROM tblenquiry ORDER BY EnquiryDate DESC
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Manage Enquiries</h2>
+                            <h2 class="pageheader-title">Manage For Enquiries</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -59,7 +69,7 @@ $result = mysqli_query($con, "SELECT * FROM tblenquiry ORDER BY EnquiryDate DESC
                             <h5 class="card-header">Manage Enquiries</h5>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered first" id="enquiryTable">
+                                    <table class="table table-striped table-bordered first" id="forEnquiryTable">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -73,9 +83,8 @@ $result = mysqli_query($con, "SELECT * FROM tblenquiry ORDER BY EnquiryDate DESC
                                                 <th>Bedrooms</th>
                                                 <th>Additional</th>
                                                 <th>Message</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
                                                 <th>Date</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -91,14 +100,18 @@ $result = mysqli_query($con, "SELECT * FROM tblenquiry ORDER BY EnquiryDate DESC
                                                 <td><?php echo htmlspecialchars($row['Purpose']); ?></td>
                                                 <td><?php echo htmlspecialchars($row['Bedrooms']); ?></td>
                                                 <td><?php echo htmlspecialchars($row['Additional']); ?></td>
-                                                <td><?php echo htmlspecialchars($row['Message']); ?></td>
-                                                <td><?php echo $row['Status']; ?></td>
+                                                <td><?php echo nl2br(htmlspecialchars($row['Message'])); ?></td>
+                                                <td><?php echo $row['EnquiryDate']; ?></td>
                                                 <td>
-                                                    <a href="for-enquiry-query.php?toggle=<?php echo $row['Status']; ?>&id=<?php echo $row['ID']; ?>" class="btn btn-sm btn-<?php echo $row['Status']==='Solved'?'warning':'success'; ?>">
-                                                        Mark as <?php echo $row['Status']==='Solved'?'Not Solved':'Solved'; ?>
+                                                    <a href="for-enquiry-query.php?toggle=<?php echo urlencode($row['Status'] ?: 'Not Reviewed'); ?>&id=<?php echo $row['ID']; ?>" class="btn btn-sm btn-<?php echo ($row['Status']==='Reviewed')?'warning':'success'; ?>">
+                                                        <?php echo ($row['Status']==='Reviewed') ? 'Mark Not Reviewed' : 'Mark Reviewed'; ?>
+                                                    </a>
+                                                    <a href="for-enquiry-query.php?delete=1&id=<?php echo $row['ID']; ?>"
+                                                       class="btn btn-sm btn-danger"
+                                                       onclick="return confirm('Delete this enquiry? This action cannot be undone.');">
+                                                       Delete
                                                     </a>
                                                 </td>
-                                                <td><?php echo $row['EnquiryDate']; ?></td>
                                             </tr>
                                         <?php } ?>
                                         </tbody>
@@ -123,7 +136,7 @@ $result = mysqli_query($con, "SELECT * FROM tblenquiry ORDER BY EnquiryDate DESC
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script>
     $(document).ready(function() {
-        $('#enquiryTable').DataTable();
+        $('#forEnquiryTable').DataTable();
     });
     </script>
 </body>

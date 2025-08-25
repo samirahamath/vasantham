@@ -434,7 +434,7 @@
         </ul>
         <ul class="footer-contact">
           <!-- <li><strong>Phone:</strong> +45 677 8993000 223</li> -->
-            <li><strong>Email:</strong> <a href="mailto:office@vasanthamrealty.com" style="color: #ccc; text-decoration: underline;">office@vasanthamrealty.com</a></li>
+            <li><strong>Email:</strong> <a href="mailto:md@vasanthamrealty.com" style="color: #ccc; text-decoration: underline;">md@vasanthamrealty.com</a></li>
             <li><strong>Address:</strong> <a href="https://www.google.com/maps/place/10%C2%B047'38.4%22N+78%C2%B040'42.8%22E/@10.7940053,78.6759807,17z/data=!3m1!4b1!4m4!3m3!8m2!3d10.794!4d78.6785556?entry=ttu&g_ep=EgoyMDI1MDcyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: #ccc; text-decoration: underline;">192, 1st St, Ponnagar Extension, Karumandapam, Tiruchirappalli, Tamil Nadu 620001, India</a></li>
           </ul>
       </div>
@@ -448,14 +448,14 @@
             <li><a href="about.php">About Us</a></li>
             <li><a href="services.php">Services</a></li>
             <li><a href="properties-grid.php">Properties</a></li>
-            <li><a href="testimonials.php">Testimonials</a></li>
+            <!-- <li><a href="testimonials.php">Testimonials</a></li> -->
             <li><a href="blog.php">Blog</a></li>
             <li><a href="contact.php">Contact</a></li>
-            <li><a href="faq.php">FAQ</a></li>
-            <li><a href="featured-properties.php">Featured Properties</a></li>
+            <!-- <li><a href="faq.php">FAQ</a></li> -->
+            <li><a href="properties-grid.php">Featured Properties</a></li>
             <li><a href="want-sell.php">Want to Sell</a></li>
             <li><a href="want-buy.php">Want to Buy</a></li>
-            <li><a href="join-us.php">Join Us</a></li>
+            <li><a href="for-enquiry.php">Join Us</a></li>
           </ul>
         </div>
       </div>
@@ -500,7 +500,7 @@
         <i class="fas fa-phone"></i>
         <span>Call Now</span>
       </a>
-      <a href="mailto:office@vasanthamrealty.com" class="mobile-action-btn">
+      <a href="mailto:md@vasanthamrealty.com" class="mobile-action-btn">
         <i class="fas fa-envelope"></i>
         <span>Email Us</span>
       </a>
@@ -528,7 +528,7 @@
         </li>
         <li class="mobile-contact-item">
           <i class="fas fa-envelope"></i>
-          <a href="mailto:office@vasanthamrealty.com">office@vasanthamrealty.com</a>
+          <a href="mailto:md@vasanthamrealty.com">md@vasanthamrealty.com</a>
         </li>
         <li class="mobile-contact-item">
           <i class="fas fa-map-marker-alt"></i>

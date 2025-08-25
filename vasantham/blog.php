@@ -319,6 +319,7 @@ $result = $con->query($query);
         <!-- Main Content -->
         <div class="blog-main-content">
             <div class="section-header">
+                <br><br><br><br>
                 <h2 class="section-title">Latest Stories</h2>
                 <p class="section-subtitle">Discover inspiring stories, insights, and experiences that shape our world</p>
             </div>

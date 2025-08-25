@@ -1,8 +1,91 @@
-<?php
-session_start();
-error_reporting(0);
-include('includes/dbconnection.php');
-include('../includes/approval-functions.php');
+
+    <?php
+
+    // Handle hold/unhold actions (must be before any output)
+    if (isset($_GET['action']) && isset($_GET['id'])) {
+        $action = $_GET['action'];
+        $id = intval($_GET['id']);
+        // dbconnection.php will be included below, so only note the intent now
+        if ($action == 'hold') {
+            $GLOBALS['hold_id'] = $id;
+        } elseif ($action == 'unhold') {
+            $GLOBALS['unhold_id'] = $id;
+        }
+    }
+
+
+    session_start();
+    error_reporting(0);
+    include('includes/dbconnection.php');
+    include('../includes/approval-functions.php');
+
+    // Now handle hold action after $con is defined
+if (isset($GLOBALS['hold_id'])) {
+    $id = intval($GLOBALS['hold_id']);
+    // Set ApprovedBy to NULL to satisfy FOREIGN KEY constraint (tbladmin.ID)
+    $sql = "UPDATE tblproperty SET ApprovedBy=NULL WHERE ID=$id";
+    $holdQuery = mysqli_query($con, $sql);
+    if ($holdQuery) {
+        echo '<script>alert("Property put on hold (ApprovedBy set to NULL).");window.location.href="approve-properties.php";</script>';
+        exit();
+    } else {
+        $dberr = addslashes(mysqli_error($con));
+        // Log the error on server and show a helpful alert for debugging
+        error_log("Failed to hold property ID $id: " . mysqli_error($con));
+        echo '<script>alert("Failed to hold property. DB error: ' . $dberr . '");window.location.href="approve-properties.php";</script>';
+        exit();
+    }
+}
+
+    // Now handle unhold action after $con is defined
+    if (isset($GLOBALS['unhold_id'])) {
+        $id = intval($GLOBALS['unhold_id']);
+        // Ensure admin session is available
+        $adminId = isset($_SESSION['remsaid']) ? intval($_SESSION['remsaid']) : 0;
+        if (!$adminId) {
+            echo '<script>alert("Unable to unhold: admin not authenticated.");window.location.href="approve-properties.php";</script>';
+            exit();
+        }
+
+        // Use the existing approveProperty helper so approval bookkeeping remains consistent
+        if (function_exists('approveProperty')) {
+            if (approveProperty($id, $adminId, $con)) {
+                echo '<script>alert("Property unheld: ApprovedBy set to your admin account.");window.location.href="approve-properties.php";</script>';
+                exit();
+            } else {
+                $dberr = addslashes(mysqli_error($con));
+                error_log("Failed to unhold property ID $id: " . mysqli_error($con));
+                echo '<script>alert("Failed to unhold property. DB error: ' . $dberr . '");window.location.href="approve-properties.php";</script>';
+                exit();
+            }
+        } else {
+            // Fallback: directly set ApprovedBy to current admin (should satisfy FK)
+            $sql = "UPDATE tblproperty SET ApprovedBy=$adminId WHERE ID=$id";
+            $unholdQuery = mysqli_query($con, $sql);
+            if ($unholdQuery) {
+                echo '<script>alert("Property unheld (ApprovedBy set to your admin account).");window.location.href="approve-properties.php";</script>';
+                exit();
+            } else {
+                $dberr = addslashes(mysqli_error($con));
+                error_log("Failed to unhold (fallback) property ID $id: " . mysqli_error($con));
+                echo '<script>alert("Failed to unhold property. DB error: ' . $dberr . '");window.location.href="approve-properties.php";</script>';
+                exit();
+            }
+        }
+    }
+
+    // Handle delete action (must be before any output)
+    if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+        $id = intval($_GET['id']);
+        $deleteQuery = mysqli_query($con, "DELETE FROM tblproperty WHERE ID = $id");
+        if ($deleteQuery) {
+            echo '<script>alert("Property deleted successfully.");window.location.href="approve-properties.php";</script>';
+            exit();
+        } else {
+            echo '<script>alert("Failed to delete property. Please try again.");window.location.href="approve-properties.php";</script>';
+            exit();
+        }
+    }
 
 if (strlen($_SESSION['remsaid']==0)) {
   header('location:logout.php');
@@ -51,7 +134,8 @@ if (strlen($_SESSION['remsaid']==0)) {
   // Get filter parameters
   $statusFilter = isset($_GET['status']) ? $_GET['status'] : '';
   $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
-  $typeFilter = isset($_GET['type']) ? $_GET['type'] : '';
+    $propertyIdFilter = isset($_GET['propertyid']) ? trim($_GET['propertyid']) : '';
+    $typeFilter = isset($_GET['type']) ? $_GET['type'] : '';
   
   // Get properties based on filters
   if ($statusFilter) {
@@ -72,6 +156,13 @@ if (strlen($_SESSION['remsaid']==0)) {
       
       return $matchesSearch && $matchesType;
     });
+  }
+
+  // Apply PropertyID filter if provided (exact match)
+  if (!empty($propertyIdFilter)) {
+      $properties = array_filter($properties, function($property) use ($propertyIdFilter) {
+          return isset($property['PropertyID']) && trim((string)$property['PropertyID']) === $propertyIdFilter;
+      });
   }
 ?>
 <!doctype html>
@@ -135,9 +226,13 @@ if (strlen($_SESSION['remsaid']==0)) {
                         <div class="card">
                             <div class="card-body">
                                 <form method="GET" action="approve-properties.php" class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <input type="text" name="search" class="form-control" placeholder="Search properties..." 
                                                value="<?php echo htmlspecialchars($searchTerm); ?>">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="propertyid" class="form-control" placeholder="Property ID" 
+                                               value="<?php echo htmlspecialchars($propertyIdFilter); ?>">
                                     </div>
                                     <div class="col-md-2">
                                         <select name="status" class="form-control">
@@ -159,12 +254,10 @@ if (strlen($_SESSION['remsaid']==0)) {
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary">
+                                    <div class="col-md-2 d-flex">
+                                        <button type="submit" class="btn btn-primary mr-2">
                                             <i class="fas fa-search"></i> Search
                                         </button>
-                                    </div>
-                                    <div class="col-md-3 text-right">
                                         <a href="approve-properties.php" class="btn btn-secondary">
                                             <i class="fas fa-refresh"></i> Reset
                                         </a>
@@ -263,6 +356,17 @@ if (strlen($_SESSION['remsaid']==0)) {
                                                             if($row['ApprovalDate']) {
                                                                 echo '<br><small class="text-muted">'.date('M d, Y', strtotime($row['ApprovalDate'])).'</small>';
                                                             }
+                                                            // If property is Approved
+                                                            // - show Hold button when ApprovedBy is set (not NULL)
+                                                            // - show Unhold button when ApprovedBy is NULL (property currently on hold)
+                                                            if (isset($row['ApprovedBy']) && $row['ApprovedBy'] !== null && $row['ApprovedBy'] != 0) {
+                                                                echo '<br><a href="approve-properties.php?action=hold&id=' . $row['ID'] . '" class="btn btn-warning btn-sm mt-1" onclick="return confirm(\'Are you sure you want to hold this property?\');"><i class="fas fa-pause"></i> Hold</a>';
+                                                            } else {
+                                                                // If ApprovedStatus is Approved but ApprovedBy is NULL => currently on hold; show Unhold
+                                                                if ($approvalStatus == 'Approved') {
+                                                                    echo '<br><a href="approve-properties.php?action=unhold&id=' . $row['ID'] . '" class="btn btn-success btn-sm mt-1" onclick="return confirm(\'Are you sure you want to unhold (re-approve) this property?\');"><i class="fas fa-play"></i> Unhold</a>';
+                                                                }
+                                                            }
                                                         } elseif($approvalStatus == 'Rejected') {
                                                             echo '<span class="badge badge-danger">Rejected</span>';
                                                             if($row['RejectionDate']) {
@@ -274,21 +378,26 @@ if (strlen($_SESSION['remsaid']==0)) {
                                                         ?>
                                                     </td>
                                                     <td>
-                                                        <?php if($approvalStatus == 'Pending') { ?>
-                                                            <a href="approve-properties.php?action=approve&id=<?php echo $row['ID']; ?>" 
-                                                               class="btn btn-success btn-sm mb-1" 
-                                                               onclick="return confirm('Are you sure you want to approve this property?');">
-                                                               <i class="fas fa-check"></i> Approve
-                                                            </a>
-                                                            <button type="button" class="btn btn-danger btn-sm mb-1" 
-                                                                    onclick="showRejectModal(<?php echo $row['ID']; ?>, '<?php echo addslashes($row['PropertyTitle']); ?>')">
-                                                                <i class="fas fa-times"></i> Reject
-                                                            </button>
-                                                        <?php } ?>
-                                                        <a href="view-property-details.php?viewid=<?php echo $row['ID']; ?>" 
-                                                           class="btn btn-info btn-sm mb-1">
-                                                           <i class="fas fa-eye"></i> View
-                                                        </a>
+                                                                          <?php if($approvalStatus == 'Pending') { ?>
+                                                                                <a href="approve-properties.php?action=approve&id=<?php echo $row['ID']; ?>" 
+                                                                                    class="btn btn-success btn-sm mb-1" 
+                                                                                    onclick="return confirm('Are you sure you want to approve this property?');">
+                                                                                    <i class="fas fa-check"></i> Approve
+                                                                                </a>
+                                                                                <button type="button" class="btn btn-danger btn-sm mb-1" 
+                                                                                          onclick="showRejectModal(<?php echo $row['ID']; ?>, '<?php echo addslashes($row['PropertyTitle']); ?>')">
+                                                                                     <i class="fas fa-times"></i> Reject
+                                                                                </button>
+                                                                          <?php } ?>
+                                                                          <a href="view-property-details.php?viewid=<?php echo $row['ID']; ?>" 
+                                                                              class="btn btn-info btn-sm mb-1">
+                                                                              <i class="fas fa-eye"></i> View
+                                                                          </a>
+                                                                          <a href="approve-properties.php?action=delete&id=<?php echo $row['ID']; ?>" 
+                                                                              class="btn btn-danger btn-sm mb-1" 
+                                                                              onclick="return confirm('Are you sure you want to delete this property? This action cannot be undone.');">
+                                                                              <i class="fas fa-trash"></i> Delete
+                                                                          </a>
                                                     </td>
                                                 </tr>
                                               <?php 

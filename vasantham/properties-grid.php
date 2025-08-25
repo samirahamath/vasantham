@@ -10,7 +10,87 @@
     <link href="assets/css/external.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
-    <title>Real Estate Management System | Properties Grid</title>
+    <style>
+        /* Ensure property grid cards align: full-height cards and flex column content */
+        .properties-grid .property-item {
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
+        }
+        .properties-grid .property--content {
+            flex: 1 1 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+        }
+        /* Keep price and meta pinned to bottom */
+        .properties-grid .property--info { margin-bottom: 12px; }
+        .properties-grid .property--price { margin-top: auto; }
+        /* Stronger alignment rules */
+        .properties-grid .property-item {
+            min-height: 420px; /* ensure enough room for image + title + meta + price */
+            flex: 1 1 auto !important;
+        }
+        .properties-grid .property--info {
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100%;
+        }
+        /* Force image area to fixed height so cards align */
+        .properties-grid .property--img img {
+            height: 200px !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            display: block;
+        }
+        /* Make sure the image container doesn't collapse and remains fixed size */
+        .properties-grid .property--img { flex: 0 0 auto; }
+        /* Reserve consistent space for title/location area */
+        .properties-grid .property--info {
+            min-height: 120px;
+        }
+        /* Clamp title to two lines so cards have predictable height */
+        .properties-grid .property--title {
+            display: block;
+            line-height: 1.2em;
+            max-height: 2.4em; /* ~2 lines */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 6px;
+        }
+        /* More robust multiline clamp for title link */
+        .properties-grid .property--title a {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        /* Prevent long location text from pushing card height — clamp to a single line */
+        .properties-grid .property--location {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #777;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .properties-grid .property--location {
+            /* fallback in case other rules are removed */
+        }
+        .properties-grid .property--price {
+            font-size: 1.4rem;
+            color: #34c997;
+            font-weight: 700;
+            margin-top: auto !important;
+        }
+        /* Force bootstrap grid columns that contain property cards to stretch equally */
+        .properties-grid .row > [class*="col-"] {
+            display: flex;
+            align-items: stretch;
+        }
+    </style>
+    <title>Vasantham Realty | Properties Grid</title>
 </head>
 
 <body>
@@ -44,7 +124,7 @@
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query3=mysqli_query($con,"select distinct Type from  tblproperty WHERE ApprovalStatus='Approved'");
+$query3=mysqli_query($con,"select distinct Type from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row3=mysqli_fetch_array($query3))
 {
 ?>
@@ -69,7 +149,7 @@ while($row3=mysqli_fetch_array($query3))
                             </div>
                             <div class="widget--content">
                                 <?php
-$query4=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved'");
+$query4=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row4=mysqli_fetch_array($query4))
 {
 ?>
@@ -94,7 +174,7 @@ while($row4=mysqli_fetch_array($query4))
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query5=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved'");
+$query5=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row5=mysqli_fetch_array($query5))
 {
 ?>
@@ -135,7 +215,7 @@ while($row5=mysqli_fetch_array($query5))
         $no_of_records_per_page = 8;
         $offset = ($pageno-1) * $no_of_records_per_page;
 // Getting total number of pages
-        $total_pages_sql = "SELECT COUNT(*) FROM tblproperty WHERE ApprovalStatus='Approved'";
+    $total_pages_sql = "SELECT COUNT(*) FROM tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL";
         $result = mysqli_query($con,$total_pages_sql);
         $total_rows = mysqli_fetch_array($result)[0];
         $total_pages = ceil($total_rows / $no_of_records_per_page);
@@ -145,7 +225,7 @@ $query=mysqli_query($con,"select tblproperty.*,tblcountry.CountryName,tblstate.S
     from tblproperty 
     left join tblcountry on tblcountry.ID=tblproperty.Country 
     left join tblstate on tblstate.ID=tblproperty.State 
-    WHERE tblproperty.ApprovalStatus='Approved'
+    WHERE tblproperty.ApprovalStatus='Approved' AND tblproperty.ApprovedBy IS NOT NULL
     LIMIT $offset, $no_of_records_per_page");
 while($row=mysqli_fetch_array($query))
 {
@@ -171,13 +251,13 @@ while($row=mysqli_fetch_array($query))
                         <?php echo $row['CountryName'];?></p>
                         <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
                     </div>
-                    <div class="property--features">
+                    <!-- <div class="property--features">
                         <ul class="list-unstyled mb-0">
                             <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
                             <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
                             <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
  <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="dashboard.php">REMS</a>
+                <a class="navbar-brand" href="dashboard.php">Vasantham Realty</a>
                
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-right-top">

@@ -310,7 +310,7 @@ $agent_id = $user_data['AgentID'];
 
                 <?php
                 // Get properties count for this user (only approved properties)
-                $count_query = mysqli_query($con, "SELECT COUNT(*) as total FROM tblproperty WHERE UserID='$user_id' AND ApprovalStatus='Approved'");
+                $count_query = mysqli_query($con, "SELECT COUNT(*) as total FROM tblproperty WHERE UserID='$user_id' AND ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
                 $count_data = mysqli_fetch_array($count_query);
                 $total_properties = $count_data['total'];
                 ?>
@@ -323,7 +323,7 @@ $agent_id = $user_data['AgentID'];
                 <div class="row">
                     <?php
                     // Fetch only approved properties for this user
-                    $query = mysqli_query($con, "SELECT * FROM tblproperty WHERE UserID='$user_id' AND ApprovalStatus='Approved' ORDER BY ID DESC");
+                    $query = mysqli_query($con, "SELECT * FROM tblproperty WHERE UserID='$user_id' AND ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL ORDER BY ID DESC");
                     $num = mysqli_num_rows($query);
                     
                     if($num > 0) {
@@ -352,13 +352,13 @@ $agent_id = $user_data['AgentID'];
                                     </p>
                                     <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
                                 </div>
-                                <div class="property--features">
+                                <!-- <div class="property--features">
                                     <ul class="list-unstyled mb-0">
                                         <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
                                         <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
                                         <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

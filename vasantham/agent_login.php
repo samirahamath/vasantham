@@ -60,7 +60,7 @@ if(isset($_POST['signin']))
                 <div class="w-100" style="max-width:420px;">
                     <div class="text-center mb-4">
                         <img src="assets/images/logo/vr_logobg.png" alt="Logo" width="120" height="90" class="mb-2">
-                        <h3 class="form--title mb-1" style="font-weight:700;">Agent Login</h3>
+                        <h3 class="form--title mb-1" style="font-weight:700;">Realtor Login</h3>
                         <p class="text-muted mb-0">Sign in to your account</p>
                     </div>
                     <form class="mb-0" method="post" name="signin">

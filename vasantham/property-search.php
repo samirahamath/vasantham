@@ -44,7 +44,7 @@
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query3=mysqli_query($con,"select distinct Type from  tblproperty WHERE ApprovalStatus='Approved'");
+$query3=mysqli_query($con,"select distinct Type from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row3=mysqli_fetch_array($query3))
 {
 ?>
@@ -69,7 +69,7 @@ while($row3=mysqli_fetch_array($query3))
                             </div>
                             <div class="widget--content">
                                 <?php
-$query4=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved'");
+$query4=mysqli_query($con,"select distinct Status from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row4=mysqli_fetch_array($query4))
 {
 ?>
@@ -94,7 +94,7 @@ while($row4=mysqli_fetch_array($query4))
                             <div class="widget--content">
                                 <ul class="list-unstyled mb-0">
                                     <?php
-$query5=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved'");
+$query5=mysqli_query($con,"select distinct City from  tblproperty WHERE ApprovalStatus='Approved' AND ApprovedBy IS NOT NULL");
 while($row5=mysqli_fetch_array($query5))
 {
 ?>
@@ -133,7 +133,7 @@ $query=mysqli_query($con,"select tblproperty.*,tblcountry.CountryName,tblstate.S
     tblproperty 
     left join tblcountry on tblcountry.ID=tblproperty.Country 
     left join tblstate on tblstate.ID=tblproperty.State 
-    where(tblproperty.City='$city' and tblproperty.Type='$type' and tblproperty.Status='$status')");
+    where(tblproperty.City='$city' and tblproperty.Type='$type' and tblproperty.Status='$status' and tblproperty.ApprovalStatus='Approved' AND tblproperty.ApprovedBy IS NOT NULL)");
 $num=mysqli_num_rows($query);
 if($num>0){
 while($row=mysqli_fetch_array($query))
@@ -161,13 +161,13 @@ while($row=mysqli_fetch_array($query))
 <p class="property--price"><?php echo $row['RentorsalePrice'];?></p>
  </div>
                                             <!-- .property-info end -->
-<div class="property--features">
+<!-- <div class="property--features">
 <ul class="list-unstyled mb-0">
 <li><span class="feature">Beds:</span><span class="feature-num"><?php echo $row['Bedrooms'];?></span></li>
 <li><span class="feature">Baths:</span><span class="feature-num"><?php echo $row['Bathrooms'];?></span></li>
 <li><span class="feature">Area:</span><span class="feature-num"><?php echo $row['Area'];?></span></li>
 </ul>
-</div>
+</div> -->
                                             <!-- .property-features end -->
                                         </div>
                                     </div>
